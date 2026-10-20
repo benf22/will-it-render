@@ -1,0 +1,158 @@
+:root {
+  --accent: #3b6fb6;
+  --muted: #6b7280;
+  --rule: #e5e7eb;
+}
+
+body {
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  color: #1f2937;
+  line-height: 1.6;
+}
+
+.publication-title {
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 1.5rem;
+}
+
+.publication-authors {
+  margin-bottom: 1rem;
+}
+
+.publication-venue {
+  display: inline-block;
+  color: var(--muted);
+  font-weight: 600;
+  background: #f3f4f6;
+  padding: 0.4rem 0.9rem;
+  border-radius: 6px;
+}
+
+.publication-links {
+  margin-top: 1.5rem;
+}
+
+.publication-links .link-block {
+  margin: 0 0.25rem;
+}
+
+.publication-banner {
+  display: block;
+  margin: 0 auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+}
+
+.teaser .content {
+  margin-top: 1.25rem;
+  color: var(--muted);
+}
+
+.title.is-3 {
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+}
+
+.stat-row {
+  margin-top: 1rem;
+}
+
+.stat-number {
+  font-size: 3.2rem;
+  font-weight: 700;
+  color: var(--accent);
+  line-height: 1;
+}
+
+.stat-unit {
+  font-size: 1.6rem;
+  margin-left: 0.15rem;
+}
+
+.stat-label {
+  margin-top: 0.6rem;
+  color: #374151;
+}
+
+.stat-base {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+figure.image {
+  margin: 2rem auto;
+}
+
+figure.image img {
+  display: block;
+  margin: 0 auto;
+  border-radius: 6px;
+}
+
+figure.image figcaption {
+  margin-top: 0.75rem;
+  color: var(--muted);
+}
+
+.results-table thead th {
+  text-align: center;
+  white-space: nowrap;
+}
+
+.results-table td {
+  text-align: center;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.results-table td:first-child {
+  text-align: left;
+}
+
+.results-table tr.block-sep td {
+  border-top: 2px solid var(--rule);
+}
+
+.bibtex-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.copy-bibtex-btn {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 0.5rem 0.9rem;
+  cursor: pointer;
+}
+
+.copy-bibtex-btn.copied {
+  background: #10b981;
+}
+
+pre {
+  border-radius: 6px;
+  font-size: 0.85rem;
+}
+
+.footer {
+  background: #f9fafb;
+  border-top: 1px solid var(--rule);
+}
+
+@media screen and (max-width: 768px) {
+  .publication-title {
+    font-size: 2rem !important;
+  }
+
+  .stat-number {
+    font-size: 2.4rem;
+  }
+
+  .results-table {
+    font-size: 0.75rem;
+  }
+}

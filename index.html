@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Will It Render? Learned Attention Steering for Object Presence in Text-to-Video</title>
+  <meta name="description" content="AttnSteer: a learned cross-attention steering model that makes text-to-video diffusion models render every object the prompt requests.">
+  <meta property="og:title" content="Will It Render? Learned Attention Steering for Object Presence in Text-to-Video">
+  <meta property="og:description" content="AttnSteer predicts object rendering from intermediate cross-attention and steers video latents toward it at inference time.">
+  <meta property="og:image" content="static/images/fig_teaser.png">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <link rel="stylesheet" href="static/css/index.css">
+</head>
+<body>
+
+<section class="hero publication-header">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">Will It Render?<br>Learned Attention Steering for Object Presence in Text-to-Video</h1>
+          <div class="is-size-5 publication-authors">
+            <!-- TODO: author names and affiliations (paper is anonymous during WACV review) -->
+            <span class="author-block">Anonymous Authors</span>
+          </div>
+          <div class="publication-venue">WACV 2027 &middot; under review</div>
+          <div class="column has-text-centered">
+            <div class="publication-links link-block">
+              <!-- TODO: link paper PDF, arXiv, and code once available -->
+              <span class="link-block"><a class="external-link button is-normal is-rounded is-dark" href="#"><span class="icon"><i class="fas fa-file-pdf"></i></span><span>Paper</span></a></span>
+              <span class="link-block"><a class="external-link button is-normal is-rounded is-dark" href="#"><span class="icon"><i class="ai ai-arxiv"></i></span><span>arXiv</span></a></span>
+              <span class="link-block"><a class="external-link button is-normal is-rounded is-dark" href="#"><span class="icon"><i class="fab fa-github"></i></span><span>Code</span></a></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <img src="static/images/fig_teaser.png" alt="Steering object presence in text-to-video generation" class="publication-banner">
+      <p class="content has-text-justified">
+        <b>Steering object presence in text-to-video generation.</b>
+        Mid-clip snapshots from LTX-2 and Wan&nbsp;2.1 for prompts with <i>k</i> requested objects.
+        The unsteered backbones (top) often neglect requested objects. Inference-time steering with
+        AttnSteer (bottom) recovers the missing objects while preserving video quality. Top and bottom rows
+        use the same prompt and seed.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Abstract</h2>
+    <div class="content has-text-justified">
+      <p>
+        Text-to-video diffusion models generate increasingly realistic videos, yet often fail to render all objects
+        requested by the prompt, particularly as the number of objects grows. Improving such fine-grained adherence
+        through training requires substantial video supervision, motivating inference-time methods that steer
+        intermediate diffusion latents. Existing approaches typically define hand-crafted objectives over
+        cross-attention maps, relying on indirect attention statistics rather than whether the model ultimately
+        renders a requested object.
+      </p>
+      <p>
+        We propose <b>AttnSteer</b>, a learned attention-steering model that predicts object rendering directly from
+        intermediate cross-attention. AttnSteer is trained entirely on the generator's own trajectories using
+        automatically obtained detector labels and contains only 37k parameters. At inference time, its predictions
+        define differentiable objectives for steering object presence; the same framework also extends to
+        frame-level temporal control. AttnSteer improves all-objects accuracy over the strongest baseline from
+        49.0% to 61.9% on LTX-2 and from 42.1% to 46.5% on Wan&nbsp;2.1, and raises temporal specificity from 35.7%
+        to 52.6%, at comparable video quality.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Key Results</h2>
+    <div class="columns is-centered has-text-centered stat-row">
+      <div class="column">
+        <p class="stat-number">61.9<span class="stat-unit">%</span></p>
+        <p class="stat-label">All-objects accuracy, LTX-2<br><span class="stat-base">A&amp;E 49.0% &middot; unsteered 34.2%</span></p>
+      </div>
+      <div class="column">
+        <p class="stat-number">46.5<span class="stat-unit">%</span></p>
+        <p class="stat-label">All-objects accuracy, Wan&nbsp;2.1<br><span class="stat-base">A&amp;E 42.1% &middot; unsteered 33.8%</span></p>
+      </div>
+      <div class="column">
+        <p class="stat-number">52.6<span class="stat-unit">%</span></p>
+        <p class="stat-label">Temporal specificity, LTX-2<br><span class="stat-base">TempoControl 35.7% &middot; unsteered 31.2%</span></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Method</h2>
+    <div class="content has-text-justified">
+      <p>
+        AttnSteer has two stages. First, we train a small probe to predict whether each requested object will be
+        rendered, using per-step, per-layer, per-head cross-attention features from the frozen generator. Labels
+        come from detectors run on the generator's own final videos, so no external video supervision is needed.
+        Second, during sampling, the probe's prediction is used as a differentiable objective, and the video latent
+        is optimized while the generator stays fixed.
+      </p>
+      <p>
+        For multi-object prompts, independent per-object updates can conflict. We normalize each object's gradient,
+        anchor the update on the object least likely to be rendered, and suppress locally opposing contributions.
+      </p>
+    </div>
+    <figure class="image">
+      <img src="static/images/fig_training.png" alt="Training AttnSteer with self-generated supervision">
+      <figcaption class="content has-text-centered"><b>Training with self-generated supervision.</b> Cross-attention features from the frozen generator are paired with detector labels from its final video.</figcaption>
+    </figure>
+    <figure class="image">
+      <img src="static/images/fig_method.png" alt="Inference-time steering with AttnSteer">
+      <figcaption class="content has-text-centered"><b>Inference-time steering.</b> At each selected denoising step, object-specific attention features are scored by the frozen AttnSteer predictor, and the latent is updated along the resulting gradient.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Multi-Object Object Presence</h2>
+    <div class="content has-text-justified">
+      <p>
+        We evaluate on 473 short prompts with the extended VBench object benchmark. The table reports the detection
+        ratio and the fraction of clips where <i>all</i> requested objects are detected, overall and by <i>k</i>, the number of
+        requested objects. The gain grows with <i>k</i>.
+      </p>
+    </div>
+    <figure class="image">
+      <img src="static/images/fig_presence_by_k.png" alt="All-object accuracy vs number of objects" style="max-width: 560px; margin: 0 auto;">
+      <figcaption class="content has-text-centered"><b>Multi-object presence vs. prompt complexity (LTX-2).</b> All-object accuracy as <i>k</i> grows, for the unsteered backbone, Attend-and-Excite, and AttnSteer. Bands show &plusmn;1 SE.</figcaption>
+    </figure>
+
+    <div class="table-container">
+      <table class="table is-fullwidth is-narrow is-size-7 results-table">
+        <thead>
+          <tr>
+            <th rowspan="2">Model</th><th rowspan="2">Params</th><th rowspan="2">Res.</th>
+            <th rowspan="2">Det. ratio (%)</th>
+            <th colspan="7">All objects detected (%)</th>
+            <th colspan="2">Quality (%)</th>
+          </tr>
+          <tr>
+            <th>mean</th><th>k=2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>VBench</th><th>Photoreal.</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>CogVideoX-5B</td><td>5 B</td><td>720&times;480</td><td>68.4</td><td>27.3</td><td>68.8</td><td>40.0</td><td>28.7</td><td>12.5</td><td>8.7</td><td>2.7</td><td>78.4</td><td>66.4</td></tr>
+          <tr><td>Wan 2.2 (TI2V-5B)</td><td>5 B</td><td>1280&times;704</td><td>78.9</td><td>38.3</td><td>87.5</td><td>52.5</td><td>35.0</td><td>35.0</td><td>7.5</td><td>9.6</td><td>84.4</td><td>84.6</td></tr>
+          <tr><td>LTX-2.5 (distilled)</td><td>22 B</td><td>512&times;512</td><td>62.1</td><td>17.5</td><td>45.0</td><td>16.3</td><td>17.5</td><td>11.3</td><td>8.7</td><td>5.5</td><td><u>86.9</u></td><td><u>90.3</u></td></tr>
+          <tr><td>MiniMax-H3</td><td>33 B</td><td>768&times;768</td><td>84.6</td><td>49.7</td><td>90.0</td><td>55.0</td><td>33.8</td><td>48.7</td><td>36.2</td><td><u>32.9</u></td><td>81.5</td><td>75.7</td></tr>
+          <tr class="block-sep"><td>Wan 2.1 (T2V-1.3B)</td><td>1.3 B</td><td>832&times;480</td><td>76.0</td><td>33.8</td><td>83.8</td><td>38.8</td><td>41.2</td><td>17.5</td><td>10.0</td><td>9.6</td><td>79.7</td><td><b>67.3</b></td></tr>
+          <tr><td>&nbsp;&nbsp;+ A&amp;E</td><td></td><td></td><td>81.0</td><td>42.1</td><td>85.0</td><td>56.2</td><td><b><u>52.5</u></b></td><td><b>30.0</b></td><td>23.7</td><td>1.4</td><td>&mdash;</td><td>48.2</td></tr>
+          <tr><td>&nbsp;&nbsp;+ AttnSteer</td><td></td><td></td><td><b>84.1</b></td><td><b>46.5</b></td><td><b>90.0</b></td><td><b>63.7</b></td><td>45.0</td><td>26.3</td><td><b>32.5</b></td><td><b>19.2</b></td><td>78.6</td><td>46.5</td></tr>
+          <tr class="block-sep"><td>LTX-2</td><td>22 B</td><td>512&times;512</td><td>77.1</td><td>34.2</td><td>82.5</td><td>42.5</td><td>33.8</td><td>20.0</td><td>16.3</td><td>8.2</td><td>83.9</td><td>52.5</td></tr>
+          <tr><td>&nbsp;&nbsp;+ A&amp;E</td><td></td><td></td><td>84.4</td><td>49.0</td><td>91.2</td><td>65.0</td><td>55.0</td><td>40.0</td><td>23.7</td><td>16.4</td><td><b>84.0</b></td><td>47.5</td></tr>
+          <tr><td>&nbsp;&nbsp;+ AttnSteer</td><td></td><td></td><td><b><u>90.0</u></b></td><td><b><u>61.9</u></b></td><td><b><u>98.8</u></b></td><td><b><u>86.2</u></b></td><td><b><u>72.5</u></b></td><td><b><u>51.2</u></b></td><td><b><u>37.5</u></b></td><td><b><u>21.9</u></b></td><td>83.9</td><td><b>59.4</b></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="content is-size-7">
+      Bold = best within a backbone block; underline = best across the benchmark. Wan 2.1 rows are scored with 16-frame labels; all other rows use 32 frames.
+      Wan 2.1 +A&amp;E VBench is not yet measured. The A&amp;E k=7 value for Wan 2.1 (1.4) is as reported in the paper and is under re-check.
+    </p>
+
+    <figure class="image" style="margin-top: 2rem;">
+      <img src="static/images/fig_singleobj.png" alt="Single-object steering examples">
+      <figcaption class="content has-text-centered"><b>Single-object steering.</b> Representative LTX-2 mid-frames. The unsteered backbone misses or weakly renders the requested object, while A&amp;E can distort it.</figcaption>
+    </figure>
+
+    <figure class="image">
+      <img src="static/images/fig_compare_wan.png" alt="Multi-object steering on Wan 2.1">
+      <figcaption class="content has-text-centered"><b>Multi-object steering on Wan&nbsp;2.1.</b> Requested objects are listed beside each example. <span class="has-text-danger">Red</span> marks objects neglected by the unsteered backbone. AttnSteer recovers them while preserving the scene better than A&amp;E.</figcaption>
+    </figure>
+    <figure class="image">
+      <img src="static/images/fig_compare_ltx.png" alt="Multi-object steering on LTX-2">
+      <figcaption class="content has-text-centered"><b>Multi-object steering on LTX-2.</b> Same protocol as above.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Multi-Object Aggregation</h2>
+    <div class="content has-text-justified">
+      <p>
+        Unit-normalized gradient agreement improves object presence for <i>k</i>=2&ndash;6 over plain averaging of
+        per-object gradients. The figure below compares the two rules.
+      </p>
+    </div>
+    <figure class="image">
+      <img src="static/images/fig_ablation_aggregation.png" alt="Ablation of multi-object gradient aggregation">
+      <figcaption class="content has-text-centered"><b>Aggregation ablation.</b> AttnSteer's conflict-aware rule vs. plain gradient averaging, per <i>k</i> and on average, with &plusmn;SE bands.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Robustness to the Scoring Detectors</h2>
+    <div class="content has-text-justified">
+      <p>
+        The training labels and the main evaluation use the same detectors, so we re-score identical LTX-2 clips with
+        each detector alone and with YOLOv10, which was not used in training or labeling. The relative gain over the
+        unsteered backbone holds under every detector. Under YOLOv10, the Attend-and-Excite gain is not significant,
+        while the AttnSteer gain remains large.
+      </p>
+    </div>
+    <div class="table-container">
+      <table class="table is-fullwidth is-narrow is-size-7 results-table">
+        <thead>
+          <tr>
+            <th rowspan="2">Detector</th>
+            <th colspan="3">Detection ratio (%)</th>
+            <th colspan="2">Change vs. unsteered (%)</th>
+          </tr>
+          <tr><th>unsteered</th><th>+ A&amp;E</th><th>+ AttnSteer</th><th>+ A&amp;E</th><th>+ AttnSteer</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Three-detector majority</td><td>74.4 &plusmn;1.0</td><td>82.2 &plusmn;0.8</td><td><b>87.6 &plusmn;0.7</b></td><td>+10.5 &plusmn;1.8</td><td><b>+17.8 &plusmn;1.8</b></td></tr>
+          <tr><td>GRiT</td><td>58.6 &plusmn;1.2</td><td>64.8 &plusmn;1.2</td><td><b>73.8 &plusmn;1.1</b></td><td>+10.7 &plusmn;3.1</td><td><b>+26.0 &plusmn;3.2</b></td></tr>
+          <tr><td>Grounding DINO</td><td>83.8 &plusmn;0.8</td><td>90.0 &plusmn;0.7</td><td><b>90.3 &plusmn;0.6</b></td><td>+7.3 &plusmn;1.3</td><td><b>+7.7 &plusmn;1.3</b></td></tr>
+          <tr><td>OWLv2</td><td>72.0 &plusmn;1.0</td><td>77.9 &plusmn;0.9</td><td><b>83.3 &plusmn;0.8</b></td><td>+8.2 &plusmn;1.9</td><td><b>+15.7 &plusmn;1.9</b></td></tr>
+          <tr class="block-sep"><td>YOLOv10 (independent)</td><td>27.6 &plusmn;1.0</td><td>27.9 &plusmn;1.0</td><td><b>32.9 &plusmn;1.0</b></td><td>+1.0 &plusmn;5.0 (n.s.)</td><td><b>+19.0 &plusmn;5.6</b></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Temporal Control</h2>
+    <div class="content has-text-justified">
+      <p>
+        The same learned objective applies frame by frame, so it can control <i>when</i> an object appears. On
+        single-object prompts, where an object must enter at a prescribed time, AttnSteer raises specificity from
+        31.2% to 52.6%, meaning fewer frames before the requested onset are wrongly filled. Temporal alignment (t-IoU)
+        rises from 40.6% to 45.0%, and VBench quality is unchanged (74.7 vs. 75.1).
+      </p>
+    </div>
+    <div class="table-container">
+      <table class="table is-fullwidth is-narrow is-size-7 results-table">
+        <thead>
+          <tr>
+            <th rowspan="2">Model</th>
+            <th colspan="6">Single object (n=80)</th>
+            <th colspan="6">Static + dynamic (n=82)</th>
+          </tr>
+          <tr>
+            <th>Prec.</th><th>Rec.</th><th>Spec.</th><th>F1</th><th>t-IoU</th><th>R@0.5</th>
+            <th>Prec.</th><th>Rec.</th><th>Spec.</th><th>F1</th><th>t-IoU</th><th>R@0.5</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>LTX-2</td><td>55.9</td><td>78.9</td><td>31.2</td><td>58.6</td><td>40.6</td><td>37.5</td><td>86.4</td><td>77.1</td><td>54.1</td><td>83.0</td><td>67.4</td><td>78.7</td></tr>
+          <tr><td>+ TempoControl</td><td>57.7</td><td>80.9</td><td>35.7</td><td>60.5</td><td>41.8</td><td>37.5</td><td>87.1</td><td>80.5</td><td>53.7</td><td>83.1</td><td>70.8</td><td>81.7</td></tr>
+          <tr><td>+ AttnSteer</td><td><b>63.8</b></td><td>68.1</td><td><b>52.6</b></td><td><b>62.5</b></td><td><b>45.0</b></td><td><b>45.0</b></td><td><b>87.2</b></td><td><b>84.1</b></td><td>52.2</td><td><b>85.5</b></td><td><b>74.5</b></td><td><b>85.4</b></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Steering Probe Quality</h2>
+    <div class="content has-text-justified">
+      <p>
+        Validation AUROC of the per-step steering probes. Each denoising step has its own predictor, so each row is the
+        step whose cross-attention is read.
+      </p>
+    </div>
+    <div class="table-container" style="max-width: 480px; margin: 0 auto;">
+      <table class="table is-fullwidth is-narrow is-size-7 results-table">
+        <thead><tr><th>Step</th><th>LTX-2</th><th>Wan 2.1</th></tr></thead>
+        <tbody>
+          <tr><td>0</td><td>80.0</td><td>78.2</td></tr>
+          <tr><td>1</td><td>81.7</td><td>79.1</td></tr>
+          <tr><td>4</td><td>87.4</td><td>84.8</td></tr>
+          <tr><td>7</td><td>89.9</td><td>87.3</td></tr>
+          <tr><td>10</td><td>91.2</td><td>89.1</td></tr>
+          <tr><td>15</td><td>92.1</td><td>90.1</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <div class="bibtex-header">
+      <h2 class="title is-3">BibTeX</h2>
+      <button class="copy-bibtex-btn" type="button" id="copy-bibtex"><i class="fas fa-copy"></i><span class="copy-text">Copy</span></button>
+    </div>
+    <!-- TODO: replace with the camera-ready citation -->
+    <pre><code id="bibtex-text">@inproceedings{anonymous2027willitrender,
+  title     = {Will It Render? Learned Attention Steering for Object Presence in Text-to-Video},
+  author    = {Anonymous},
+  booktitle = {Proceedings of the IEEE/CVF Winter Conference on Applications of Computer Vision (WACV)},
+  year      = {2027}
+}</code></pre>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+      <p>
+        This page is a template-based project page. Content is licensed under a
+        <a href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+      <p>Template: <a href="https://github.com/eliahuhorwitz/Academic-project-page-template">Academic Project Page Template</a> by Eliahu Horwitz.</p>
+    </div>
+  </div>
+</footer>
+
+<script src="static/js/index.js"></script>
+</body>
+</html>
