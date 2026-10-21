@@ -54,6 +54,32 @@ body {
   margin-bottom: 1.5rem;
 }
 
+.result-video {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 6px;
+  background: #fff;
+}
+
+.video-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  margin: 1.5rem auto 0.5rem;
+}
+
+@media screen and (min-width: 1024px) {
+  .video-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.caption {
+  color: var(--muted);
+  margin-bottom: 2.5rem;
+}
+
 .stat-row {
   margin-top: 1rem;
 }

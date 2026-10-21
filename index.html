@@ -23,8 +23,12 @@
         <div class="column has-text-centered">
           <h1 class="title is-1 publication-title">Will It Render?<br>Learned Attention Steering for Object Presence in Text-to-Video</h1>
           <div class="is-size-5 publication-authors">
-            <!-- TODO: author names and affiliations (paper is anonymous during WACV review) -->
-            <span class="author-block">Anonymous Authors</span>
+            <!-- TODO: replace with real author names, links and affiliations -->
+            <span class="author-block">Author One<sup>1</sup></span>
+            <span class="author-block">Author Two<sup>1</sup></span>
+            <div class="is-size-6">
+              <span class="author-block"><sup>1</sup>Institution</span>
+            </div>
           </div>
           <div class="publication-venue">WACV 2027 &middot; under review</div>
           <div class="column has-text-centered">
@@ -44,7 +48,9 @@
 <section class="hero teaser">
   <div class="container is-max-desktop">
     <div class="hero-body">
-      <img src="static/images/fig_teaser.png" alt="Steering object presence in text-to-video generation" class="publication-banner">
+      <video class="result-video publication-banner" autoplay muted loop playsinline preload="metadata" aria-label="Steering object presence in text-to-video generation">
+        <source src="static/videos/teaser.mp4" type="video/mp4">
+      </video>
       <p class="content has-text-justified">
         <b>Steering object presence in text-to-video generation.</b>
         Mid-clip snapshots from LTX-2 and Wan&nbsp;2.1 for prompts with <i>k</i> requested objects.
@@ -175,19 +181,31 @@
       Wan 2.1 +A&amp;E VBench is not yet measured. The A&amp;E k=7 value for Wan 2.1 (1.4) is as reported in the paper and is under re-check.
     </p>
 
-    <figure class="image" style="margin-top: 2rem;">
-      <img src="static/images/fig_singleobj.png" alt="Single-object steering examples">
-      <figcaption class="content has-text-centered"><b>Single-object steering.</b> Representative LTX-2 mid-frames. The unsteered backbone misses or weakly renders the requested object, while A&amp;E can distort it.</figcaption>
-    </figure>
+    <h3 class="title is-4 has-text-centered">Single-object steering</h3>
+    <div class="video-grid">
+      <video class="result-video" autoplay muted loop playsinline preload="metadata"><source src="static/videos/single_oven.mp4" type="video/mp4"></video>
+      <video class="result-video" autoplay muted loop playsinline preload="metadata"><source src="static/videos/single_horse.mp4" type="video/mp4"></video>
+      <video class="result-video" autoplay muted loop playsinline preload="metadata"><source src="static/videos/single_orange.mp4" type="video/mp4"></video>
+    </div>
+    <p class="content has-text-centered caption"><b>LTX-2.</b> The unsteered backbone misses or weakly renders the requested object, while A&amp;E can distort it.</p>
 
-    <figure class="image">
-      <img src="static/images/fig_compare_wan.png" alt="Multi-object steering on Wan 2.1">
-      <figcaption class="content has-text-centered"><b>Multi-object steering on Wan&nbsp;2.1.</b> Requested objects are listed beside each example. <span class="has-text-danger">Red</span> marks objects neglected by the unsteered backbone. AttnSteer recovers them while preserving the scene better than A&amp;E.</figcaption>
-    </figure>
-    <figure class="image">
-      <img src="static/images/fig_compare_ltx.png" alt="Multi-object steering on LTX-2">
-      <figcaption class="content has-text-centered"><b>Multi-object steering on LTX-2.</b> Same protocol as above.</figcaption>
-    </figure>
+    <h3 class="title is-4 has-text-centered">Multi-object steering on Wan&nbsp;2.1</h3>
+    <div class="video-grid">
+      <video class="result-video" autoplay muted loop playsinline preload="metadata"><source src="static/videos/multi_wan_motorcycle_boat.mp4" type="video/mp4"></video>
+      <video class="result-video" autoplay muted loop playsinline preload="metadata"><source src="static/videos/multi_wan_cow_banana_broccoli.mp4" type="video/mp4"></video>
+      <video class="result-video" autoplay muted loop playsinline preload="metadata"><source src="static/videos/multi_wan_fridge_banana_cat.mp4" type="video/mp4"></video>
+      <video class="result-video" autoplay muted loop playsinline preload="metadata"><source src="static/videos/multi_wan_seven_objects.mp4" type="video/mp4"></video>
+    </div>
+    <p class="content has-text-centered caption">Requested objects are listed under each example. <span class="has-text-danger"><b>Red</b></span> marks objects neglected by the unsteered backbone. AttnSteer recovers them while preserving the scene better than A&amp;E.</p>
+
+    <h3 class="title is-4 has-text-centered">Multi-object steering on LTX-2</h3>
+    <div class="video-grid">
+      <video class="result-video" autoplay muted loop playsinline preload="metadata"><source src="static/videos/multi_ltx_fridge_skis.mp4" type="video/mp4"></video>
+      <video class="result-video" autoplay muted loop playsinline preload="metadata"><source src="static/videos/multi_ltx_pizza_book_bus.mp4" type="video/mp4"></video>
+      <video class="result-video" autoplay muted loop playsinline preload="metadata"><source src="static/videos/multi_ltx_tie_cow_dog_boat.mp4" type="video/mp4"></video>
+      <video class="result-video" autoplay muted loop playsinline preload="metadata"><source src="static/videos/multi_ltx_bus_teddy_pizza_broccoli.mp4" type="video/mp4"></video>
+    </div>
+    <p class="content has-text-centered caption">Same protocol as above.</p>
   </div>
 </section>
 
@@ -308,7 +326,7 @@
     <!-- TODO: replace with the camera-ready citation -->
     <pre><code id="bibtex-text">@inproceedings{anonymous2027willitrender,
   title     = {Will It Render? Learned Attention Steering for Object Presence in Text-to-Video},
-  author    = {Anonymous},
+  author    = {TODO},
   booktitle = {Proceedings of the IEEE/CVF Winter Conference on Applications of Computer Vision (WACV)},
   year      = {2027}
 }</code></pre>
