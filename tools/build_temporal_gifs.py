@@ -92,13 +92,29 @@ def detections():
 
 def read_all(mp4, panel):
     vr = decord.VideoReader(mp4)
+    fps = vr.get_avg_fps()
     frames = vr.get_batch(list(range(len(vr)))).asnumpy()
     out = []
     for f in frames:
         im = Image.fromarray(f)
         w, h = im.size
         out.append(im.resize((int(round(w * panel / h)) // 2 * 2, panel), Image.LANCZOS))
-    return out
+    return out, fps
+
+
+def global_palette(frames, colors=256):
+    """One shared palette per GIF (no flicker); UI colours get their own block so they never drift."""
+    step = max(1, len(frames) // 8)
+    sample = [f.resize((f.width // 2, f.height // 2)) for f in frames[::step]]
+    ui = Image.new("RGB", (len(sample[0].size) * 0 + sample[0].width, 40))
+    d = ImageDraw.Draw(ui)
+    for i, col in enumerate([GREEN, GREY, DARK, MUTED, BLUE, (255, 255, 255)]):
+        d.rectangle([i * 40, 0, i * 40 + 39, 39], fill=col)
+    mosaic = Image.new("RGB", (sample[0].width, sample[0].height * len(sample) + 40))
+    for i, f in enumerate(sample):
+        mosaic.paste(f, (0, i * f.height))
+    mosaic.paste(ui, (0, sample[0].height * len(sample)))
+    return mosaic.quantize(colors=colors, method=Image.Quantize.MEDIANCUT, dither=Image.Dither.NONE)
 
 
 def centered(d, x0, x1, y, s, f, fill):
@@ -106,12 +122,13 @@ def centered(d, x0, x1, y, s, f, fill):
 
 
 def build(slug, caption, ctrl, ctrl_label, tempo_mp4, ours_mp4, panel, stride):
-    tempo = read_all(tempo_mp4, panel)
-    ours = read_all(ours_mp4, panel)
+    tempo, fps_src = read_all(tempo_mp4, panel)
+    ours, _ = read_all(ours_mp4, panel)
     n = min(len(tempo), len(ours))
-    pw = tempo[0].size[0]
+    pw, pw2 = tempo[0].size[0], ours[0].size[0]
+    NF = len(ctrl)
     margin, gap = 12, 8
-    W = margin * 2 + pw * 2 + gap
+    W = margin * 2 + pw + pw2 + gap
     title_h, tl_h, arm_h = 30, 52, 28
     H = margin + title_h + tl_h + arm_h + panel + margin
     H += H % 2
@@ -139,14 +156,16 @@ def build(slug, caption, ctrl, ctrl_label, tempo_mp4, ours_mp4, panel, stride):
         d.polygon([(mx - 6, tl_y - 10), (mx + 6, tl_y - 10), (mx, tl_y - 2)], fill=DARK)
         y = margin + title_h + tl_h
         centered(d, margin, margin + pw, y + 2, "TempoControl", fa, DARK)
-        centered(d, margin + pw + gap, margin + pw * 2 + gap, y + 2, "Ours", fa, BLUE)
+        centered(d, margin + pw + gap, margin + pw + pw2 + gap, y + 2, "Ours", fa, BLUE)
         c.paste(tempo[t], (margin, y + arm_h))
         c.paste(ours[t], (margin + pw + gap, y + arm_h))
-        frames.append(c.convert("P", palette=Image.ADAPTIVE, colors=128, dither=Image.Dither.NONE))
+        frames.append(c)
+    pal = global_palette(frames)
+    frames = [f.quantize(palette=pal, dither=Image.Dither.NONE) for f in frames]
     OUT.mkdir(parents=True, exist_ok=True)
     path = OUT / f"temporal_{slug}.gif"
-    fps = 24 / stride
-    frames[0].save(path, save_all=True, append_images=frames[1:], duration=int(1000 / fps),
+    fps = fps_src / stride
+    frames[0].save(path, save_all=True, append_images=frames[1:], duration=int(round(1000 / fps)),
                    loop=0, optimize=True, disposal=1)
     print(f"wrote {path} ({path.stat().st_size / 1e6:.2f} MB, {len(frames)} frames, {W}x{H})")
 
