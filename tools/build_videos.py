@@ -115,6 +115,24 @@ def write(frames: list[np.ndarray], path: Path):
     print(f"wrote {path} ({path.stat().st_size / 1e6:.2f} MB, {len(frames)} frames)")
 
 
+def write_gif(frames: list[np.ndarray], path: Path, stride: int = 2):
+    """Animated GIF: every `stride`-th frame, one shared 256-colour palette (no flicker, text colours kept)."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    ims = [Image.fromarray(f) for f in frames[::stride]]
+    sample = [im.resize((im.width // 2, im.height // 2)) for im in ims[:: max(1, len(ims) // 8)]]
+    mosaic = Image.new("RGB", (sample[0].width, sample[0].height * len(sample) + 40), BG)
+    for i, im in enumerate(sample):
+        mosaic.paste(im, (0, i * im.height))
+    d = ImageDraw.Draw(mosaic)
+    for i, col in enumerate([MISSING_C, PRESENT_C, BG]):
+        d.rectangle([i * 40, mosaic.height - 40, i * 40 + 39, mosaic.height - 1], fill=col)
+    pal = mosaic.quantize(colors=256, method=Image.Quantize.MEDIANCUT, dither=Image.Dither.NONE)
+    q = [im.quantize(palette=pal, dither=Image.Dither.NONE) for im in ims]
+    q[0].save(path, save_all=True, append_images=q[1:], duration=int(round(1000 * stride / FPS)),
+              loop=0, optimize=True, disposal=1)
+    print(f"wrote {path} ({path.stat().st_size / 1e6:.2f} MB, {len(q)} frames, {ims[0].width}x{ims[0].height})")
+
+
 # ---- clip sources -----------------------------------------------------------
 
 def wan(i):
@@ -192,7 +210,7 @@ def build_compare(name, objects, missing, srcs, panel_h=300, n_out=96):
     write(out, OUT / f"{name}.mp4")
 
 
-def build_single(name, phrase, idx, panel_h=300, n_out=96):
+def build_single(name, phrase, idx, panel_h=300, n_out=96, gif=False):
     srcs = single(idx)
     arms = list(srcs)
     clips = {a: read_frames(srcs[a], n_out, height=panel_h) for a in arms}
@@ -210,7 +228,10 @@ def build_single(name, phrase, idx, panel_h=300, n_out=96):
             c.paste(clips[a][t], (x, margin + title_h))
         centered(c, margin, W - margin, margin + title_h + panel_h + 8, f"“{phrase}”", 26, bold=False)
         out.append(np.asarray(c))
-    write(out, OUT / f"{name}.mp4")
+    if gif:
+        write_gif(out, OUT.parent / "gifs" / f"{name}.gif")
+    else:
+        write(out, OUT / f"{name}.mp4")
 
 
 def build_teaser(n_out=96, panel_h=250):
@@ -280,7 +301,12 @@ def build_teaser(n_out=96, panel_h=250):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--only", choices=["teaser", "multi", "single"])
+    ap.add_argument("--gif", action="store_true", help="single-object rows: write static/gifs/*.gif instead of mp4")
     a = ap.parse_args()
+    if a.gif:
+        for name, phrase, idx in SINGLE_ROWS:
+            build_single(name, phrase, idx, gif=True)
+        return
     if a.only in (None, "teaser"):
         build_teaser()
     if a.only in (None, "multi"):
