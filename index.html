@@ -206,6 +206,34 @@
       <video class="result-video" autoplay muted loop playsinline preload="metadata"><source src="static/videos/multi_ltx_bus_teddy_pizza_broccoli.mp4" type="video/mp4"></video>
     </div>
     <p class="content has-text-centered caption">Same protocol as above.</p>
+
+    <h3 class="title is-4 has-text-centered">Multi-object steering on CogVideoX-5B</h3>
+    <div class="content has-text-justified">
+      <p>
+        The same learned objective transfers to a third backbone. AttnSteer improves all-objects accuracy over A&amp;E
+        at every <i>k</i>, from 47.3% to 58.0% on average across <i>k</i>=2&ndash;7, and also raises the fraction of
+        requested objects that are detected. Values are &plusmn;SE over about 80 prompts per <i>k</i> (73 at <i>k</i>=7);
+        the mean over <i>k</i> has SE &radic;(&Sigma;SE<sub><i>k</i></sub>&sup2;)/6.
+      </p>
+    </div>
+    <!-- cogx-results:start -->
+    <div class="table-container">
+      <table class="table is-fullwidth is-narrow is-size-7 results-table">
+        <thead><tr><th>Model</th><th><i>k</i>=2</th><th><i>k</i>=3</th><th><i>k</i>=4</th><th><i>k</i>=5</th><th><i>k</i>=6</th><th><i>k</i>=7</th><th>Mean</th></tr></thead>
+        <tbody>
+          <tr class="block-sep"><td colspan="8"><b>All objects detected (det-all, %)</b></td></tr>
+          <tr><td>CogVideoX-5B</td><td>80.0 <span class="has-text-grey is-size-7">&plusmn;4.5</span></td><td>43.8 <span class="has-text-grey is-size-7">&plusmn;5.5</span></td><td>20.0 <span class="has-text-grey is-size-7">&plusmn;4.5</span></td><td>11.2 <span class="has-text-grey is-size-7">&plusmn;3.5</span></td><td>2.5 <span class="has-text-grey is-size-7">&plusmn;1.7</span></td><td>0.0 <span class="has-text-grey is-size-7">&plusmn;0.0</span></td><td>26.2 <span class="has-text-grey is-size-7">&plusmn;1.5</span></td></tr>
+          <tr><td>&nbsp;&nbsp;+ A&amp;E</td><td>80.0 <span class="has-text-grey is-size-7">&plusmn;4.5</span></td><td>68.8 <span class="has-text-grey is-size-7">&plusmn;5.2</span></td><td>47.5 <span class="has-text-grey is-size-7">&plusmn;5.6</span></td><td>43.8 <span class="has-text-grey is-size-7">&plusmn;5.5</span></td><td>26.2 <span class="has-text-grey is-size-7">&plusmn;4.9</span></td><td>17.8 <span class="has-text-grey is-size-7">&plusmn;4.5</span></td><td>47.3 <span class="has-text-grey is-size-7">&plusmn;2.1</span></td></tr>
+          <tr><td>&nbsp;&nbsp;+ AttnSteer</td><td><b>93.8 <span class="has-text-grey is-size-7">&plusmn;2.7</span></b></td><td><b>86.2 <span class="has-text-grey is-size-7">&plusmn;3.9</span></b></td><td><b>57.5 <span class="has-text-grey is-size-7">&plusmn;5.5</span></b></td><td><b>47.5 <span class="has-text-grey is-size-7">&plusmn;5.6</span></b></td><td><b>31.2 <span class="has-text-grey is-size-7">&plusmn;5.2</span></b></td><td><b>31.5 <span class="has-text-grey is-size-7">&plusmn;5.4</span></b></td><td><b>58.0 <span class="has-text-grey is-size-7">&plusmn;2.0</span></b></td></tr>
+          <tr class="block-sep"><td colspan="8"><b>Objects detected (det-ratio, %)</b></td></tr>
+          <tr><td>CogVideoX-5B</td><td>88.9 <span class="has-text-grey is-size-7">&plusmn;2.7</span></td><td>74.9 <span class="has-text-grey is-size-7">&plusmn;2.8</span></td><td>69.5 <span class="has-text-grey is-size-7">&plusmn;2.4</span></td><td>61.4 <span class="has-text-grey is-size-7">&plusmn;2.3</span></td><td>57.9 <span class="has-text-grey is-size-7">&plusmn;2.3</span></td><td>55.1 <span class="has-text-grey is-size-7">&plusmn;2.6</span></td><td>68.0 <span class="has-text-grey is-size-7">&plusmn;1.0</span></td></tr>
+          <tr><td>&nbsp;&nbsp;+ A&amp;E</td><td>89.2 <span class="has-text-grey is-size-7">&plusmn;2.7</span></td><td>85.3 <span class="has-text-grey is-size-7">&plusmn;2.6</span></td><td>82.4 <span class="has-text-grey is-size-7">&plusmn;2.3</span></td><td>82.6 <span class="has-text-grey is-size-7">&plusmn;2.0</span></td><td>77.4 <span class="has-text-grey is-size-7">&plusmn;2.1</span></td><td>73.0 <span class="has-text-grey is-size-7">&plusmn;2.2</span></td><td>81.6 <span class="has-text-grey is-size-7">&plusmn;0.9</span></td></tr>
+          <tr><td>&nbsp;&nbsp;+ AttnSteer</td><td><b>96.8 <span class="has-text-grey is-size-7">&plusmn;1.4</span></b></td><td><b>94.8 <span class="has-text-grey is-size-7">&plusmn;1.5</span></b></td><td><b>85.8 <span class="has-text-grey is-size-7">&plusmn;2.2</span></b></td><td><b>88.0 <span class="has-text-grey is-size-7">&plusmn;1.4</span></b></td><td><b>83.0 <span class="has-text-grey is-size-7">&plusmn;1.6</span></b></td><td><b>82.7 <span class="has-text-grey is-size-7">&plusmn;1.8</span></b></td><td><b>88.5 <span class="has-text-grey is-size-7">&plusmn;0.7</span></b></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <!-- cogx-results:end -->
+    <p class="content has-text-centered caption">CogVideoX-5B, 16 frames. Detection is the majority vote of the scoring detectors, on prompts scored in all three arms.</p>
   </div>
 </section>
 
