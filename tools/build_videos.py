@@ -124,7 +124,7 @@ def write_gif(frames: list[np.ndarray], path: Path, stride: int = 2):
     for i, im in enumerate(sample):
         mosaic.paste(im, (0, i * im.height))
     d = ImageDraw.Draw(mosaic)
-    for i, col in enumerate([MISSING_C, PRESENT_C, BG]):
+    for i, col in enumerate([MISSING_C, PRESENT_C, BG, (53, 125, 189), (47, 125, 50)]):
         d.rectangle([i * 40, mosaic.height - 40, i * 40 + 39, mosaic.height - 1], fill=col)
     pal = mosaic.quantize(colors=256, method=Image.Quantize.MEDIANCUT, dither=Image.Dither.NONE)
     q = [im.quantize(palette=pal, dither=Image.Dither.NONE) for im in ims]
