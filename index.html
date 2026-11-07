@@ -31,7 +31,7 @@
               <span class="author-block"><sup>1</sup>Bar-Ilan University &nbsp;&nbsp; <sup>2</sup>NVIDIA</span>
             </div>
           </div>
-          <div class="publication-venue">WACV 2027 &middot; under review</div>
+          <div class="publication-venue">WACV 2027</div>
           <div class="column has-text-centered">
             <div class="publication-links link-block">
               <!-- TODO: link paper PDF, arXiv, and code once available -->
@@ -58,6 +58,9 @@
         The unsteered backbones (top) often neglect requested objects. Inference-time steering with
         AttnSteer (bottom) recovers the missing objects while preserving video quality. Top and bottom rows
         use the same prompt and seed.
+      </p>
+      <p class="content has-text-centered" style="font-size:1.08rem; margin-top:0.5rem; max-width:680px; margin-left:auto; margin-right:auto; border-left:3px solid #ccc; padding-left:1rem; text-align:left;">
+        <b>TL;DR:</b> We train a 37k-parameter probe on the generator's own videos to predict whether each requested object will render, then use it as a differentiable steering signal at inference time — no model retraining, no hand-crafted objectives.
       </p>
     </div>
   </div>
@@ -92,18 +95,43 @@
   <div class="container is-max-desktop">
     <h2 class="title is-3 has-text-centered">Key Results</h2>
     <div class="columns is-centered has-text-centered stat-row">
+
       <div class="column">
-        <p class="stat-number">61.9<span class="stat-unit">%</span></p>
-        <p class="stat-label">All-objects accuracy, LTX-2<br><span class="stat-base">A&amp;E 49.0% &middot; unsteered 34.2%</span></p>
+        <p class="stat-label" style="font-weight:700; font-size:0.95rem; margin-bottom:0.5rem; color:#555;">
+          LTX-2 &nbsp;&middot;&nbsp; All-objects accuracy
+        </p>
+        <div style="display:flex; align-items:baseline; justify-content:center; gap:0.5rem;">
+          <span style="font-size:2.2rem; font-weight:600; color:#bbb;">49.0<span style="font-size:1rem; font-weight:400;">%</span></span>
+          <span style="font-size:2rem; color:#999; line-height:1; margin: 0 0.1rem;">&#8594;</span>
+          <p class="stat-number" style="margin:0; line-height:1;">61.9<span class="stat-unit">%</span></p>
+        </div>
+        <p class="stat-label" style="margin-top:0.4rem;"><span class="stat-base">A&amp;E &rarr; AttnSteer (ours)</span></p>
       </div>
+
       <div class="column">
-        <p class="stat-number">46.5<span class="stat-unit">%</span></p>
-        <p class="stat-label">All-objects accuracy, Wan&nbsp;2.1<br><span class="stat-base">A&amp;E 42.1% &middot; unsteered 33.8%</span></p>
+        <p class="stat-label" style="font-weight:700; font-size:0.95rem; margin-bottom:0.5rem; color:#555;">
+          Wan&nbsp;2.1 &nbsp;&middot;&nbsp; All-objects accuracy
+        </p>
+        <div style="display:flex; align-items:baseline; justify-content:center; gap:0.5rem;">
+          <span style="font-size:2.2rem; font-weight:600; color:#bbb;">42.1<span style="font-size:1rem; font-weight:400;">%</span></span>
+          <span style="font-size:2rem; color:#999; line-height:1; margin: 0 0.1rem;">&#8594;</span>
+          <p class="stat-number" style="margin:0; line-height:1;">46.5<span class="stat-unit">%</span></p>
+        </div>
+        <p class="stat-label" style="margin-top:0.4rem;"><span class="stat-base">A&amp;E &rarr; AttnSteer (ours)</span></p>
       </div>
+
       <div class="column">
-        <p class="stat-number">52.6<span class="stat-unit">%</span></p>
-        <p class="stat-label">Temporal specificity, LTX-2<br><span class="stat-base">TempoControl 35.7% &middot; unsteered 31.2%</span></p>
+        <p class="stat-label" style="font-weight:700; font-size:0.95rem; margin-bottom:0.5rem; color:#555;">
+          LTX-2 &nbsp;&middot;&nbsp; Temporal specificity
+        </p>
+        <div style="display:flex; align-items:baseline; justify-content:center; gap:0.5rem;">
+          <span style="font-size:2.2rem; font-weight:600; color:#bbb;">35.7<span style="font-size:1rem; font-weight:400;">%</span></span>
+          <span style="font-size:2rem; color:#999; line-height:1; margin: 0 0.1rem;">&#8594;</span>
+          <p class="stat-number" style="margin:0; line-height:1;">52.6<span class="stat-unit">%</span></p>
+        </div>
+        <p class="stat-label" style="margin-top:0.4rem;"><span class="stat-base">TempoControl &rarr; AttnSteer (ours)</span></p>
       </div>
+
     </div>
   </div>
 </section>
