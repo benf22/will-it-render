@@ -164,6 +164,140 @@ pre {
   font-size: 0.85rem;
 }
 
+/* ---- Qualitative carousel ---- */
+.carousel-wrap {
+  max-width: 960px;
+  margin: 0 auto;
+  user-select: none;
+}
+
+.carousel-prompt {
+  text-align: center;
+  font-size: 1.15rem;
+  font-style: italic;
+  color: #374151;
+  min-height: 1.8em;
+  margin-bottom: 0.5rem;
+}
+
+.carousel-col-headers {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin-bottom: 4px;
+}
+
+.carousel-col-header {
+  text-align: center;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: #6b7280;
+  padding: 2px 0;
+}
+
+.carousel-col-header.ours {
+  color: var(--accent);
+}
+
+.carousel-video-wrap {
+  position: relative;
+  background: #000;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 14px rgba(0,0,0,.12);
+}
+
+.carousel-video-wrap video {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.carousel-divider {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 2px;
+  background: rgba(255,255,255,.45);
+  pointer-events: none;
+}
+
+.carousel-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.carousel-btn {
+  background: none;
+  border: 2px solid #d1d5db;
+  border-radius: 50%;
+  width: 38px;
+  height: 38px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  color: #374151;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color .15s, color .15s;
+  flex-shrink: 0;
+}
+
+.carousel-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.carousel-dots {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: center;
+  max-width: 320px;
+}
+
+.carousel-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #d1d5db;
+  cursor: pointer;
+  border: none;
+  padding: 0;
+  transition: background .2s;
+}
+
+.carousel-dot.active {
+  background: var(--accent);
+}
+
+.carousel-fig-badge {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  background: #f3f4f6;
+  color: #6b7280;
+  border-radius: 4px;
+  padding: 2px 7px;
+  margin-bottom: 0.5rem;
+}
+
+.carousel-counter {
+  font-size: 0.85rem;
+  color: #9ca3af;
+  text-align: center;
+  margin-top: 0.4rem;
+}
+
+/* ---- end carousel ---- */
+
 .footer {
   background: #f9fafb;
   border-top: 1px solid var(--rule);
