@@ -5,9 +5,10 @@
 }
 
 body {
-  font-family: "Helvetica Neue", Arial, sans-serif;
-  color: #1f2937;
-  line-height: 1.6;
+  font-family: 'Figtree', "Helvetica Neue", Arial, sans-serif;
+  color: #4b5563;
+  line-height: 1.65;
+  background: #f0f6ff;
 }
 
 .publication-title {
@@ -17,20 +18,108 @@ body {
 }
 
 .publication-authors {
-  margin-bottom: 1rem;
+  margin-bottom: 0;
 }
 
-.publication-venue {
-  display: inline-block;
-  color: var(--muted);
-  font-weight: 600;
-  background: #f3f4f6;
-  padding: 0.4rem 0.9rem;
-  border-radius: 6px;
+/* header dot-grid pattern */
+.publication-header {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(to bottom, #f0f6ff 0%, #f0f6ff 80%, #ffffff 100%);
+}
+
+.publication-header::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, #bfdbfe 2px, transparent 2px);
+  background-size: 36px 36px;
+  -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.2) 70%, transparent 100%);
+  mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.2) 70%, transparent 100%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.publication-header .hero-body {
+  position: relative;
+  z-index: 1;
+  padding-bottom: 0;
+}
+
+.publication-header + .section {
+  padding-top: 0.75rem;
+}
+
+/* "Will It Render?" title accent */
+.title-wir {
+  color: var(--accent);
+}
+
+/* WACV venue badge — sits inline with Paper/arXiv/Code buttons */
+.venue-badge {
+  display: inline-flex;
+  align-items: center;
+  background: #dbeafe;
+  color: #1d4ed8;
+  font-weight: 800;
+  font-size: 0.88rem;
+  padding: 0.42rem 1rem;
+  border-radius: 20px;
+  margin: 0 0.4rem;
+  vertical-align: middle;
+  letter-spacing: 0.03em;
+}
+
+/* TL;DR block */
+.tldr-box {
+  border-left: 4px solid var(--accent);
+  padding: 0.9rem 1.2rem;
+  background: #f0f7ff;
+  border-radius: 0 8px 8px 0;
+  font-size: 1.05rem;
+  color: #1f2937;
+  max-width: 760px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+.tldr-label {
+  font-weight: 800;
+  color: var(--accent);
+  margin-right: 0.5rem;
+  font-size: 1rem;
+  letter-spacing: 0.04em;
+}
+
+/* Full-width teaser (TL;DR + carousel) */
+.section-teaser {
+  background: #fff !important;
+  border-top: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+}
+
+/* Bubble sections */
+.section {
+  background: #fff;
+  border-top: 3px solid var(--accent);
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0,0,0,.06);
+  max-width: 860px;
+  margin: 1.5rem auto;
+  padding: 2.5rem 2rem !important;
+}
+
+/* Section separators are now just spacing — bubbles provide visual separation */
+.section-rule {
+  border: none;
+  margin: 0;
 }
 
 .publication-links {
-  margin-top: 1.5rem;
+  margin-top: 0.75rem;
 }
 
 .publication-links .link-block {
@@ -171,13 +260,41 @@ pre {
   user-select: none;
 }
 
-.carousel-prompt {
+.carousel-prompt-row {
+  position: relative;
   text-align: center;
-  font-size: 1.15rem;
-  font-style: italic;
-  color: #374151;
-  min-height: 1.8em;
-  margin-bottom: 0.5rem;
+  min-height: 2em;
+  margin-top: 0.75rem;
+  margin-bottom: 0.4rem;
+}
+
+.carousel-prompt {
+  font-family: 'Caveat', cursive;
+  font-weight: 700;
+  font-size: 1.55rem;
+  color: #1f2937;
+  margin: 0;
+  line-height: 1.3;
+}
+
+.carousel-backend {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.carousel-caption {
+  font-size: 0.85rem;
+  color: var(--muted);
+  text-align: center;
+  margin-top: 0.75rem;
 }
 
 .carousel-col-headers {
@@ -276,18 +393,6 @@ pre {
   background: var(--accent);
 }
 
-.carousel-fig-badge {
-  display: inline-block;
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: .06em;
-  text-transform: uppercase;
-  background: #f3f4f6;
-  color: #6b7280;
-  border-radius: 4px;
-  padding: 2px 7px;
-  margin-bottom: 0.5rem;
-}
 
 .carousel-counter {
   font-size: 0.85rem;
@@ -299,8 +404,8 @@ pre {
 /* ---- end carousel ---- */
 
 .footer {
-  background: #f9fafb;
-  border-top: 1px solid var(--rule);
+  background: transparent;
+  border: none;
 }
 
 @media screen and (max-width: 768px) {

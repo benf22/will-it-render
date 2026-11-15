@@ -12,16 +12,20 @@
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Figtree:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="static/css/index.css">
 </head>
 <body>
 
+<!-- ── HEADER ──────────────────────────────────────────────────────── -->
 <section class="hero publication-header">
   <div class="hero-body">
     <div class="container is-max-desktop">
       <div class="columns is-centered">
         <div class="column has-text-centered">
-          <h1 class="title is-1 publication-title">Will It Render?<br>Learned Attention Steering for Object Presence in Text-to-Video</h1>
+          <h1 class="title is-1 publication-title"><span class="title-wir">Will It Render?</span><br>Learned Attention Steering for Object Presence in Text-to-Video</h1>
           <div class="is-size-5 publication-authors">
             <span class="author-block">Ben Fishman<sup>1</sup>,</span>
             <span class="author-block">Dvir Samuel<sup>2</sup>,</span>
@@ -31,14 +35,11 @@
               <span class="author-block"><sup>1</sup>Bar-Ilan University &nbsp;&nbsp; <sup>2</sup>NVIDIA</span>
             </div>
           </div>
-          <div class="publication-venue">WACV 2027</div>
-          <div class="column has-text-centered">
-            <div class="publication-links link-block">
-              <!-- TODO: link paper PDF, arXiv, and code once available -->
-              <span class="link-block"><a class="external-link button is-normal is-rounded is-dark" href="#"><span class="icon"><i class="fas fa-file-pdf"></i></span><span>Paper</span></a></span>
-              <span class="link-block"><a class="external-link button is-normal is-rounded is-dark" href="#"><span class="icon"><i class="ai ai-arxiv"></i></span><span>arXiv</span></a></span>
-              <span class="link-block"><a class="external-link button is-normal is-rounded is-dark" href="#"><span class="icon"><i class="fab fa-github"></i></span><span>Code</span></a></span>
-            </div>
+          <div class="publication-links link-block">
+            <span class="venue-badge">WACV 2027</span>
+            <span class="link-block"><a class="external-link button is-normal is-rounded is-dark" href="#"><span class="icon"><i class="fas fa-file-pdf"></i></span><span>Paper</span></a></span>
+            <span class="link-block"><a class="external-link button is-normal is-rounded is-dark" href="#"><span class="icon"><i class="ai ai-arxiv"></i></span><span>arXiv</span></a></span>
+            <span class="link-block"><a class="external-link button is-normal is-rounded is-dark" href="#"><span class="icon"><i class="fab fa-github"></i></span><span>Code</span></a></span>
           </div>
         </div>
       </div>
@@ -46,71 +47,28 @@
   </div>
 </section>
 
-<section class="hero teaser">
+<!-- ── TL;DR + CAROUSEL ───────────────────────────────────────────── -->
+<section class="section section-teaser">
   <div class="container is-max-desktop">
-    <div class="hero-body">
-      <video class="result-video publication-banner" autoplay muted loop playsinline preload="metadata" aria-label="Steering object presence in text-to-video generation">
-        <source src="static/videos/teaser.mp4" type="video/mp4">
-      </video>
-      <p class="content has-text-justified">
-        <b>Steering object presence in text-to-video generation.</b>
-        Mid-clip snapshots from LTX-2 and Wan&nbsp;2.1 for prompts with <i>k</i> requested objects.
-        The unsteered backbones (top) often neglect requested objects. Inference-time steering with
-        AttnSteer (bottom) recovers the missing objects while preserving video quality. Top and bottom rows
-        use the same prompt and seed.
-      </p>
-      <p class="content has-text-centered" style="font-size:1.08rem; margin-top:0.5rem; max-width:680px; margin-left:auto; margin-right:auto; border-left:3px solid #ccc; padding-left:1rem; text-align:left;">
-        <b>TL;DR:</b> We train a 37k-parameter probe on the generator's own videos to predict whether each requested object will render, then use it as a differentiable steering signal at inference time — no model retraining, no hand-crafted objectives.
-      </p>
-    </div>
-  </div>
-</section>
 
-<section class="section">
-  <div class="container is-max-desktop">
-    <h2 class="title is-3 has-text-centered">Abstract</h2>
-    <div class="content has-text-justified">
-      <p>
-        Text-to-video diffusion models generate increasingly realistic videos, yet often fail to render all objects
-        requested by the prompt, particularly as the number of objects grows. Improving such fine-grained adherence
-        through training requires substantial video supervision, motivating inference-time methods that steer
-        intermediate diffusion latents. Existing approaches typically define hand-crafted objectives over
-        cross-attention maps, relying on indirect attention statistics rather than whether the model ultimately
-        renders a requested object.
-      </p>
-      <p>
-        We propose <b>AttnSteer</b>, a learned attention-steering model that predicts object rendering directly from
-        intermediate cross-attention. AttnSteer is trained entirely on the generator's own trajectories using
-        automatically obtained detector labels and contains only 37k parameters. At inference time, its predictions
-        define differentiable objectives for steering object presence; the same framework also extends to
-        frame-level temporal control. AttnSteer improves all-objects accuracy over the strongest baseline from
-        49.0% to 61.9% on LTX-2 and from 42.1% to 46.5% on Wan&nbsp;2.1, and raises temporal specificity from 35.7%
-        to 52.6%, at comparable video quality.
-      </p>
-    </div>
-  </div>
-</section>
-
-<section class="section">
-  <div class="container is-max-desktop">
-    <h2 class="title is-3 has-text-centered">Qualitative Comparisons</h2>
-    <div class="content has-text-justified" style="margin-bottom:1.5rem;">
-      <p>Each clip shows the <b>un-steered backbone</b> (left) alongside <b>AttnSteer</b> (right), generated from the same prompt and seed. Examples span Figures 1, 6, and 12 of the paper.</p>
+    <div class="tldr-box">
+      <span class="tldr-label">TL;DR</span>
+      We train a 37k-parameter probe on the generator's own videos to predict whether each requested object will render, then use it as a differentiable steering signal at inference time — no model retraining, no hand-crafted objectives.
     </div>
 
     <div class="carousel-wrap">
-      <div style="text-align:center;">
-        <span class="carousel-fig-badge" id="car-fig-badge">Fig. 1</span>
-      </div>
-      <p class="carousel-prompt" id="car-prompt"></p>
       <div class="carousel-col-headers">
         <div class="carousel-col-header">Un-steered</div>
         <div class="carousel-col-header ours">AttnSteer (Ours)</div>
       </div>
       <div class="carousel-video-wrap">
         <video id="car-video" autoplay muted loop playsinline preload="auto"
-               style="width:100%;height:auto;display:block;"></video>
+               style="width:100%;height:360px;object-fit:contain;display:block;"></video>
         <div class="carousel-divider"></div>
+      </div>
+      <div class="carousel-prompt-row">
+        <p class="carousel-prompt" id="car-prompt"></p>
+        <span class="carousel-backend" id="car-backend"></span>
       </div>
       <div class="carousel-nav">
         <button class="carousel-btn" id="car-prev" aria-label="Previous">&#8592;</button>
@@ -118,6 +76,7 @@
         <button class="carousel-btn" id="car-next" aria-label="Next">&#8594;</button>
       </div>
       <p class="carousel-counter" id="car-counter"></p>
+      <p class="carousel-caption">Each clip shows the <b>un-steered backbone</b> (left) alongside <b>AttnSteer</b> (right), generated from the same prompt and seed.</p>
     </div>
   </div>
 </section>
@@ -144,17 +103,16 @@
     {src:"static/videos/carousel/fig12_so49.mp4",   prompt:"an orange",                                                                              fig:"Fig. 12", backend:"LTX-2"},
   ];
 
-  const video    = document.getElementById('car-video');
-  const promptEl = document.getElementById('car-prompt');
-  const badgeEl  = document.getElementById('car-fig-badge');
-  const dotsEl   = document.getElementById('car-dots');
-  const prevBtn  = document.getElementById('car-prev');
-  const nextBtn  = document.getElementById('car-next');
-  const counter  = document.getElementById('car-counter');
+  const video     = document.getElementById('car-video');
+  const promptEl  = document.getElementById('car-prompt');
+  const backendEl = document.getElementById('car-backend');
+  const dotsEl    = document.getElementById('car-dots');
+  const prevBtn   = document.getElementById('car-prev');
+  const nextBtn   = document.getElementById('car-next');
+  const counter   = document.getElementById('car-counter');
 
   let idx = 0, timer = null;
 
-  // Build dots
   CLIPS.forEach((_, i) => {
     const d = document.createElement('button');
     d.className = 'carousel-dot' + (i === 0 ? ' active' : '');
@@ -166,8 +124,8 @@
   function goTo(i) {
     idx = (i + CLIPS.length) % CLIPS.length;
     const c = CLIPS[idx];
-    promptEl.textContent = c.prompt;
-    badgeEl.textContent  = c.fig + ' · ' + c.backend;
+    promptEl.textContent  = c.prompt;
+    backendEl.textContent = c.backend;
     video.src = c.src;
     video.load();
     video.play().catch(() => {});
@@ -186,7 +144,6 @@
   prevBtn.addEventListener('click', () => goTo(idx - 1));
   nextBtn.addEventListener('click', () => goTo(idx + 1));
 
-  // keyboard nav
   document.addEventListener('keydown', e => {
     if (e.key === 'ArrowLeft')  goTo(idx - 1);
     if (e.key === 'ArrowRight') goTo(idx + 1);
@@ -196,6 +153,37 @@
 })();
 </script>
 
+<hr class="section-rule">
+
+<!-- ── ABSTRACT ──────────────────────────────────────────────────── -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Abstract</h2>
+    <div class="content has-text-justified">
+      <p>
+        Text-to-video diffusion models generate increasingly realistic videos, yet often fail to render all objects
+        requested by the prompt, particularly as the number of objects grows. Improving such fine-grained adherence
+        through training requires substantial video supervision, motivating inference-time methods that steer
+        intermediate diffusion latents. Existing approaches typically define hand-crafted objectives over
+        cross-attention maps, relying on indirect attention statistics rather than whether the model ultimately
+        renders a requested object.
+      </p>
+      <p>
+        We propose <b>AttnSteer</b>, a learned attention-steering model that predicts object rendering directly from
+        intermediate cross-attention. AttnSteer is trained entirely on the generator's own trajectories using
+        automatically obtained detector labels and contains only 37k parameters. At inference time, its predictions
+        define differentiable objectives for steering object presence; the same framework also extends to
+        frame-level temporal control. AttnSteer improves all-objects accuracy over the strongest baseline from
+        49.0% to 61.9% on LTX-2 and from 42.1% to 46.5% on Wan&nbsp;2.1, and raises temporal specificity from 35.7%
+        to 52.6%, at comparable video quality.
+      </p>
+    </div>
+  </div>
+</section>
+
+<hr class="section-rule">
+
+<!-- ── KEY RESULTS ───────────────────────────────────────────────── -->
 <section class="section">
   <div class="container is-max-desktop">
     <h2 class="title is-3 has-text-centered">Key Results</h2>
@@ -241,35 +229,48 @@
   </div>
 </section>
 
+<hr class="section-rule">
+
+<!-- ── METHOD ────────────────────────────────────────────────────── -->
 <section class="section">
   <div class="container is-max-desktop">
     <h2 class="title is-3 has-text-centered">Method</h2>
+
+    <h3 class="title is-4" style="margin-top:1.5rem;">Inference</h3>
     <div class="content has-text-justified">
       <p>
-        AttnSteer has two stages. First, we train a small probe to predict whether each requested object will be
-        rendered, using per-step, per-layer, per-head cross-attention features from the frozen generator. Labels
-        come from detectors run on the generator's own final videos, so no external video supervision is needed.
-        Second, during sampling, the probe's prediction is used as a differentiable objective, and the video latent
-        is optimized while the generator stays fixed.
+        At inference time, the probe's predictions define differentiable objectives for steering object presence.
+        The video latent is optimized while the generator stays fixed. For multi-object prompts, independent
+        per-object updates can conflict: we normalize each object's gradient, anchor the update on the object
+        least likely to be rendered, and suppress locally opposing contributions.
       </p>
+    </div>
+    <figure class="image">
+      <img src="static/images/fig_method.png" alt="Inference-time steering with AttnSteer">
+      <figcaption class="content has-text-centered"><b>Inference-time steering.</b> At each selected denoising step, object-specific attention features are scored by the frozen AttnSteer predictor, and the latent is updated along the resulting gradient.</figcaption>
+    </figure>
+
+    <h3 class="title is-4" style="margin-top:2rem;">AttnSteer Training</h3>
+    <div class="content has-text-justified">
       <p>
-        For multi-object prompts, independent per-object updates can conflict. We normalize each object's gradient,
-        anchor the update on the object least likely to be rendered, and suppress locally opposing contributions.
+        We train a small probe to predict whether each requested object will be rendered, using per-step,
+        per-layer, per-head cross-attention features from the frozen generator. Labels come from detectors
+        run on the generator's own final videos, so no external video supervision is needed.
       </p>
     </div>
     <figure class="image">
       <img src="static/images/fig_training.png" alt="Training AttnSteer with self-generated supervision">
       <figcaption class="content has-text-centered"><b>Training with self-generated supervision.</b> Cross-attention features from the frozen generator are paired with detector labels from its final video.</figcaption>
     </figure>
-    <figure class="image">
-      <img src="static/images/fig_method.png" alt="Inference-time steering with AttnSteer">
-      <figcaption class="content has-text-centered"><b>Inference-time steering.</b> At each selected denoising step, object-specific attention features are scored by the frozen AttnSteer predictor, and the latent is updated along the resulting gradient.</figcaption>
-    </figure>
   </div>
 </section>
 
+<hr class="section-rule">
+
+<!-- ── RESULTS ───────────────────────────────────────────────────── -->
 <section class="section">
   <div class="container is-max-desktop">
+
     <h2 class="title is-3 has-text-centered">Multi-Object Object Presence</h2>
     <div class="content has-text-justified">
       <p>
@@ -278,10 +279,27 @@
         requested objects. The gain grows with <i>k</i>.
       </p>
     </div>
-    <figure class="image">
-      <img src="static/images/fig_presence_by_k.png" alt="All-object accuracy vs number of objects" style="max-width: 560px; margin: 0 auto;">
-      <figcaption class="content has-text-centered"><b>Multi-object presence vs. prompt complexity (LTX-2).</b> All-object accuracy as <i>k</i> grows, for the unsteered backbone, Attend-and-Excite, and AttnSteer. Bands show &plusmn;1 SE.</figcaption>
-    </figure>
+    <div class="columns is-centered" style="gap:0.5rem; margin-top:1.25rem; margin-bottom:0.5rem;">
+      <div class="column">
+        <figure class="image" style="margin:0;">
+          <img src="static/images/fig_results_ltx.png" alt="LTX-2 all-object accuracy by k" style="width:100%; border-radius:6px;">
+          <figcaption class="content has-text-centered" style="margin-top:0.5rem; font-size:0.85rem;">LTX-2</figcaption>
+        </figure>
+      </div>
+      <div class="column">
+        <figure class="image" style="margin:0;">
+          <img src="static/images/fig_results_wan.png" alt="Wan all-object accuracy by k" style="width:100%; border-radius:6px;">
+          <figcaption class="content has-text-centered" style="margin-top:0.5rem; font-size:0.85rem;">Wan 2.1</figcaption>
+        </figure>
+      </div>
+      <div class="column">
+        <figure class="image" style="margin:0;">
+          <img src="static/images/fig_results_cogx.png" alt="CogVideoX all-object accuracy by k" style="width:100%; border-radius:6px;">
+          <figcaption class="content has-text-centered" style="margin-top:0.5rem; font-size:0.85rem;">CogVideoX</figcaption>
+        </figure>
+      </div>
+    </div>
+    <p class="content has-text-centered" style="font-size:0.85rem; color:var(--muted); margin-bottom:1.5rem;">All-object accuracy vs. prompt complexity (<i>k</i> objects). Bands show &plusmn;1 SE.</p>
 
     <div class="table-container">
       <table class="table is-fullwidth is-narrow is-size-7 results-table">
@@ -371,12 +389,9 @@
     </div>
     <!-- cogx-results:end -->
     <p class="content has-text-centered caption">CogVideoX-5B, 16 frames. Detection is the majority vote of the scoring detectors, on prompts scored in all three arms.</p>
-  </div>
-</section>
 
-<section class="section">
-  <div class="container is-max-desktop">
-    <h2 class="title is-3 has-text-centered">Multi-Object Aggregation</h2>
+    <!-- Aggregation ablation -->
+    <h2 class="title is-3 has-text-centered" style="margin-top:3.5rem;">Multi-Object Aggregation</h2>
     <div class="content has-text-justified">
       <p>
         Unit-normalized gradient agreement improves object presence for <i>k</i>=2&ndash;6 over plain averaging of
@@ -387,12 +402,9 @@
       <img src="static/images/fig_ablation_aggregation.png" alt="Ablation of multi-object gradient aggregation">
       <figcaption class="content has-text-centered"><b>Aggregation ablation.</b> AttnSteer's conflict-aware rule vs. plain gradient averaging, per <i>k</i> and on average, with &plusmn;SE bands.</figcaption>
     </figure>
-  </div>
-</section>
 
-<section class="section">
-  <div class="container is-max-desktop">
-    <h2 class="title is-3 has-text-centered">Robustness to the Scoring Detectors</h2>
+    <!-- Robustness -->
+    <h2 class="title is-3 has-text-centered" style="margin-top:3.5rem;">Robustness to the Scoring Detectors</h2>
     <div class="content has-text-justified">
       <p>
         The training labels and the main evaluation use the same detectors, so we re-score identical LTX-2 clips with
@@ -420,9 +432,35 @@
         </tbody>
       </table>
     </div>
+
+    <!-- Probe quality -->
+    <h2 class="title is-3 has-text-centered" style="margin-top:3.5rem;">Steering Probe Quality</h2>
+    <div class="content has-text-justified">
+      <p>
+        Validation AUROC of the per-step steering probes. Each denoising step has its own predictor, so each row is the
+        step whose cross-attention is read.
+      </p>
+    </div>
+    <div class="table-container" style="max-width: 480px; margin: 0 auto;">
+      <table class="table is-fullwidth is-narrow is-size-7 results-table">
+        <thead><tr><th>Step</th><th>LTX-2</th><th>Wan 2.1</th></tr></thead>
+        <tbody>
+          <tr><td>0</td><td>80.0</td><td>78.2</td></tr>
+          <tr><td>1</td><td>81.7</td><td>79.1</td></tr>
+          <tr><td>4</td><td>87.4</td><td>84.8</td></tr>
+          <tr><td>7</td><td>89.9</td><td>87.3</td></tr>
+          <tr><td>10</td><td>91.2</td><td>89.1</td></tr>
+          <tr><td>15</td><td>92.1</td><td>90.1</td></tr>
+        </tbody>
+      </table>
+    </div>
+
   </div>
 </section>
 
+<hr class="section-rule">
+
+<!-- ── TEMPORAL CONTROL ───────────────────────────────────────────── -->
 <section class="section">
   <div class="container is-max-desktop">
     <h2 class="title is-3 has-text-centered">Temporal Control</h2>
@@ -492,31 +530,7 @@
   </div>
 </section>
 
-<section class="section">
-  <div class="container is-max-desktop">
-    <h2 class="title is-3 has-text-centered">Steering Probe Quality</h2>
-    <div class="content has-text-justified">
-      <p>
-        Validation AUROC of the per-step steering probes. Each denoising step has its own predictor, so each row is the
-        step whose cross-attention is read.
-      </p>
-    </div>
-    <div class="table-container" style="max-width: 480px; margin: 0 auto;">
-      <table class="table is-fullwidth is-narrow is-size-7 results-table">
-        <thead><tr><th>Step</th><th>LTX-2</th><th>Wan 2.1</th></tr></thead>
-        <tbody>
-          <tr><td>0</td><td>80.0</td><td>78.2</td></tr>
-          <tr><td>1</td><td>81.7</td><td>79.1</td></tr>
-          <tr><td>4</td><td>87.4</td><td>84.8</td></tr>
-          <tr><td>7</td><td>89.9</td><td>87.3</td></tr>
-          <tr><td>10</td><td>91.2</td><td>89.1</td></tr>
-          <tr><td>15</td><td>92.1</td><td>90.1</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-</section>
-
+<!-- ── BIBTEX ─────────────────────────────────────────────────────── -->
 <section class="section" id="BibTeX">
   <div class="container is-max-desktop content">
     <div class="bibtex-header">

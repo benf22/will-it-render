@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Header Pattern Options</title>
+  <style>
+    body { font-family: sans-serif; background: #f1f5f9; padding: 2rem; }
+    h1 { font-size: 1rem; color: #555; margin-bottom: 1.5rem; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; }
+    .card { border-radius: 10px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,.12); background: #fff; }
+    .preview {
+      height: 160px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+    }
+    .preview::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .preview > * { position: relative; z-index: 1; }
+    .preview .title { font-size: 1.3rem; font-weight: 800; color: #3b6fb6; text-align: center; line-height: 1.2; }
+    .preview .sub   { font-size: 0.65rem; color: #6b7280; }
+    .label { padding: 0.6rem 0.9rem; font-size: 0.8rem; font-weight: 600; color: #374151; border-top: 1px solid #e5e7eb; }
+    .label span { color: #9ca3af; font-weight: 400; font-size: 0.72rem; }
+
+    /* 1. Dot grid (current) */
+    .p1::before {
+      background-image: radial-gradient(circle, #93c5fd 1.5px, transparent 1.5px);
+      background-size: 28px 28px;
+      opacity: 0.6;
+      -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.35) 65%, transparent 100%);
+      mask-image: linear-gradient(to bottom, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.35) 65%, transparent 100%);
+    }
+
+    /* 2. Larger dots, more spread */
+    .p2::before {
+      background-image: radial-gradient(circle, #bfdbfe 2px, transparent 2px);
+      background-size: 36px 36px;
+      -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.2) 70%, transparent 100%);
+      mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.2) 70%, transparent 100%);
+    }
+
+    /* 3. Diagonal lines */
+    .p3::before {
+      background-image: repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 12px,
+        #bfdbfe 12px,
+        #bfdbfe 13px
+      );
+      -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.15) 60%, transparent 100%);
+      mask-image: linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.15) 60%, transparent 100%);
+    }
+
+    /* 4. Grid lines */
+    .p4::before {
+      background-image:
+        linear-gradient(to right, #bfdbfe 1px, transparent 1px),
+        linear-gradient(to bottom, #bfdbfe 1px, transparent 1px);
+      background-size: 32px 32px;
+      opacity: 0.5;
+      -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.2) 65%, transparent 100%);
+      mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.2) 65%, transparent 100%);
+    }
+
+    /* 5. Subtle radial glow only */
+    .p5::before {
+      background: radial-gradient(ellipse 80% 60% at 50% 0%, #dbeafe 0%, transparent 70%);
+    }
+
+    /* 6. Dot grid + tinted background */
+    .p6 { background: #f8faff; }
+    .p6::before {
+      background-image: radial-gradient(circle, #93c5fd 1px, transparent 1px);
+      background-size: 20px 20px;
+      opacity: 0.7;
+      -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,0.6) 0%, transparent 80%);
+      mask-image: linear-gradient(to bottom, rgba(0,0,0,0.6) 0%, transparent 80%);
+    }
+  </style>
+</head>
+<body>
+  <h1>Header background pattern options — pick one</h1>
+  <div class="grid">
+
+    <div class="card">
+      <div class="preview p1">
+        <div class="title">Will It Render?</div>
+        <div class="sub">Ben Fishman · Bar-Ilan · NVIDIA</div>
+      </div>
+      <div class="label">1. Dot grid (current) <span>— small dots, strong fade</span></div>
+    </div>
+
+    <div class="card">
+      <div class="preview p2">
+        <div class="title">Will It Render?</div>
+        <div class="sub">Ben Fishman · Bar-Ilan · NVIDIA</div>
+      </div>
+      <div class="label">2. Larger dots <span>— more airy, softer</span></div>
+    </div>
+
+    <div class="card">
+      <div class="preview p3">
+        <div class="title">Will It Render?</div>
+        <div class="sub">Ben Fishman · Bar-Ilan · NVIDIA</div>
+      </div>
+      <div class="label">3. Diagonal lines <span>— classic hatching</span></div>
+    </div>
+
+    <div class="card">
+      <div class="preview p4">
+        <div class="title">Will It Render?</div>
+        <div class="sub">Ben Fishman · Bar-Ilan · NVIDIA</div>
+      </div>
+      <div class="label">4. Grid lines <span>— graph-paper style</span></div>
+    </div>
+
+    <div class="card">
+      <div class="preview p5">
+        <div class="title">Will It Render?</div>
+        <div class="sub">Ben Fishman · Bar-Ilan · NVIDIA</div>
+      </div>
+      <div class="label">5. Radial glow only <span>— minimal, clean</span></div>
+    </div>
+
+    <div class="card">
+      <div class="preview p6">
+        <div class="title">Will It Render?</div>
+        <div class="sub">Ben Fishman · Bar-Ilan · NVIDIA</div>
+      </div>
+      <div class="label">6. Dense dots + tinted bg <span>— compact, defined</span></div>
+    </div>
+
+  </div>
+</body>
+</html>

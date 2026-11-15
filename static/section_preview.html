@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Section Style Options</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root { --accent: #3b6fb6; --bg: #f0f6ff; }
+    * { box-sizing: border-box; }
+    body {
+      font-family: 'Figtree', sans-serif;
+      background: var(--bg);
+      padding: 2.5rem 1.5rem;
+      color: #4b5563;
+      line-height: 1.65;
+      margin: 0;
+    }
+    h1 { font-size: 0.8rem; color: #888; margin-bottom: 2.5rem; letter-spacing: .05em; text-transform: uppercase; font-family: sans-serif; }
+
+    .row { display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; margin-bottom: 2.5rem; }
+    .col { flex: 1; min-width: 280px; max-width: 340px; }
+    .tag { font-size: 0.72rem; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.9rem; font-family: sans-serif; }
+
+    .content h2 { font-size: 1.15rem; font-weight: 700; color: #111827; margin: 0 0 0.6rem; font-family: 'Figtree', sans-serif; }
+    .content p  { margin: 0; font-size: 0.92rem; }
+
+    /* ── Option 1: soft shadow, large radius ── */
+    .s1 {
+      background: #fff;
+      border-radius: 16px;
+      padding: 1.6rem 1.8rem;
+      box-shadow: 0 2px 16px rgba(59,111,182,.10), 0 1px 4px rgba(0,0,0,.04);
+    }
+
+    /* ── Option 2: border + radius, no shadow ── */
+    .s2 {
+      background: #fff;
+      border-radius: 12px;
+      padding: 1.6rem 1.8rem;
+      border: 1.5px solid #d1e3f8;
+    }
+
+    /* ── Option 3: left accent bar ── */
+    .s3 {
+      background: #fff;
+      border-radius: 0 12px 12px 0;
+      padding: 1.6rem 1.8rem;
+      border-left: 4px solid var(--accent);
+      box-shadow: 0 2px 10px rgba(0,0,0,.06);
+    }
+
+    /* ── Option 4: strong shadow, tight radius ── */
+    .s4 {
+      background: #fff;
+      border-radius: 8px;
+      padding: 1.6rem 1.8rem;
+      box-shadow: 0 4px 24px rgba(59,111,182,.14), 0 1px 4px rgba(0,0,0,.06);
+    }
+
+    /* ── Option 5: very large radius (pill-ish) ── */
+    .s5 {
+      background: #fff;
+      border-radius: 24px;
+      padding: 1.6rem 1.8rem;
+      box-shadow: 0 2px 12px rgba(59,111,182,.08);
+    }
+
+    /* ── Option 6: top accent line ── */
+    .s6 {
+      background: #fff;
+      border-radius: 12px;
+      padding: 1.6rem 1.8rem;
+      box-shadow: 0 2px 10px rgba(0,0,0,.06);
+      border-top: 3px solid var(--accent);
+    }
+  </style>
+</head>
+<body>
+  <h1>Section bubble style options — pick a number</h1>
+
+  <div class="row">
+    <div class="col">
+      <div class="tag">1 — soft shadow + large radius</div>
+      <div class="s1 content">
+        <h2>Abstract</h2>
+        <p>Text-to-video diffusion models generate increasingly realistic videos, yet often fail to render all objects requested by the prompt, particularly as the number of objects grows.</p>
+      </div>
+    </div>
+    <div class="col">
+      <div class="tag">2 — blue border, no shadow</div>
+      <div class="s2 content">
+        <h2>Abstract</h2>
+        <p>Text-to-video diffusion models generate increasingly realistic videos, yet often fail to render all objects requested by the prompt, particularly as the number of objects grows.</p>
+      </div>
+    </div>
+    <div class="col">
+      <div class="tag">3 — left accent bar</div>
+      <div class="s3 content">
+        <h2>Abstract</h2>
+        <p>Text-to-video diffusion models generate increasingly realistic videos, yet often fail to render all objects requested by the prompt, particularly as the number of objects grows.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <div class="tag">4 — stronger shadow, tight radius</div>
+      <div class="s4 content">
+        <h2>Abstract</h2>
+        <p>Text-to-video diffusion models generate increasingly realistic videos, yet often fail to render all objects requested by the prompt, particularly as the number of objects grows.</p>
+      </div>
+    </div>
+    <div class="col">
+      <div class="tag">5 — pill radius, very soft shadow</div>
+      <div class="s5 content">
+        <h2>Abstract</h2>
+        <p>Text-to-video diffusion models generate increasingly realistic videos, yet often fail to render all objects requested by the prompt, particularly as the number of objects grows.</p>
+      </div>
+    </div>
+    <div class="col">
+      <div class="tag">6 — top accent line</div>
+      <div class="s6 content">
+        <h2>Abstract</h2>
+        <p>Text-to-video diffusion models generate increasingly realistic videos, yet often fail to render all objects requested by the prompt, particularly as the number of objects grows.</p>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
