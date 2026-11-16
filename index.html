@@ -430,42 +430,132 @@
 
 <hr class="section-rule">
 
-<!-- ── QUALITATIVE EXAMPLES ───────────────────────────────────────── -->
+<!-- ── SINGLE-OBJECT GUARDRAIL ─────────────────────────────────────── -->
 <section class="section">
   <div class="container is-max-desktop">
-    <h2 class="title is-3 has-text-centered">Qualitative Examples</h2>
-
-    <h3 class="title is-4 has-text-centered">Single-object steering</h3>
-    <div class="video-grid">
-      <video class="result-video" autoplay muted loop playsinline preload="metadata"><source src="static/videos/single_oven.mp4" type="video/mp4"></video>
-      <video class="result-video" autoplay muted loop playsinline preload="metadata"><source src="static/videos/single_horse.mp4" type="video/mp4"></video>
-      <video class="result-video" autoplay muted loop playsinline preload="metadata"><source src="static/videos/single_orange.mp4" type="video/mp4"></video>
+    <h2 class="title is-3 has-text-centered">Single-Object Guardrail</h2>
+    <div class="content has-text-justified">
+      <p>
+        We evaluate on 79 VBench <code>object_class</code> single-object prompts as a guardrail:
+        with only one requested object, backbones already succeed on most clips, and the goal is to verify
+        that steering does not harm this easy regime. AttnSteer improves single-object presence on LTX-2
+        and matches or exceeds every reference model under both detectors.
+      </p>
     </div>
-    <p class="content has-text-centered caption"><b>LTX-2.</b> The unsteered backbone misses or weakly renders the requested object, while A&amp;E can distort it. Download as GIF:
-      <a href="static/gifs/single_oven.gif" download>oven</a> &middot;
-      <a href="static/gifs/single_horse.gif" download>horse</a> &middot;
-      <a href="static/gifs/single_orange.gif" download>orange</a>.</p>
 
-    <h3 class="title is-4 has-text-centered">Multi-object steering on Wan&nbsp;2.1</h3>
-    <div class="video-grid">
-      <video class="result-video" autoplay muted loop playsinline preload="metadata"><source src="static/videos/multi_wan_motorcycle_boat.mp4" type="video/mp4"></video>
-      <video class="result-video" autoplay muted loop playsinline preload="metadata"><source src="static/videos/multi_wan_cow_banana_broccoli.mp4" type="video/mp4"></video>
-      <video class="result-video" autoplay muted loop playsinline preload="metadata"><source src="static/videos/multi_wan_fridge_banana_cat.mp4" type="video/mp4"></video>
-      <video class="result-video" autoplay muted loop playsinline preload="metadata"><source src="static/videos/multi_wan_seven_objects.mp4" type="video/mp4"></video>
+    <div class="table-container">
+      <table class="table is-fullwidth is-narrow is-size-7 results-table">
+        <thead>
+          <tr>
+            <th rowspan="2">Model</th>
+            <th colspan="2">Presence&nbsp;(%)&nbsp;↑</th>
+            <th rowspan="2">VBench&nbsp;(%)&nbsp;↑</th>
+          </tr>
+          <tr>
+            <th>3-det.</th><th>GRiT</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Wan&nbsp;2.2</td><td>88.3</td><td>78.5</td><td>79.8</td></tr>
+          <tr><td>LTX-2.5</td><td>63.6</td><td>54.4</td><td><u>87.0</u></td></tr>
+          <tr><td>MiniMax-H3</td><td>78.5</td><td>74.7</td><td>83.3</td></tr>
+          <tr class="rule-row"><td colspan="4"></td></tr>
+          <tr><td>CogVideoX-5B</td><td>92.3</td><td>81.0</td><td><b>78.3</b></td></tr>
+          <tr><td>&emsp;+ A&amp;E</td><td>90.9</td><td>72.2</td><td>75.4</td></tr>
+          <tr><td>&emsp;+ Ours</td><td><b><u>96.2</u></b></td><td><b>82.3</b></td><td>75.9</td></tr>
+          <tr class="rule-row"><td colspan="4"></td></tr>
+          <tr><td>Wan&nbsp;2.1</td><td><b>92.2</b></td><td><b>81.0</b></td><td>77.0</td></tr>
+          <tr><td>&emsp;+ A&amp;E</td><td>87.2</td><td><b>81.0</b></td><td>76.0</td></tr>
+          <tr><td>&emsp;+ Ours</td><td>88.3</td><td><b>81.0</b></td><td><b>79.7</b></td></tr>
+          <tr class="rule-row"><td colspan="4"></td></tr>
+          <tr><td>LTX-2</td><td><b><u>96.2</u></b></td><td>88.6</td><td><b>82.9</b></td></tr>
+          <tr><td>&emsp;+ A&amp;E</td><td>91.1</td><td>78.5</td><td>82.1</td></tr>
+          <tr><td>&emsp;+ Ours</td><td><b><u>96.2</u></b></td><td><b><u>89.9</u></b></td><td>81.9</td></tr>
+        </tbody>
+      </table>
     </div>
-    <p class="content has-text-centered caption">Requested objects are listed under each example. <span class="has-text-danger"><b>Red</b></span> marks objects neglected by the unsteered backbone. AttnSteer recovers them while preserving the scene better than A&amp;E.</p>
+    <p class="content has-text-centered" style="font-size:0.82rem; color:var(--muted); margin-bottom:1.5rem;">
+      <b>Bold</b> = best within backbone. <u>Underline</u> = overall best (including reference models).
+    </p>
 
-    <h3 class="title is-4 has-text-centered">Multi-object steering on LTX-2</h3>
-    <div class="video-grid">
-      <video class="result-video" autoplay muted loop playsinline preload="metadata"><source src="static/videos/multi_ltx_fridge_skis.mp4" type="video/mp4"></video>
-      <video class="result-video" autoplay muted loop playsinline preload="metadata"><source src="static/videos/multi_ltx_pizza_book_bus.mp4" type="video/mp4"></video>
-      <video class="result-video" autoplay muted loop playsinline preload="metadata"><source src="static/videos/multi_ltx_tie_cow_dog_boat.mp4" type="video/mp4"></video>
-      <video class="result-video" autoplay muted loop playsinline preload="metadata"><source src="static/videos/multi_ltx_bus_teddy_pizza_broccoli.mp4" type="video/mp4"></video>
+    <h3 class="title is-4 has-text-centered" style="margin-top:2rem;">Qualitative examples</h3>
+    <div class="carousel-wrap" style="margin-top:1.25rem;">
+      <div class="carousel-col-headers">
+        <div class="carousel-col-header">Un-steered</div>
+        <div class="carousel-col-header ours">AttnSteer (Ours)</div>
+      </div>
+      <div class="carousel-video-wrap">
+        <video id="car2-video" autoplay muted loop playsinline preload="auto"
+               style="width:100%; display:block;"></video>
+        <div class="carousel-divider"></div>
+      </div>
+      <div class="carousel-prompt-row">
+        <p class="carousel-prompt" id="car2-prompt"></p>
+        <span class="carousel-backend" id="car2-backend"></span>
+      </div>
+      <div class="carousel-nav">
+        <button class="carousel-btn" id="car2-prev" aria-label="Previous">&#8592;</button>
+        <div class="carousel-dots" id="car2-dots"></div>
+        <button class="carousel-btn" id="car2-next" aria-label="Next">&#8594;</button>
+      </div>
+      <p class="carousel-counter" id="car2-counter"></p>
+      <p class="carousel-caption">Each clip shows the <b>un-steered backbone</b> (left) alongside <b>AttnSteer</b> (right), generated from the same prompt and seed.</p>
     </div>
-    <p class="content has-text-centered caption">Same protocol as above.</p>
-
   </div>
 </section>
+
+<script>
+(function () {
+  const CLIPS2 = [
+    {src:"static/videos/carousel/fig12_so68.mp4", prompt:"an oven",   backend:"LTX-2"},
+    {src:"static/videos/carousel/fig12_so17.mp4", prompt:"a horse",   backend:"LTX-2"},
+    {src:"static/videos/carousel/fig12_so49.mp4", prompt:"an orange", backend:"LTX-2"},
+  ];
+
+  const video2     = document.getElementById('car2-video');
+  const promptEl2  = document.getElementById('car2-prompt');
+  const backendEl2 = document.getElementById('car2-backend');
+  const dotsEl2    = document.getElementById('car2-dots');
+  const prevBtn2   = document.getElementById('car2-prev');
+  const nextBtn2   = document.getElementById('car2-next');
+  const counter2   = document.getElementById('car2-counter');
+
+  let idx2 = 0, timer2 = null;
+
+  CLIPS2.forEach((_, i) => {
+    const d = document.createElement('button');
+    d.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+    d.setAttribute('aria-label', 'Clip ' + (i + 1));
+    d.addEventListener('click', () => goTo2(i));
+    dotsEl2.appendChild(d);
+  });
+
+  function goTo2(i) {
+    idx2 = (i + CLIPS2.length) % CLIPS2.length;
+    const c = CLIPS2[idx2];
+    promptEl2.textContent  = c.prompt;
+    backendEl2.textContent = c.backend;
+    video2.src = c.src;
+    video2.load();
+    video2.play().catch(() => {});
+    dotsEl2.querySelectorAll('.carousel-dot').forEach((d, j) => {
+      d.classList.toggle('active', j === idx2);
+    });
+    counter2.textContent = (idx2 + 1) + ' / ' + CLIPS2.length;
+    resetTimer2();
+  }
+
+  function resetTimer2() {
+    clearInterval(timer2);
+    timer2 = setInterval(() => goTo2(idx2 + 1), 6000);
+  }
+
+  prevBtn2.addEventListener('click', () => goTo2(idx2 - 1));
+  nextBtn2.addEventListener('click', () => goTo2(idx2 + 1));
+
+  goTo2(0);
+})();
+</script>
 
 <hr class="section-rule">
 
