@@ -420,8 +420,63 @@ pre {
   margin-bottom: 1.5rem;
 }
 
-.timeline-block {
-  margin-top: 0.6rem;
+.tempo-video-wrap {
+  position: relative;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 4px 14px rgba(0,0,0,.12);
+}
+
+.tempo-video-wrap a {
+  display: block;
+}
+
+.tempo-video-wrap img.result-video {
+  display: block;
+  width: 100%;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+/* Overlay sits on top of the original baked-in bar */
+.timeline-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: #fafcfa;
+  padding: 5px 10px 6px;
+}
+
+.timeline-rows-wrap {
+  position: relative;
+}
+
+/* Cursor: sweeps only over the track area, not the labels */
+.timeline-cursor {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: calc(94px + 0.6rem);
+  right: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.timeline-cursor::after {
+  content: '';
+  position: absolute;
+  top: -2px;
+  bottom: -2px;
+  left: 0%;
+  width: 2px;
+  background: rgba(10,10,10,0.5);
+  animation: timeline-sweep var(--gif-dur, 3.92s) linear infinite;
+}
+
+@keyframes timeline-sweep {
+  from { left: 0%; }
+  to   { left: 100%; }
 }
 
 .timeline-row {
@@ -429,6 +484,10 @@ pre {
   align-items: center;
   gap: 0.6rem;
   margin-bottom: 4px;
+}
+
+.timeline-row:last-child {
+  margin-bottom: 0;
 }
 
 .timeline-label {
@@ -441,7 +500,7 @@ pre {
   letter-spacing: 0.03em;
 }
 
-.timeline-label.ours {
+.timeline-label.ours-label {
   color: var(--accent);
 }
 
@@ -458,9 +517,10 @@ pre {
   background: #e5e7eb;
 }
 
-.timeline-cell.present {
-  background: #22c55e;
-}
+/* Per-row present-cell colors */
+.timeline-row.row-requested .timeline-cell.present { background: #334155; }
+.timeline-row.row-tc        .timeline-cell.present { background: #f97316; }
+.timeline-row.row-ours      .timeline-cell.present { background: var(--accent); }
 /* ---- end temporal timelines ---- */
 
 .footer {

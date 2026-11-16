@@ -601,29 +601,33 @@
     <h3 class="title is-4 has-text-centered" style="margin-top:2rem;">Temporal control examples</h3>
     <div class="content has-text-justified">
       <p>
-        TempoControl (left) vs. AttnSteer (right), played in sync. Below each clip: the requested control signal
-        and the actual per-frame detection for each method (green&nbsp;= object present, grey&nbsp;= absent).
-        Click a GIF to download it.
+        TempoControl (left) vs. AttnSteer (right), played in sync. The timeline overlay shows the requested control
+        signal and the actual per-frame detections for each method. Click a GIF to download it.
       </p>
     </div>
 
-    <!-- sandwich — example with timelines -->
+    <!-- sandwich — example with embedded timeline overlay -->
     <div class="tempo-example">
-      <a href="static/gifs/temporal_paper_sandwich.gif" download>
-        <img class="result-video" loading="lazy" src="static/gifs/temporal_paper_sandwich.gif" alt="Sandwich: TempoControl vs AttnSteer">
-      </a>
-      <div class="timeline-block">
-        <div class="timeline-row">
-          <span class="timeline-label">Requested</span>
-          <div class="timeline-track" data-frames="0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,0,0,0"></div>
-        </div>
-        <div class="timeline-row">
-          <span class="timeline-label">TempoControl</span>
-          <div class="timeline-track" data-frames="0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0"></div>
-        </div>
-        <div class="timeline-row">
-          <span class="timeline-label ours">Ours</span>
-          <div class="timeline-track" data-frames="0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,0,0,0,0"></div>
+      <div class="tempo-video-wrap">
+        <a href="static/gifs/temporal_paper_sandwich.gif" download>
+          <img class="result-video" loading="lazy" src="static/gifs/temporal_paper_sandwich.gif" alt="Sandwich: TempoControl vs AttnSteer">
+        </a>
+        <div class="timeline-overlay">
+          <div class="timeline-rows-wrap" style="--gif-dur: 3.92s">
+            <div class="timeline-cursor"></div>
+            <div class="timeline-row row-requested">
+              <span class="timeline-label">Requested</span>
+              <div class="timeline-track" data-frames="0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,0,0,0"></div>
+            </div>
+            <div class="timeline-row row-tc">
+              <span class="timeline-label">TempoControl</span>
+              <div class="timeline-track" data-frames="0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0"></div>
+            </div>
+            <div class="timeline-row row-ours">
+              <span class="timeline-label ours-label">Ours</span>
+              <div class="timeline-track" data-frames="0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,0,0,0,0"></div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
