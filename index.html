@@ -601,13 +601,34 @@
     <h3 class="title is-4 has-text-centered" style="margin-top:2rem;">Temporal control examples</h3>
     <div class="content has-text-justified">
       <p>
-        TempoControl (left) vs. AttnSteer (right), played in sync. The bar on top is the requested control signal
-        (green: the object should appear in that frame; grey: it should be absent) and the marker follows the
-        current frame. Click a GIF to download it.
+        TempoControl (left) vs. AttnSteer (right), played in sync. Below each clip: the requested control signal
+        and the actual per-frame detection for each method (green&nbsp;= object present, grey&nbsp;= absent).
+        Click a GIF to download it.
       </p>
     </div>
+
+    <!-- sandwich — example with timelines -->
+    <div class="tempo-example">
+      <a href="static/gifs/temporal_paper_sandwich.gif" download>
+        <img class="result-video" loading="lazy" src="static/gifs/temporal_paper_sandwich.gif" alt="Sandwich: TempoControl vs AttnSteer">
+      </a>
+      <div class="timeline-block">
+        <div class="timeline-row">
+          <span class="timeline-label">Requested</span>
+          <div class="timeline-track" data-frames="0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,0,0,0"></div>
+        </div>
+        <div class="timeline-row">
+          <span class="timeline-label">TempoControl</span>
+          <div class="timeline-track" data-frames="0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0"></div>
+        </div>
+        <div class="timeline-row">
+          <span class="timeline-label ours">Ours</span>
+          <div class="timeline-track" data-frames="0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,0,0,0,0"></div>
+        </div>
+      </div>
+    </div>
+
     <div class="video-grid">
-      <a href="static/gifs/temporal_paper_sandwich.gif" download><img class="result-video" loading="lazy" src="static/gifs/temporal_paper_sandwich.gif" alt="Sandwich: TempoControl vs AttnSteer"></a>
       <a href="static/gifs/temporal_paper_car.gif" download><img class="result-video" loading="lazy" src="static/gifs/temporal_paper_car.gif" alt="Car: TempoControl vs AttnSteer"></a>
       <a href="static/gifs/temporal_paper_giraffe.gif" download><img class="result-video" loading="lazy" src="static/gifs/temporal_paper_giraffe.gif" alt="Giraffe: TempoControl vs AttnSteer"></a>
       <a href="static/gifs/temporal_paper_keyboard_phone.gif" download><img class="result-video" loading="lazy" src="static/gifs/temporal_paper_keyboard_phone.gif" alt="Keyboard and phone: TempoControl vs AttnSteer"></a>
@@ -741,5 +762,15 @@
 </footer>
 
 <script src="static/js/index.js"></script>
+<script>
+// Render timeline cells from data-frames="0,1,1,0,..." attributes
+document.querySelectorAll('.timeline-track[data-frames]').forEach(function(track) {
+  track.dataset.frames.split(',').forEach(function(f) {
+    var cell = document.createElement('div');
+    cell.className = 'timeline-cell' + (f.trim() === '1' ? ' present' : '');
+    track.appendChild(cell);
+  });
+});
+</script>
 </body>
 </html>

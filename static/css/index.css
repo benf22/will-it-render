@@ -415,6 +415,54 @@ pre {
 
 /* ---- end carousel ---- */
 
+/* ---- Temporal control timelines ---- */
+.tempo-example {
+  margin-bottom: 1.5rem;
+}
+
+.timeline-block {
+  margin-top: 0.6rem;
+}
+
+.timeline-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 4px;
+}
+
+.timeline-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  width: 94px;
+  flex-shrink: 0;
+  text-align: right;
+  color: #6b7280;
+  letter-spacing: 0.03em;
+}
+
+.timeline-label.ours {
+  color: var(--accent);
+}
+
+.timeline-track {
+  display: flex;
+  flex: 1;
+  gap: 2px;
+}
+
+.timeline-cell {
+  flex: 1;
+  height: 11px;
+  border-radius: 2px;
+  background: #e5e7eb;
+}
+
+.timeline-cell.present {
+  background: #22c55e;
+}
+/* ---- end temporal timelines ---- */
+
 .footer {
   background: transparent;
   border: none;
