@@ -210,9 +210,18 @@ figure.image figcaption {
   color: var(--muted);
 }
 
+.results-table {
+  border-top: 2px solid var(--accent);
+  border-bottom: 2px solid var(--accent);
+}
+
 .results-table thead th {
   text-align: center;
   white-space: nowrap;
+}
+
+.results-table thead tr:last-child th {
+  border-bottom: 2px solid var(--accent);
 }
 
 .results-table td {
@@ -226,7 +235,7 @@ figure.image figcaption {
 }
 
 .results-table tr.block-sep td {
-  border-top: 2px solid var(--rule);
+  border-top: 2px solid var(--accent);
 }
 
 .bibtex-header {
