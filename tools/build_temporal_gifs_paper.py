@@ -34,7 +34,7 @@ DETECTED = {
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--panel", type=int, default=300)
+    ap.add_argument("--panel", type=int, default=480)
     ap.add_argument("--stride", type=int, default=2)
     a = ap.parse_args()
     B.PF = B._perframe_index()
@@ -46,7 +46,7 @@ def main():
         r = m.iloc[0]
         ctrl = {o: "".join(str(int(x)) for x in s) for o, s in bs.controls_of(r).items()}
         dyn = next((o for o, c in ctrl.items() if len(set(c)) > 1), next(iter(ctrl)))
-        label = "control" if len(ctrl) == 1 else f"control ({dyn})"
+        label = "" if len(ctrl) == 1 else dyn
         slug = "paper_" + q.replace(",", "_").replace(" ", "_")
         cap = CAPTIONS[q] + (" (Wan 2.1)" if bb == "WAN" else " (LTX-2)")
         det = DETECTED.get(q.replace(",", "_").replace(" ", "_"), {})

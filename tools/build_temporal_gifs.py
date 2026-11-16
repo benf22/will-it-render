@@ -44,13 +44,14 @@ CASES = [
     ("prompt_122", 2, "bicycle_car", "bicycle + car", ["bicycle", "car"]),
 ]
 
-GREEN  = (47, 125, 50)
-GREY   = (225, 225, 225)
-DARK   = (34, 34, 34)
-MUTED  = (110, 110, 110)
-BLUE   = (53, 125, 189)
-ORANGE = (249, 115, 22)
-SLATE  = (51, 65, 85)
+GREEN   = (47, 125, 50)
+GREY    = (225, 225, 225)
+DARK    = (34, 34, 34)
+MUTED   = (110, 110, 110)
+BLUE    = (53, 125, 189)
+ORANGE  = (249, 115, 22)
+SLATE   = (51, 65, 85)
+WEBBLUE = (59, 111, 182)   # website accent #3b6fb6
 _FONTDIRS = ["/usr/share/fonts/dejavu-sans-fonts", "/usr/share/fonts/truetype/dejavu",
              "/usr/share/fonts/dejavu"]
 
@@ -110,7 +111,7 @@ def global_palette(frames, colors=256):
     sample = [f.resize((f.width // 2, f.height // 2)) for f in frames[::step]]
     ui = Image.new("RGB", (len(sample[0].size) * 0 + sample[0].width, 40))
     d = ImageDraw.Draw(ui)
-    for i, col in enumerate([GREEN, GREY, DARK, MUTED, BLUE, ORANGE, SLATE, (255, 255, 255)]):
+    for i, col in enumerate([GREEN, GREY, DARK, MUTED, BLUE, ORANGE, SLATE, WEBBLUE, (255, 255, 255)]):
         d.rectangle([i * 40, 0, i * 40 + 39, 39], fill=col)
     mosaic = Image.new("RGB", (sample[0].width, sample[0].height * len(sample) + 40))
     for i, f in enumerate(sample):
@@ -154,13 +155,14 @@ def build(slug, caption, ctrl, ctrl_label, tempo_mp4, ours_mp4, panel, stride,
         c = Image.new("RGB", (W, H), (255, 255, 255))
         d = ImageDraw.Draw(c)
         d.text((margin, margin), caption, font=ft, fill=DARK)
-        d.text((W - margin - d.textlength(ctrl_label, font=fs), margin + 6), ctrl_label, font=fs, fill=MUTED)
+        if ctrl_label:
+            d.text((W - margin - d.textlength(ctrl_label, font=fs), margin + 6), ctrl_label, font=fs, fill=MUTED)
         mx = tl_x0 + (t / max(n - 1, 1)) * (tl_x1 - tl_x0)
         if three_rows:
             rows_data = [
-                (ctrl,         "Requested",    SLATE,  SLATE),
-                (tc_detected,  "TempoControl", ORANGE, ORANGE),
-                (ours_detected,"Ours",         BLUE,   BLUE),
+                (ctrl,         "Requested",    WEBBLUE, WEBBLUE),
+                (tc_detected,  "TempoControl", ORANGE,  ORANGE),
+                (ours_detected,"Ours",         GREEN,   GREEN),
             ]
             for ri, (bits, lbl, lbl_col, bar_col) in enumerate(rows_data):
                 ry = tl_y + ri * (row_h + row_gap)
@@ -188,9 +190,10 @@ def build(slug, caption, ctrl, ctrl_label, tempo_mp4, ours_mp4, panel, stride,
             d.line([mx, tl_y - 6, mx, tl_y + 24], fill=DARK, width=3)
             d.polygon([(mx - 6, tl_y - 10), (mx + 6, tl_y - 10), (mx, tl_y - 2)], fill=DARK)
         y = margin + title_h + tl_h
-        tc_col = ORANGE if three_rows else DARK
+        tc_col   = ORANGE if three_rows else DARK
+        ours_col = GREEN  if three_rows else BLUE
         centered(d, margin, margin + pw, y + 2, "TempoControl", fa, tc_col)
-        centered(d, margin + pw + gap, margin + pw + pw2 + gap, y + 2, "Ours", fa, BLUE)
+        centered(d, margin + pw + gap, margin + pw + pw2 + gap, y + 2, "Ours", fa, ours_col)
         c.paste(tempo[t], (margin, y + arm_h))
         c.paste(ours_frames[t], (margin + pw + gap, y + arm_h))
         frames.append(c)
