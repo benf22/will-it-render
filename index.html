@@ -635,6 +635,82 @@
   </div>
 </section>
 
+<!-- ── DATASET ────────────────────────────────────────────────────── -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Dataset</h2>
+    <div class="content has-text-justified">
+      <p>
+        We introduce a 473-prompt multi-object benchmark that extends VBench's
+        <code>multiple_objects</code> dimension from two to seven objects. Each prompt uses
+        VBench's template ("a X and a Y and a Z …") and draws <i>k</i> objects at random from
+        the same 76-class list, under a <b>pairwise-uniqueness constraint</b> — no two objects
+        that share one prompt ever co-occur in another. Because combinations are sampled
+        independently of natural co-occurrence, prompts are frequently unusual (e.g.,
+        <em>"a pizza and a surfboard and a kite"</em>), which makes object presence hard and
+        prevents generators from exploiting familiar scene statistics.
+      </p>
+      <p>
+        All three backbones (LTX-2, Wan&nbsp;2.1, CogVideoX-5B) and all arms (un-steered,
+        Best-of-N, A&amp;E, Ours) are evaluated on the same 473 prompts, each with a fixed
+        random seed shared across arms.
+      </p>
+    </div>
+
+    <div class="columns is-centered" style="margin:1.5rem 0 0.25rem;">
+      <div class="column is-narrow has-text-centered">
+        <p class="stat-number">473</p>
+        <p class="stat-label">prompts total</p>
+      </div>
+      <div class="column is-narrow has-text-centered">
+        <p class="stat-number">76</p>
+        <p class="stat-label">object classes</p>
+      </div>
+      <div class="column is-narrow has-text-centered">
+        <p class="stat-number" style="font-size:2.4rem;">2–7</p>
+        <p class="stat-label">objects per prompt</p>
+      </div>
+    </div>
+
+    <div class="table-container" style="margin-top:1rem;">
+      <table class="table is-fullwidth is-narrow is-size-7 results-table" style="max-width:520px; margin:0 auto;">
+        <thead>
+          <tr>
+            <th style="text-align:left"><i>k</i> (objects / prompt)</th>
+            <th style="text-align:center">2</th>
+            <th style="text-align:center">3</th>
+            <th style="text-align:center">4</th>
+            <th style="text-align:center">5</th>
+            <th style="text-align:center">6</th>
+            <th style="text-align:center">7</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Prompts</td>
+            <td style="text-align:center">80</td>
+            <td style="text-align:center">80</td>
+            <td style="text-align:center">80</td>
+            <td style="text-align:center">80</td>
+            <td style="text-align:center">80</td>
+            <td style="text-align:center">73</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="has-text-centered" style="margin-top:1.75rem;">
+      <!-- TODO: replace # with the actual dataset download URL -->
+      <a class="button is-link is-rounded is-medium" href="#">
+        <span class="icon"><i class="fas fa-download"></i></span>
+        <span>Download prompts (CSV, 473 prompts)</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<hr class="section-rule">
+
 <!-- ── BIBTEX ─────────────────────────────────────────────────────── -->
 <section class="section" id="BibTeX">
   <div class="container is-max-desktop content">
