@@ -17,6 +17,7 @@ import json
 import os
 from pathlib import Path
 
+import imageio
 import decord
 import numpy as np
 from PIL import Image, ImageDraw, ImageFont
@@ -30,7 +31,7 @@ OURS = (f"{B}/LTX_bceHuberM2_allBench/20260821_170259/"
         "frame_reducebce_huber_huber_m2_grad_balanceunitnorm")
 SCORED = os.path.expanduser("~/repos/video_probing/.claude/worktrees/feat+timeline-steering/_scratch")
 NF = 13
-OUT = Path(__file__).resolve().parent.parent / "static" / "gifs"
+OUT = Path(__file__).resolve().parent.parent / "static" / "videos" / "temporal"
 
 # (ours prompt dir, benchmark level, slug, caption, objects)
 CASES = [
@@ -196,14 +197,12 @@ def build(slug, caption, ctrl, ctrl_label, tempo_mp4, ours_mp4, panel, stride,
         centered(d, margin + pw + gap, margin + pw + pw2 + gap, y + 2, "Ours", fa, ours_col)
         c.paste(tempo[t], (margin, y + arm_h))
         c.paste(ours_frames[t], (margin + pw + gap, y + arm_h))
-        frames.append(c)
-    pal = global_palette(frames)
-    frames = [f.quantize(palette=pal, dither=Image.Dither.NONE) for f in frames]
+        frames.append(np.array(c))
     OUT.mkdir(parents=True, exist_ok=True)
-    path = OUT / f"temporal_{slug}.gif"
+    path = OUT / f"temporal_{slug}.mp4"
     fps = fps_src / stride
-    frames[0].save(path, save_all=True, append_images=frames[1:], duration=int(round(1000 / fps)),
-                   loop=0, optimize=True, disposal=1)
+    imageio.mimsave(str(path), frames, fps=fps, format="FFMPEG",
+                    output_params=["-crf", "23", "-pix_fmt", "yuv420p", "-movflags", "+faststart"])
     print(f"wrote {path} ({path.stat().st_size / 1e6:.2f} MB, {len(frames)} frames, {W}x{H})")
 
 
