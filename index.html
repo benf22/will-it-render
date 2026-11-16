@@ -360,6 +360,46 @@
       <b>Bold</b> = best within backbone block; <u>underline</u> = best overall. Inference cost measured on a single H100 GPU; ×base = multiple of un-steered generation time.
     </p>
 
+    <h3 class="title is-4 has-text-centered" style="margin-top:2rem;">VBench Quality Dimensions</h3>
+    <div class="content has-text-justified">
+      <p>
+        AttnSteer preserves or improves video quality across all VBench dimensions. Each bar shows the per-dimension score for one backbone.
+      </p>
+    </div>
+    <div class="columns is-centered" style="margin-top:1.25rem; margin-bottom:0.25rem;">
+      <div class="column">
+        <figure class="image" style="margin:0;">
+          <img src="static/images/fig_vbench_wan.png" alt="Wan 2.1 VBench quality dimensions" style="width:100%;">
+        </figure>
+      </div>
+      <div class="column">
+        <figure class="image" style="margin:0;">
+          <img src="static/images/fig_vbench_ltx.png" alt="LTX-2 VBench quality dimensions" style="width:100%;">
+        </figure>
+      </div>
+      <div class="column">
+        <figure class="image" style="margin:0;">
+          <img src="static/images/fig_vbench_cogx.png" alt="CogVideoX VBench quality dimensions" style="width:100%;">
+        </figure>
+      </div>
+    </div>
+    <!-- shared legend (same methods/colors as presence figures) -->
+    <div style="display:flex; justify-content:center; gap:1.6rem; flex-wrap:wrap; margin:0.6rem 0 0.4rem;">
+      <span style="display:inline-flex; align-items:center; gap:0.45rem; font-size:0.82rem; color:#374151;">
+        <svg width="20" height="12" style="flex-shrink:0;"><rect x="0" y="1" width="20" height="10" rx="2" fill="#9467bd"/></svg>Un-steered
+      </span>
+      <span style="display:inline-flex; align-items:center; gap:0.45rem; font-size:0.82rem; color:#374151;">
+        <svg width="20" height="12" style="flex-shrink:0;"><rect x="0" y="1" width="20" height="10" rx="2" fill="#ff7f0e"/></svg>Attend-and-Excite
+      </span>
+      <span style="display:inline-flex; align-items:center; gap:0.45rem; font-size:0.82rem; color:#374151;">
+        <svg width="20" height="12" style="flex-shrink:0;"><rect x="0" y="1" width="20" height="10" rx="2" fill="#1f77b4"/></svg>Best-of-N
+      </span>
+      <span style="display:inline-flex; align-items:center; gap:0.45rem; font-size:0.82rem; color:#374151; font-weight:700;">
+        <svg width="20" height="12" style="flex-shrink:0;"><rect x="0" y="1" width="20" height="10" rx="2" fill="#2ca02c"/></svg>Ours
+      </span>
+    </div>
+    <p class="content has-text-centered" style="font-size:0.82rem; color:var(--muted); margin-bottom:1.5rem;">Per-dimension VBench scores. Higher is better for all dimensions.</p>
+
     <h3 class="title is-4 has-text-centered">Single-object steering</h3>
     <div class="video-grid">
       <video class="result-video" autoplay muted loop playsinline preload="metadata"><source src="static/videos/single_oven.mp4" type="video/mp4"></video>
