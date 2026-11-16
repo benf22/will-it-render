@@ -44,11 +44,13 @@ CASES = [
     ("prompt_122", 2, "bicycle_car", "bicycle + car", ["bicycle", "car"]),
 ]
 
-GREEN = (47, 125, 50)
-GREY = (225, 225, 225)
-DARK = (34, 34, 34)
-MUTED = (110, 110, 110)
-BLUE = (53, 125, 189)
+GREEN  = (47, 125, 50)
+GREY   = (225, 225, 225)
+DARK   = (34, 34, 34)
+MUTED  = (110, 110, 110)
+BLUE   = (53, 125, 189)
+ORANGE = (249, 115, 22)
+SLATE  = (51, 65, 85)
 _FONTDIRS = ["/usr/share/fonts/dejavu-sans-fonts", "/usr/share/fonts/truetype/dejavu",
              "/usr/share/fonts/dejavu"]
 
@@ -108,7 +110,7 @@ def global_palette(frames, colors=256):
     sample = [f.resize((f.width // 2, f.height // 2)) for f in frames[::step]]
     ui = Image.new("RGB", (len(sample[0].size) * 0 + sample[0].width, 40))
     d = ImageDraw.Draw(ui)
-    for i, col in enumerate([GREEN, GREY, DARK, MUTED, BLUE, (255, 255, 255)]):
+    for i, col in enumerate([GREEN, GREY, DARK, MUTED, BLUE, ORANGE, SLATE, (255, 255, 255)]):
         d.rectangle([i * 40, 0, i * 40 + 39, 39], fill=col)
     mosaic = Image.new("RGB", (sample[0].width, sample[0].height * len(sample) + 40))
     for i, f in enumerate(sample):
@@ -121,44 +123,76 @@ def centered(d, x0, x1, y, s, f, fill):
     d.text((x0 + (x1 - x0 - d.textlength(s, font=f)) / 2, y), s, font=f, fill=fill)
 
 
-def build(slug, caption, ctrl, ctrl_label, tempo_mp4, ours_mp4, panel, stride):
+def build(slug, caption, ctrl, ctrl_label, tempo_mp4, ours_mp4, panel, stride,
+          tc_detected=None, ours_detected=None):
+    three_rows = tc_detected is not None and ours_detected is not None
     tempo, fps_src = read_all(tempo_mp4, panel)
-    ours, _ = read_all(ours_mp4, panel)
-    n = min(len(tempo), len(ours))
-    pw, pw2 = tempo[0].size[0], ours[0].size[0]
+    ours_frames, _ = read_all(ours_mp4, panel)
+    n = min(len(tempo), len(ours_frames))
+    pw, pw2 = tempo[0].size[0], ours_frames[0].size[0]
     NF = len(ctrl)
     margin, gap = 12, 8
     W = margin * 2 + pw + pw2 + gap
-    title_h, tl_h, arm_h = 30, 52, 28
+    label_w = 90
+    tl_x0 = (margin + label_w) if three_rows else margin
+    tl_x1 = W - margin
+    if three_rows:
+        title_h = 30
+        row_h, row_gap = 18, 5
+        tl_h = 3 * row_h + 2 * row_gap + 16  # 80
+        arm_h = 28
+        tl_y = margin + title_h + 8
+    else:
+        title_h, tl_h, arm_h = 30, 52, 28
+        tl_y = margin + title_h + 14
     H = margin + title_h + tl_h + arm_h + panel + margin
     H += H % 2
-    tl_x0, tl_x1 = margin, W - margin
-    tl_y = margin + title_h + 14
     seg = (tl_x1 - tl_x0) / NF
-    ft, fa, fs = font(20, True), font(18, True), font(12)
+    ft, fa, fs, fl = font(20, True), font(18, True), font(12), font(11)
     frames = []
     for t in range(0, n, stride):
         c = Image.new("RGB", (W, H), (255, 255, 255))
         d = ImageDraw.Draw(c)
         d.text((margin, margin), caption, font=ft, fill=DARK)
         d.text((W - margin - d.textlength(ctrl_label, font=fs), margin + 6), ctrl_label, font=fs, fill=MUTED)
-        for i, bit in enumerate(ctrl):
-            x0 = tl_x0 + i * seg
-            d.rectangle([x0 + 1, tl_y, x0 + seg - 1, tl_y + 18], fill=GREEN if bit == "1" else GREY)
-        ly = tl_y + 24
-        d.rectangle([tl_x0, ly + 2, tl_x0 + 12, ly + 12], fill=GREEN)
-        d.text((tl_x0 + 18, ly), "object should appear", font=fs, fill=MUTED)
-        lx = tl_x0 + 18 + d.textlength("object should appear", font=fs) + 16
-        d.rectangle([lx, ly + 2, lx + 12, ly + 12], fill=GREY)
-        d.text((lx + 18, ly), "object should be absent", font=fs, fill=MUTED)
         mx = tl_x0 + (t / max(n - 1, 1)) * (tl_x1 - tl_x0)
-        d.line([mx, tl_y - 6, mx, tl_y + 24], fill=DARK, width=3)
-        d.polygon([(mx - 6, tl_y - 10), (mx + 6, tl_y - 10), (mx, tl_y - 2)], fill=DARK)
+        if three_rows:
+            rows_data = [
+                (ctrl,         "Requested",    SLATE,  SLATE),
+                (tc_detected,  "TempoControl", ORANGE, ORANGE),
+                (ours_detected,"Ours",         BLUE,   BLUE),
+            ]
+            for ri, (bits, lbl, lbl_col, bar_col) in enumerate(rows_data):
+                ry = tl_y + ri * (row_h + row_gap)
+                d.text((margin, ry + 3), lbl, font=fl, fill=lbl_col)
+                nb = len(bits)
+                sb = (tl_x1 - tl_x0) / max(1, nb)
+                for i, bit in enumerate(bits):
+                    x0 = tl_x0 + i * sb
+                    d.rectangle([x0 + 1, ry, x0 + sb - 1, ry + row_h - 1],
+                                fill=bar_col if str(bit) == "1" else GREY)
+            cursor_top = tl_y - 7
+            cursor_bot = tl_y + 3 * row_h + 2 * row_gap + 2
+            d.line([mx, cursor_top, mx, cursor_bot], fill=DARK, width=3)
+            d.polygon([(mx - 6, cursor_top - 8), (mx + 6, cursor_top - 8), (mx, cursor_top)], fill=DARK)
+        else:
+            for i, bit in enumerate(ctrl):
+                x0 = tl_x0 + i * seg
+                d.rectangle([x0 + 1, tl_y, x0 + seg - 1, tl_y + 18], fill=GREEN if bit == "1" else GREY)
+            ly = tl_y + 24
+            d.rectangle([tl_x0, ly + 2, tl_x0 + 12, ly + 12], fill=GREEN)
+            d.text((tl_x0 + 18, ly), "object should appear", font=fs, fill=MUTED)
+            lx = tl_x0 + 18 + d.textlength("object should appear", font=fs) + 16
+            d.rectangle([lx, ly + 2, lx + 12, ly + 12], fill=GREY)
+            d.text((lx + 18, ly), "object should be absent", font=fs, fill=MUTED)
+            d.line([mx, tl_y - 6, mx, tl_y + 24], fill=DARK, width=3)
+            d.polygon([(mx - 6, tl_y - 10), (mx + 6, tl_y - 10), (mx, tl_y - 2)], fill=DARK)
         y = margin + title_h + tl_h
-        centered(d, margin, margin + pw, y + 2, "TempoControl", fa, DARK)
+        tc_col = ORANGE if three_rows else DARK
+        centered(d, margin, margin + pw, y + 2, "TempoControl", fa, tc_col)
         centered(d, margin + pw + gap, margin + pw + pw2 + gap, y + 2, "Ours", fa, BLUE)
         c.paste(tempo[t], (margin, y + arm_h))
-        c.paste(ours[t], (margin + pw + gap, y + arm_h))
+        c.paste(ours_frames[t], (margin + pw + gap, y + arm_h))
         frames.append(c)
     pal = global_palette(frames)
     frames = [f.quantize(palette=pal, dither=Image.Dither.NONE) for f in frames]

@@ -22,6 +22,15 @@ from build_temporal_gifs import build  # noqa: E402
 CAPTIONS = {"sandwich": "sandwich", "car": "car", "giraffe": "giraffe",
             "keyboard,phone": "keyboard + phone", "teddy bear": "teddy bear"}
 
+# Actual per-frame detection labels (13 latent frames, "1"=detected, "0"=absent).
+# Add entries here as examples are confirmed; examples without an entry use the old single-row layout.
+DETECTED = {
+    "sandwich": {
+        "tc":   "1111111111111",   # TempoControl: all frames detected
+        "ours": "0000000111111",   # Ours: onset one frame before requested
+    },
+}
+
 
 def main():
     ap = argparse.ArgumentParser()
@@ -40,7 +49,9 @@ def main():
         label = "control" if len(ctrl) == 1 else f"control ({dyn})"
         slug = "paper_" + q.replace(",", "_").replace(" ", "_")
         cap = CAPTIONS[q] + (" (Wan 2.1)" if bb == "WAN" else " (LTX-2)")
-        build(slug, cap, ctrl[dyn], label, r.mp4_tempo, r.mp4_ours, a.panel, a.stride)
+        det = DETECTED.get(q.replace(",", "_").replace(" ", "_"), {})
+        build(slug, cap, ctrl[dyn], label, r.mp4_tempo, r.mp4_ours, a.panel, a.stride,
+              tc_detected=det.get("tc"), ours_detected=det.get("ours"))
 
 
 if __name__ == "__main__":
