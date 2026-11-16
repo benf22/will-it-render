@@ -313,6 +313,35 @@
     </div>
     <p class="content has-text-centered" style="font-size:0.82rem; color:var(--muted); margin-bottom:1.5rem;">All-object accuracy vs. prompt complexity (<i>k</i> objects). Bands show &plusmn;1 SE.</p>
 
+    <h3 class="title is-4 has-text-centered" style="margin-top:1.5rem;">VBench Quality Dimensions</h3>
+    <div class="content has-text-justified">
+      <p>AttnSteer preserves or improves video quality across all VBench dimensions. Each bar shows the per-dimension score for one backbone.</p>
+    </div>
+    <div class="columns is-centered" style="margin-top:1.25rem; margin-bottom:0.25rem;">
+      <div class="column">
+        <figure class="image" style="margin:0;">
+          <img src="static/images/fig_vbench_wan.png" alt="Wan 2.1 VBench quality dimensions" style="width:100%;">
+        </figure>
+      </div>
+      <div class="column">
+        <figure class="image" style="margin:0;">
+          <img src="static/images/fig_vbench_ltx.png" alt="LTX-2 VBench quality dimensions" style="width:100%;">
+        </figure>
+      </div>
+      <div class="column">
+        <figure class="image" style="margin:0;">
+          <img src="static/images/fig_vbench_cogx.png" alt="CogVideoX VBench quality dimensions" style="width:100%;">
+        </figure>
+      </div>
+    </div>
+    <div style="display:flex; justify-content:center; gap:1.6rem; flex-wrap:wrap; margin:0.6rem 0 0.4rem;">
+      <span style="display:inline-flex; align-items:center; gap:0.45rem; font-size:0.82rem; color:#374151;"><svg width="20" height="12" style="flex-shrink:0;"><rect x="0" y="1" width="20" height="10" rx="2" fill="#9467bd"/></svg>Un-steered</span>
+      <span style="display:inline-flex; align-items:center; gap:0.45rem; font-size:0.82rem; color:#374151;"><svg width="20" height="12" style="flex-shrink:0;"><rect x="0" y="1" width="20" height="10" rx="2" fill="#ff7f0e"/></svg>Attend-and-Excite</span>
+      <span style="display:inline-flex; align-items:center; gap:0.45rem; font-size:0.82rem; color:#374151;"><svg width="20" height="12" style="flex-shrink:0;"><rect x="0" y="1" width="20" height="10" rx="2" fill="#1f77b4"/></svg>Best-of-N</span>
+      <span style="display:inline-flex; align-items:center; gap:0.45rem; font-size:0.82rem; color:#374151; font-weight:700;"><svg width="20" height="12" style="flex-shrink:0;"><rect x="0" y="1" width="20" height="10" rx="2" fill="#2ca02c"/></svg>Ours</span>
+    </div>
+    <p class="content has-text-centered" style="font-size:0.82rem; color:var(--muted); margin-bottom:1.5rem;">Per-dimension VBench scores. Higher is better for all dimensions.</p>
+
     <div class="table-container">
       <table class="table is-fullwidth is-narrow is-size-7 results-table">
         <thead>
@@ -359,103 +388,6 @@
     <p class="content is-size-7" style="margin-top:0.5rem;">
       <b>Bold</b> = best within backbone block; <u>underline</u> = best overall. Inference cost measured on a single H100 GPU; ×base = multiple of un-steered generation time.
     </p>
-
-    <h3 class="title is-4 has-text-centered" style="margin-top:2rem;">VBench Quality Dimensions</h3>
-    <div class="content has-text-justified">
-      <p>
-        AttnSteer preserves or improves video quality across all VBench dimensions. Each bar shows the per-dimension score for one backbone.
-      </p>
-    </div>
-    <div class="columns is-centered" style="margin-top:1.25rem; margin-bottom:0.25rem;">
-      <div class="column">
-        <figure class="image" style="margin:0;">
-          <img src="static/images/fig_vbench_wan.png" alt="Wan 2.1 VBench quality dimensions" style="width:100%;">
-        </figure>
-      </div>
-      <div class="column">
-        <figure class="image" style="margin:0;">
-          <img src="static/images/fig_vbench_ltx.png" alt="LTX-2 VBench quality dimensions" style="width:100%;">
-        </figure>
-      </div>
-      <div class="column">
-        <figure class="image" style="margin:0;">
-          <img src="static/images/fig_vbench_cogx.png" alt="CogVideoX VBench quality dimensions" style="width:100%;">
-        </figure>
-      </div>
-    </div>
-    <!-- shared legend (same methods/colors as presence figures) -->
-    <div style="display:flex; justify-content:center; gap:1.6rem; flex-wrap:wrap; margin:0.6rem 0 0.4rem;">
-      <span style="display:inline-flex; align-items:center; gap:0.45rem; font-size:0.82rem; color:#374151;">
-        <svg width="20" height="12" style="flex-shrink:0;"><rect x="0" y="1" width="20" height="10" rx="2" fill="#9467bd"/></svg>Un-steered
-      </span>
-      <span style="display:inline-flex; align-items:center; gap:0.45rem; font-size:0.82rem; color:#374151;">
-        <svg width="20" height="12" style="flex-shrink:0;"><rect x="0" y="1" width="20" height="10" rx="2" fill="#ff7f0e"/></svg>Attend-and-Excite
-      </span>
-      <span style="display:inline-flex; align-items:center; gap:0.45rem; font-size:0.82rem; color:#374151;">
-        <svg width="20" height="12" style="flex-shrink:0;"><rect x="0" y="1" width="20" height="10" rx="2" fill="#1f77b4"/></svg>Best-of-N
-      </span>
-      <span style="display:inline-flex; align-items:center; gap:0.45rem; font-size:0.82rem; color:#374151; font-weight:700;">
-        <svg width="20" height="12" style="flex-shrink:0;"><rect x="0" y="1" width="20" height="10" rx="2" fill="#2ca02c"/></svg>Ours
-      </span>
-    </div>
-    <p class="content has-text-centered" style="font-size:0.82rem; color:var(--muted); margin-bottom:1.5rem;">Per-dimension VBench scores. Higher is better for all dimensions.</p>
-
-    <h3 class="title is-4 has-text-centered">Single-object steering</h3>
-    <div class="video-grid">
-      <video class="result-video" autoplay muted loop playsinline preload="metadata"><source src="static/videos/single_oven.mp4" type="video/mp4"></video>
-      <video class="result-video" autoplay muted loop playsinline preload="metadata"><source src="static/videos/single_horse.mp4" type="video/mp4"></video>
-      <video class="result-video" autoplay muted loop playsinline preload="metadata"><source src="static/videos/single_orange.mp4" type="video/mp4"></video>
-    </div>
-    <p class="content has-text-centered caption"><b>LTX-2.</b> The unsteered backbone misses or weakly renders the requested object, while A&amp;E can distort it. Download as GIF:
-      <a href="static/gifs/single_oven.gif" download>oven</a> &middot;
-      <a href="static/gifs/single_horse.gif" download>horse</a> &middot;
-      <a href="static/gifs/single_orange.gif" download>orange</a>.</p>
-
-    <h3 class="title is-4 has-text-centered">Multi-object steering on Wan&nbsp;2.1</h3>
-    <div class="video-grid">
-      <video class="result-video" autoplay muted loop playsinline preload="metadata"><source src="static/videos/multi_wan_motorcycle_boat.mp4" type="video/mp4"></video>
-      <video class="result-video" autoplay muted loop playsinline preload="metadata"><source src="static/videos/multi_wan_cow_banana_broccoli.mp4" type="video/mp4"></video>
-      <video class="result-video" autoplay muted loop playsinline preload="metadata"><source src="static/videos/multi_wan_fridge_banana_cat.mp4" type="video/mp4"></video>
-      <video class="result-video" autoplay muted loop playsinline preload="metadata"><source src="static/videos/multi_wan_seven_objects.mp4" type="video/mp4"></video>
-    </div>
-    <p class="content has-text-centered caption">Requested objects are listed under each example. <span class="has-text-danger"><b>Red</b></span> marks objects neglected by the unsteered backbone. AttnSteer recovers them while preserving the scene better than A&amp;E.</p>
-
-    <h3 class="title is-4 has-text-centered">Multi-object steering on LTX-2</h3>
-    <div class="video-grid">
-      <video class="result-video" autoplay muted loop playsinline preload="metadata"><source src="static/videos/multi_ltx_fridge_skis.mp4" type="video/mp4"></video>
-      <video class="result-video" autoplay muted loop playsinline preload="metadata"><source src="static/videos/multi_ltx_pizza_book_bus.mp4" type="video/mp4"></video>
-      <video class="result-video" autoplay muted loop playsinline preload="metadata"><source src="static/videos/multi_ltx_tie_cow_dog_boat.mp4" type="video/mp4"></video>
-      <video class="result-video" autoplay muted loop playsinline preload="metadata"><source src="static/videos/multi_ltx_bus_teddy_pizza_broccoli.mp4" type="video/mp4"></video>
-    </div>
-    <p class="content has-text-centered caption">Same protocol as above.</p>
-
-    <h3 class="title is-4 has-text-centered">Multi-object steering on CogVideoX-5B</h3>
-    <div class="content has-text-justified">
-      <p>
-        The same learned objective transfers to a third backbone. AttnSteer improves all-objects accuracy over A&amp;E
-        at every <i>k</i>, from 47.3% to 58.0% on average across <i>k</i>=2&ndash;7, and also raises the fraction of
-        requested objects that are detected. Values are &plusmn;SE over about 80 prompts per <i>k</i> (73 at <i>k</i>=7);
-        the mean over <i>k</i> has SE &radic;(&Sigma;SE<sub><i>k</i></sub>&sup2;)/6.
-      </p>
-    </div>
-    <!-- cogx-results:start -->
-    <div class="table-container">
-      <table class="table is-fullwidth is-narrow is-size-7 results-table">
-        <thead><tr><th>Model</th><th><i>k</i>=2</th><th><i>k</i>=3</th><th><i>k</i>=4</th><th><i>k</i>=5</th><th><i>k</i>=6</th><th><i>k</i>=7</th><th>Mean</th></tr></thead>
-        <tbody>
-          <tr class="block-sep"><td colspan="8"><b>All objects detected (det-all, %)</b></td></tr>
-          <tr><td>CogVideoX-5B</td><td>80.0 <span class="has-text-grey is-size-7">&plusmn;4.5</span></td><td>43.8 <span class="has-text-grey is-size-7">&plusmn;5.5</span></td><td>20.0 <span class="has-text-grey is-size-7">&plusmn;4.5</span></td><td>11.2 <span class="has-text-grey is-size-7">&plusmn;3.5</span></td><td>2.5 <span class="has-text-grey is-size-7">&plusmn;1.7</span></td><td>0.0 <span class="has-text-grey is-size-7">&plusmn;0.0</span></td><td>26.2 <span class="has-text-grey is-size-7">&plusmn;1.5</span></td></tr>
-          <tr><td>&nbsp;&nbsp;+ A&amp;E</td><td>80.0 <span class="has-text-grey is-size-7">&plusmn;4.5</span></td><td>68.8 <span class="has-text-grey is-size-7">&plusmn;5.2</span></td><td>47.5 <span class="has-text-grey is-size-7">&plusmn;5.6</span></td><td>43.8 <span class="has-text-grey is-size-7">&plusmn;5.5</span></td><td>26.2 <span class="has-text-grey is-size-7">&plusmn;4.9</span></td><td>17.8 <span class="has-text-grey is-size-7">&plusmn;4.5</span></td><td>47.3 <span class="has-text-grey is-size-7">&plusmn;2.1</span></td></tr>
-          <tr><td>&nbsp;&nbsp;+ AttnSteer</td><td><b>93.8 <span class="has-text-grey is-size-7">&plusmn;2.7</span></b></td><td><b>86.2 <span class="has-text-grey is-size-7">&plusmn;3.9</span></b></td><td><b>57.5 <span class="has-text-grey is-size-7">&plusmn;5.5</span></b></td><td><b>47.5 <span class="has-text-grey is-size-7">&plusmn;5.6</span></b></td><td><b>31.2 <span class="has-text-grey is-size-7">&plusmn;5.2</span></b></td><td><b>31.5 <span class="has-text-grey is-size-7">&plusmn;5.4</span></b></td><td><b>58.0 <span class="has-text-grey is-size-7">&plusmn;2.0</span></b></td></tr>
-          <tr class="block-sep"><td colspan="8"><b>Objects detected (det-ratio, %)</b></td></tr>
-          <tr><td>CogVideoX-5B</td><td>88.9 <span class="has-text-grey is-size-7">&plusmn;2.7</span></td><td>74.9 <span class="has-text-grey is-size-7">&plusmn;2.8</span></td><td>69.5 <span class="has-text-grey is-size-7">&plusmn;2.4</span></td><td>61.4 <span class="has-text-grey is-size-7">&plusmn;2.3</span></td><td>57.9 <span class="has-text-grey is-size-7">&plusmn;2.3</span></td><td>55.1 <span class="has-text-grey is-size-7">&plusmn;2.6</span></td><td>68.0 <span class="has-text-grey is-size-7">&plusmn;1.0</span></td></tr>
-          <tr><td>&nbsp;&nbsp;+ A&amp;E</td><td>89.2 <span class="has-text-grey is-size-7">&plusmn;2.7</span></td><td>85.3 <span class="has-text-grey is-size-7">&plusmn;2.6</span></td><td>82.4 <span class="has-text-grey is-size-7">&plusmn;2.3</span></td><td>82.6 <span class="has-text-grey is-size-7">&plusmn;2.0</span></td><td>77.4 <span class="has-text-grey is-size-7">&plusmn;2.1</span></td><td>73.0 <span class="has-text-grey is-size-7">&plusmn;2.2</span></td><td>81.6 <span class="has-text-grey is-size-7">&plusmn;0.9</span></td></tr>
-          <tr><td>&nbsp;&nbsp;+ AttnSteer</td><td><b>96.8 <span class="has-text-grey is-size-7">&plusmn;1.4</span></b></td><td><b>94.8 <span class="has-text-grey is-size-7">&plusmn;1.5</span></b></td><td><b>85.8 <span class="has-text-grey is-size-7">&plusmn;2.2</span></b></td><td><b>88.0 <span class="has-text-grey is-size-7">&plusmn;1.4</span></b></td><td><b>83.0 <span class="has-text-grey is-size-7">&plusmn;1.6</span></b></td><td><b>82.7 <span class="has-text-grey is-size-7">&plusmn;1.8</span></b></td><td><b>88.5 <span class="has-text-grey is-size-7">&plusmn;0.7</span></b></td></tr>
-        </tbody>
-      </table>
-    </div>
-    <!-- cogx-results:end -->
-    <p class="content has-text-centered caption">CogVideoX-5B, 16 frames. Detection is the majority vote of the scoring detectors, on prompts scored in all three arms.</p>
 
     <!-- Aggregation ablation -->
     <h2 class="title is-3 has-text-centered" style="margin-top:3.5rem;">Multi-Object Aggregation</h2>
@@ -521,6 +453,95 @@
         </tbody>
       </table>
     </div>
+
+  </div>
+</section>
+
+<hr class="section-rule">
+
+<!-- ── USER STUDY ─────────────────────────────────────────────────── -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">User Study</h2>
+    <div class="content has-text-justified">
+      <p>
+        To confirm the improvement is visible to people, we ran a paired human-preference study on LTX-2 and Wan&nbsp;2.1,
+        comparing AttnSteer against Attend-and-Excite on object presence, photorealism, and motion smoothness.
+        37 volunteer annotators completed 622 clip judgements. AttnSteer is preferred on every question and both
+        backbones. The largest margin is object presence on Wan&nbsp;2.1 (73.9% of decisive votes);
+        photorealism and motion smoothness — included as quality guardrails — also come out in our favor (58–67%).
+      </p>
+    </div>
+    <figure class="image" style="max-width:580px; margin:0 auto;">
+      <img src="static/images/fig_userstudy.png" alt="User study win rates vs Attend-and-Excite" style="width:100%;">
+    </figure>
+    <p class="content has-text-centered" style="font-size:0.82rem; color:var(--muted); margin-top:0.75rem;">
+      Human preference over Attend-and-Excite. Bars show vote composition (blue = Ours, grey = About the same, orange = A&amp;E). Percentage at right = decisive-vote win rate.
+    </p>
+  </div>
+</section>
+
+<hr class="section-rule">
+
+<!-- ── QUALITATIVE EXAMPLES ───────────────────────────────────────── -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Qualitative Examples</h2>
+
+    <h3 class="title is-4 has-text-centered">Single-object steering</h3>
+    <div class="video-grid">
+      <video class="result-video" autoplay muted loop playsinline preload="metadata"><source src="static/videos/single_oven.mp4" type="video/mp4"></video>
+      <video class="result-video" autoplay muted loop playsinline preload="metadata"><source src="static/videos/single_horse.mp4" type="video/mp4"></video>
+      <video class="result-video" autoplay muted loop playsinline preload="metadata"><source src="static/videos/single_orange.mp4" type="video/mp4"></video>
+    </div>
+    <p class="content has-text-centered caption"><b>LTX-2.</b> The unsteered backbone misses or weakly renders the requested object, while A&amp;E can distort it. Download as GIF:
+      <a href="static/gifs/single_oven.gif" download>oven</a> &middot;
+      <a href="static/gifs/single_horse.gif" download>horse</a> &middot;
+      <a href="static/gifs/single_orange.gif" download>orange</a>.</p>
+
+    <h3 class="title is-4 has-text-centered">Multi-object steering on Wan&nbsp;2.1</h3>
+    <div class="video-grid">
+      <video class="result-video" autoplay muted loop playsinline preload="metadata"><source src="static/videos/multi_wan_motorcycle_boat.mp4" type="video/mp4"></video>
+      <video class="result-video" autoplay muted loop playsinline preload="metadata"><source src="static/videos/multi_wan_cow_banana_broccoli.mp4" type="video/mp4"></video>
+      <video class="result-video" autoplay muted loop playsinline preload="metadata"><source src="static/videos/multi_wan_fridge_banana_cat.mp4" type="video/mp4"></video>
+      <video class="result-video" autoplay muted loop playsinline preload="metadata"><source src="static/videos/multi_wan_seven_objects.mp4" type="video/mp4"></video>
+    </div>
+    <p class="content has-text-centered caption">Requested objects are listed under each example. <span class="has-text-danger"><b>Red</b></span> marks objects neglected by the unsteered backbone. AttnSteer recovers them while preserving the scene better than A&amp;E.</p>
+
+    <h3 class="title is-4 has-text-centered">Multi-object steering on LTX-2</h3>
+    <div class="video-grid">
+      <video class="result-video" autoplay muted loop playsinline preload="metadata"><source src="static/videos/multi_ltx_fridge_skis.mp4" type="video/mp4"></video>
+      <video class="result-video" autoplay muted loop playsinline preload="metadata"><source src="static/videos/multi_ltx_pizza_book_bus.mp4" type="video/mp4"></video>
+      <video class="result-video" autoplay muted loop playsinline preload="metadata"><source src="static/videos/multi_ltx_tie_cow_dog_boat.mp4" type="video/mp4"></video>
+      <video class="result-video" autoplay muted loop playsinline preload="metadata"><source src="static/videos/multi_ltx_bus_teddy_pizza_broccoli.mp4" type="video/mp4"></video>
+    </div>
+    <p class="content has-text-centered caption">Same protocol as above.</p>
+
+    <h3 class="title is-4 has-text-centered">Multi-object steering on CogVideoX-5B</h3>
+    <div class="content has-text-justified">
+      <p>
+        The same learned objective transfers to a third backbone. AttnSteer improves all-objects accuracy over A&amp;E
+        at every <i>k</i>, from 47.3% to 58.0% on average across <i>k</i>=2&ndash;7, and also raises the fraction of
+        requested objects that are detected. Values are &plusmn;SE over about 80 prompts per <i>k</i> (73 at <i>k</i>=7);
+        the mean over <i>k</i> has SE &radic;(&Sigma;SE<sub><i>k</i></sub>&sup2;)/6.
+      </p>
+    </div>
+    <div class="table-container">
+      <table class="table is-fullwidth is-narrow is-size-7 results-table">
+        <thead><tr><th>Model</th><th><i>k</i>=2</th><th><i>k</i>=3</th><th><i>k</i>=4</th><th><i>k</i>=5</th><th><i>k</i>=6</th><th><i>k</i>=7</th><th>Mean</th></tr></thead>
+        <tbody>
+          <tr class="block-sep"><td colspan="8"><b>All objects detected (det-all, %)</b></td></tr>
+          <tr><td>CogVideoX-5B</td><td>80.0 <span class="has-text-grey is-size-7">&plusmn;4.5</span></td><td>43.8 <span class="has-text-grey is-size-7">&plusmn;5.5</span></td><td>20.0 <span class="has-text-grey is-size-7">&plusmn;4.5</span></td><td>11.2 <span class="has-text-grey is-size-7">&plusmn;3.5</span></td><td>2.5 <span class="has-text-grey is-size-7">&plusmn;1.7</span></td><td>0.0 <span class="has-text-grey is-size-7">&plusmn;0.0</span></td><td>26.2 <span class="has-text-grey is-size-7">&plusmn;1.5</span></td></tr>
+          <tr><td>&nbsp;&nbsp;+ A&amp;E</td><td>80.0 <span class="has-text-grey is-size-7">&plusmn;4.5</span></td><td>68.8 <span class="has-text-grey is-size-7">&plusmn;5.2</span></td><td>47.5 <span class="has-text-grey is-size-7">&plusmn;5.6</span></td><td>43.8 <span class="has-text-grey is-size-7">&plusmn;5.5</span></td><td>26.2 <span class="has-text-grey is-size-7">&plusmn;4.9</span></td><td>17.8 <span class="has-text-grey is-size-7">&plusmn;4.5</span></td><td>47.3 <span class="has-text-grey is-size-7">&plusmn;2.1</span></td></tr>
+          <tr><td>&nbsp;&nbsp;+ AttnSteer</td><td><b>93.8 <span class="has-text-grey is-size-7">&plusmn;2.7</span></b></td><td><b>86.2 <span class="has-text-grey is-size-7">&plusmn;3.9</span></b></td><td><b>57.5 <span class="has-text-grey is-size-7">&plusmn;5.5</span></b></td><td><b>47.5 <span class="has-text-grey is-size-7">&plusmn;5.6</span></b></td><td><b>31.2 <span class="has-text-grey is-size-7">&plusmn;5.2</span></b></td><td><b>31.5 <span class="has-text-grey is-size-7">&plusmn;5.4</span></b></td><td><b>58.0 <span class="has-text-grey is-size-7">&plusmn;2.0</span></b></td></tr>
+          <tr class="block-sep"><td colspan="8"><b>Objects detected (det-ratio, %)</b></td></tr>
+          <tr><td>CogVideoX-5B</td><td>88.9 <span class="has-text-grey is-size-7">&plusmn;2.7</span></td><td>74.9 <span class="has-text-grey is-size-7">&plusmn;2.8</span></td><td>69.5 <span class="has-text-grey is-size-7">&plusmn;2.4</span></td><td>61.4 <span class="has-text-grey is-size-7">&plusmn;2.3</span></td><td>57.9 <span class="has-text-grey is-size-7">&plusmn;2.3</span></td><td>55.1 <span class="has-text-grey is-size-7">&plusmn;2.6</span></td><td>68.0 <span class="has-text-grey is-size-7">&plusmn;1.0</span></td></tr>
+          <tr><td>&nbsp;&nbsp;+ A&amp;E</td><td>89.2 <span class="has-text-grey is-size-7">&plusmn;2.7</span></td><td>85.3 <span class="has-text-grey is-size-7">&plusmn;2.6</span></td><td>82.4 <span class="has-text-grey is-size-7">&plusmn;2.3</span></td><td>82.6 <span class="has-text-grey is-size-7">&plusmn;2.0</span></td><td>77.4 <span class="has-text-grey is-size-7">&plusmn;2.1</span></td><td>73.0 <span class="has-text-grey is-size-7">&plusmn;2.2</span></td><td>81.6 <span class="has-text-grey is-size-7">&plusmn;0.9</span></td></tr>
+          <tr><td>&nbsp;&nbsp;+ AttnSteer</td><td><b>96.8 <span class="has-text-grey is-size-7">&plusmn;1.4</span></b></td><td><b>94.8 <span class="has-text-grey is-size-7">&plusmn;1.5</span></b></td><td><b>85.8 <span class="has-text-grey is-size-7">&plusmn;2.2</span></b></td><td><b>88.0 <span class="has-text-grey is-size-7">&plusmn;1.4</span></b></td><td><b>83.0 <span class="has-text-grey is-size-7">&plusmn;1.6</span></b></td><td><b>82.7 <span class="has-text-grey is-size-7">&plusmn;1.8</span></b></td><td><b>88.5 <span class="has-text-grey is-size-7">&plusmn;0.7</span></b></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="content has-text-centered caption">CogVideoX-5B, 16 frames. Detection is the majority vote of the scoring detectors, on prompts scored in all three arms.</p>
 
   </div>
 </section>
