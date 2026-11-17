@@ -53,9 +53,10 @@
 
     <div class="tldr-box">
       <span class="tldr-label">TL;DR</span>
-      We train a 37k-parameter probe on the generator's own videos to predict whether each requested
-object will render, then use it as a differentiable steering signal at inference time —
-no model retraining, no hand-crafted objectives.
+      <strong>The problem</strong>: not all requested objects are rendered by text-to-video models. <strong>Our Solution</strong>: trainning a tiny
+model (37k parameters) on the generator's attention maps which predict whether each requested
+object will render. Then, we use it as a differentiable steering signal at inference time —
+no model retraining, no hand-crafted objectives needed.
     </div>
 
     <div class="carousel-wrap">
@@ -173,9 +174,7 @@ renders a requested object.</p>
 intermediate cross-attention. AttnSteer is trained entirely on the generator's own trajectories using
 automatically obtained detector labels and contains only 37k parameters. At inference time, its predictions
 define differentiable objectives for steering object presence; the same framework also extends to
-frame-level temporal control. AttnSteer improves all-objects accuracy over the strongest baseline from
-49.0% to 61.9% on LTX-2 and from 42.1% to 46.5% on Wan&nbsp;2.1, and raises temporal specificity from
-35.7% to 52.6%, at comparable video quality.</p>
+frame-level temporal control. AttnSteer improves all-objects accuracy over the strongest baseline at comparable video quality.</p>
     </div>
   </div>
 </section>
@@ -237,22 +236,25 @@ frame-level temporal control. AttnSteer improves all-objects accuracy over the s
 
     <h3 class="title is-4" style="margin-top:1.5rem;">Inference</h3>
     <div class="content has-text-justified">
-      <p>At inference time, the probe's predictions define differentiable objectives for steering object presence.
+      <p>At inference time, AttnSteer's predictions define differentiable objectives for steering object presence.
 The video latent is optimized while the generator stays fixed. For multi-object prompts, independent
-per-object updates can conflict: we normalize each object's gradient, anchor the update on the object
-least likely to be rendered, and suppress locally opposing contributions.</p>
+per-object updates can conflict: we filtering out objects which are likely to be rendered,
+for the remain objects we normalize each ones gradient, and aggragate all objects' gradients 
+while suppress locally opposing contributions.</p>
     </div>
     <figure class="image">
       <img src="static/images/fig_method.png" alt="Inference-time steering with AttnSteer">
-      <figcaption class="content has-text-centered"><strong>Inference-time steering.</strong> At each selected denoising step, object-specific attention features are
-scored by the frozen AttnSteer predictor, and the latent is updated along the resulting gradient.</figcaption>
+      <figcaption class="content has-text-centered"><strong>Inference-time steering.</strong> At selected denoising steps (yellow), we run a few optimization steps (purple).
+In optimization steps we extract object's cross-attention maps and pass them throuh frozen AttnSteer 
+predictor (blue). Then we backpropagate the gradient, together with filtering, normalization and aggragation
+logic (red pass) to update the latent.</figcaption>
     </figure>
 
     <h3 class="title is-4" style="margin-top:2rem;">AttnSteer Training</h3>
     <div class="content has-text-justified">
-      <p>We train a small probe to predict whether each requested object will be rendered, using per-step,
+      <p>We train a tiny model - AttnSteer to predict whether each requested object will be rendered. We use per-step,
 per-layer, per-head cross-attention features from the frozen generator. Labels come from detectors
-run on the generator's own final videos, so no external video supervision is needed.</p>
+run on the generator's own final videos.</p>
     </div>
     <figure class="image">
       <img src="static/images/fig_training.png" alt="Training AttnSteer with self-generated supervision">
@@ -268,12 +270,9 @@ are paired with detector labels from its final video.</figcaption>
 <section class="section">
   <div class="container is-max-desktop">
 
-    <h2 class="title is-3 has-text-centered">Multi-Object Object Presence</h2>
-    <div class="content has-text-justified">
-      <p>We evaluate on 473 short prompts with the extended VBench object benchmark. The table reports the
-detection ratio and the fraction of clips where <em>all</em> requested objects are detected, overall and
-by <em>k</em>, the number of requested objects. The gain grows with <em>k</em>.</p>
-    </div>
+    <h2 class="title is-3 has-text-centered">Quantitative Results</h2>
+
+    <h3 class="title is-4 has-text-centered" style="margin-top:1.5rem;">All Objects Accuracy</h3>
     <div class="columns is-centered" style="margin-top:1.25rem; margin-bottom:0.25rem;">
       <div class="column">
         <figure class="image" style="margin:0;">
@@ -338,6 +337,11 @@ Each bar shows the per-dimension score for one backbone.</p>
     </div>
     <p class="content has-text-centered" style="font-size:0.82rem; color:var(--muted); margin-bottom:1.5rem;">Per-dimension VBench scores. Higher is better for all dimensions.</p>
 
+    <h3 class="title is-4 has-text-centered" style="margin-top:1.5rem;">Full Results Table</h3>
+    <div class="content has-text-justified">
+      <p>The table reports the detection ratio and the fraction of clips where <em>all</em> requested objects are
+detected, overall and by <em>k</em>, the number of requested objects. The gain grows with <em>k</em>.</p>
+    </div>
     <div class="table-container">
       <table class="table is-fullwidth is-narrow is-size-7 results-table">
         <thead>

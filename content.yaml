@@ -5,10 +5,11 @@ page_description: "AttnSteer: a learned cross-attention steering model that make
 og_description: "AttnSteer predicts object rendering from intermediate cross-attention and steers video latents toward it at inference time."
 
 tldr: |
-  We train a 37k-parameter probe on the generator's own videos to predict whether each requested
-  object will render, then use it as a differentiable steering signal at inference time —
-  no model retraining, no hand-crafted objectives.
-
+  **The problem**: not all requested objects are rendered by text-to-video models. **Our Solution**: trainning a tiny
+  model (37k parameters) on the generator's attention maps which predict whether each requested
+  object will render. Then, we use it as a differentiable steering signal at inference time —
+  no model retraining, no hand-crafted objectives needed.
+  
 carousel_caption: |
   Each clip shows the **un-steered backbone** (left) alongside **AttnSteer** (right),
   generated from the same prompt and seed.
@@ -26,33 +27,34 @@ abstract_p2: |
   intermediate cross-attention. AttnSteer is trained entirely on the generator's own trajectories using
   automatically obtained detector labels and contains only 37k parameters. At inference time, its predictions
   define differentiable objectives for steering object presence; the same framework also extends to
-  frame-level temporal control. AttnSteer improves all-objects accuracy over the strongest baseline from
-  49.0% to 61.9% on LTX-2 and from 42.1% to 46.5% on Wan&nbsp;2.1, and raises temporal specificity from
-  35.7% to 52.6%, at comparable video quality.
+  frame-level temporal control. AttnSteer improves all-objects accuracy over the strongest baseline at comparable video quality.
 
 method_inference_text: |
-  At inference time, the probe's predictions define differentiable objectives for steering object presence.
+  At inference time, AttnSteer's predictions define differentiable objectives for steering object presence.
   The video latent is optimized while the generator stays fixed. For multi-object prompts, independent
-  per-object updates can conflict: we normalize each object's gradient, anchor the update on the object
-  least likely to be rendered, and suppress locally opposing contributions.
+  per-object updates can conflict: we filtering out objects which are likely to be rendered,
+  for the remain objects we normalize each ones gradient, and aggragate all objects' gradients 
+  while suppress locally opposing contributions.
 
 method_inference_caption: |
-  **Inference-time steering.** At each selected denoising step, object-specific attention features are
-  scored by the frozen AttnSteer predictor, and the latent is updated along the resulting gradient.
+  **Inference-time steering.** At selected denoising steps (yellow), we run a few optimization steps (purple).
+  In optimization steps we extract object's cross-attention maps and pass them throuh frozen AttnSteer 
+  predictor (blue). Then we backpropagate the gradient, together with filtering, normalization and aggragation
+  logic (red pass) to update the latent.
 
 method_training_text: |
-  We train a small probe to predict whether each requested object will be rendered, using per-step,
+  We train a tiny model - AttnSteer to predict whether each requested object will be rendered. We use per-step,
   per-layer, per-head cross-attention features from the frozen generator. Labels come from detectors
-  run on the generator's own final videos, so no external video supervision is needed.
+  run on the generator's own final videos.
 
 method_training_caption: |
   **Training with self-generated supervision.** Cross-attention features from the frozen generator
   are paired with detector labels from its final video.
 
 results_intro: |
-  We evaluate on 473 short prompts with the extended VBench object benchmark. The table reports the
-  detection ratio and the fraction of clips where *all* requested objects are detected, overall and
-  by *k*, the number of requested objects. The gain grows with *k*.
+  The table reports the detection ratio and the fraction of clips where *all* requested objects are
+  detected, overall and by *k*, the number of requested objects. The gain grows with *k*.
+
 
 results_all_objects_caption: "All-object accuracy vs. prompt complexity (*k* objects). Bands show &plusmn;1 SE."
 
