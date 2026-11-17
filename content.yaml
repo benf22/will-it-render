@@ -1,0 +1,121 @@
+page_title: "Will It Render? Learned Attention Steering for Object Presence in Text-to-Video"
+
+page_description: "AttnSteer: a learned cross-attention steering model that makes text-to-video diffusion models render every object the prompt requests."
+
+og_description: "AttnSteer predicts object rendering from intermediate cross-attention and steers video latents toward it at inference time."
+
+tldr: |
+  We train a 37k-parameter probe on the generator's own videos to predict whether each requested
+  object will render, then use it as a differentiable steering signal at inference time —
+  no model retraining, no hand-crafted objectives.
+
+carousel_caption: |
+  Each clip shows the **un-steered backbone** (left) alongside **AttnSteer** (right),
+  generated from the same prompt and seed.
+
+abstract_p1: |
+  Text-to-video diffusion models generate increasingly realistic videos, yet often fail to render all objects
+  requested by the prompt, particularly as the number of objects grows. Improving such fine-grained adherence
+  through training requires substantial video supervision, motivating inference-time methods that steer
+  intermediate diffusion latents. Existing approaches typically define hand-crafted objectives over
+  cross-attention maps, relying on indirect attention statistics rather than whether the model ultimately
+  renders a requested object.
+
+abstract_p2: |
+  We propose **AttnSteer**, a learned attention-steering model that predicts object rendering directly from
+  intermediate cross-attention. AttnSteer is trained entirely on the generator's own trajectories using
+  automatically obtained detector labels and contains only 37k parameters. At inference time, its predictions
+  define differentiable objectives for steering object presence; the same framework also extends to
+  frame-level temporal control. AttnSteer improves all-objects accuracy over the strongest baseline from
+  49.0% to 61.9% on LTX-2 and from 42.1% to 46.5% on Wan&nbsp;2.1, and raises temporal specificity from
+  35.7% to 52.6%, at comparable video quality.
+
+method_inference_text: |
+  At inference time, the probe's predictions define differentiable objectives for steering object presence.
+  The video latent is optimized while the generator stays fixed. For multi-object prompts, independent
+  per-object updates can conflict: we normalize each object's gradient, anchor the update on the object
+  least likely to be rendered, and suppress locally opposing contributions.
+
+method_inference_caption: |
+  **Inference-time steering.** At each selected denoising step, object-specific attention features are
+  scored by the frozen AttnSteer predictor, and the latent is updated along the resulting gradient.
+
+method_training_text: |
+  We train a small probe to predict whether each requested object will be rendered, using per-step,
+  per-layer, per-head cross-attention features from the frozen generator. Labels come from detectors
+  run on the generator's own final videos, so no external video supervision is needed.
+
+method_training_caption: |
+  **Training with self-generated supervision.** Cross-attention features from the frozen generator
+  are paired with detector labels from its final video.
+
+results_intro: |
+  We evaluate on 473 short prompts with the extended VBench object benchmark. The table reports the
+  detection ratio and the fraction of clips where *all* requested objects are detected, overall and
+  by *k*, the number of requested objects. The gain grows with *k*.
+
+results_all_objects_caption: "All-object accuracy vs. prompt complexity (*k* objects). Bands show &plusmn;1 SE."
+
+vbench_intro: |
+  AttnSteer preserves or improves video quality across all VBench dimensions.
+  Each bar shows the per-dimension score for one backbone.
+
+vbench_caption: "Per-dimension VBench scores. Higher is better for all dimensions."
+
+results_table_note: |
+  **Bold** = best within backbone block; <u>underline</u> = best overall.
+  Inference cost measured on a single H100 GPU; &times;base = multiple of un-steered generation time.
+
+userstudy_text: |
+  To confirm the improvement is visible to people, we ran a paired human-preference study on LTX-2
+  and Wan&nbsp;2.1, comparing AttnSteer against Attend-and-Excite on object presence, photorealism,
+  and motion smoothness. 37 volunteer annotators completed 622 clip judgements. AttnSteer is preferred
+  on every question and both backbones. The largest margin is object presence on Wan&nbsp;2.1
+  (73.9% of decisive votes); photorealism and motion smoothness — included as quality guardrails —
+  also come out in our favor (58–67%).
+
+userstudy_caption: "Bars show share of all votes; percentage at right = decisive-vote win rate for Ours."
+
+single_object_text: |
+  We evaluate on 79 VBench `object_class` single-object prompts as a guardrail:
+  with only one requested object, backbones already succeed on most clips, and the goal is to verify
+  that steering does not harm this easy regime. AttnSteer in fact improves single-object presence on
+  LTX-2 under both detectors, while leaving VBench quality unchanged.
+
+single_object_table_note: "**Bold** = best within backbone. <u>Underline</u> = best across all backbones."
+
+carousel_caption_2: |
+  Each clip shows the **un-steered backbone** (left) alongside **AttnSteer** (right),
+  generated from the same prompt and seed.
+
+temporal_text: |
+  The same learned objective applies frame by frame, so it can control *when* an object appears. On
+  single-object prompts, where an object must enter at a prescribed time, AttnSteer raises specificity
+  from 31.2% to 52.6%, meaning fewer frames before the requested onset are wrongly filled. Temporal
+  alignment (t-IoU) rises from 40.6% to 45.0%, and VBench quality is unchanged (74.7 vs. 75.1).
+
+temporal_examples_text: |
+  TempoControl (left) vs. AttnSteer (right), played in sync. The timeline shows the requested control
+  signal and the actual per-frame detections for each method.
+
+temporal_examples_caption: "The five examples from the main paper (LTX-2, and Wan&nbsp;2.1 for the teddy bear)."
+
+dataset_p1: |
+  We introduce a 473-prompt multi-object benchmark that extends VBench's `multiple_objects` dimension
+  from two to seven objects. Each prompt uses VBench's template ("a X and a Y and a Z …") and draws
+  *k* objects at random from the same 76-class list, under a **pairwise-uniqueness constraint** — no
+  two objects that share one prompt ever co-occur in another. Because combinations are sampled
+  independently of natural co-occurrence, prompts are frequently unusual (e.g.,
+  *"a pizza and a surfboard and a kite"*), which makes object presence hard and prevents generators
+  from exploiting familiar scene statistics.
+
+dataset_p2: |
+  All three backbones (LTX-2, Wan&nbsp;2.1, CogVideoX-5B) and all arms (un-steered, Best-of-N,
+  A&amp;E, Ours) are evaluated on the same 473 prompts, each with a fixed random seed shared
+  across arms.
+
+footer_text: |
+  This page is a template-based project page. Content is licensed under a
+  [Creative Commons Attribution-ShareAlike 4.0 International License](http://creativecommons.org/licenses/by-sa/4.0/).
+
+footer_template: "Template: [Academic Project Page Template](https://github.com/eliahuhorwitz/Academic-project-page-template) by Eliahu Horwitz."

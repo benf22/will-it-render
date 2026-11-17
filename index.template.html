@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ page_title }}</title>
+  <meta name="description" content="{{ page_description }}">
+  <meta property="og:title" content="{{ page_title }}">
+  <meta property="og:description" content="{{ og_description }}">
+  <meta property="og:image" content="static/images/fig_teaser.png">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Figtree:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="static/css/index.css">
+</head>
+<body>
+
+<!-- ── HEADER ──────────────────────────────────────────────────────── -->
+<section class="hero publication-header">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title"><span class="title-wir">Will It Render?</span><br>Learned Attention Steering for Object Presence in Text-to-Video</h1>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">Ben Fishman<sup>1</sup>,</span>
+            <span class="author-block">Dvir Samuel<sup>2</sup>,</span>
+            <span class="author-block">Gal Chechik<sup>1,2</sup>,</span>
+            <span class="author-block">Idan Schwartz<sup>1</sup></span>
+            <div class="is-size-6">
+              <span class="author-block"><sup>1</sup>Bar-Ilan University &nbsp;&nbsp; <sup>2</sup>NVIDIA</span>
+            </div>
+          </div>
+          <div class="publication-links link-block">
+            <span class="venue-badge">WACV 2027</span>
+            <span class="link-block"><a class="external-link button is-normal is-rounded is-dark" href="#"><span class="icon"><i class="fas fa-file-pdf"></i></span><span>Paper</span></a></span>
+            <span class="link-block"><a class="external-link button is-normal is-rounded is-dark" href="#"><span class="icon"><i class="ai ai-arxiv"></i></span><span>arXiv</span></a></span>
+            <span class="link-block"><a class="external-link button is-normal is-rounded is-dark" href="#"><span class="icon"><i class="fab fa-github"></i></span><span>Code</span></a></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── TL;DR + CAROUSEL ───────────────────────────────────────────── -->
+<section class="section section-teaser">
+  <div class="container is-max-desktop">
+
+    <div class="tldr-box">
+      <span class="tldr-label">TL;DR</span>
+      {{ tldr }}
+    </div>
+
+    <div class="carousel-wrap">
+      <div class="carousel-col-headers">
+        <div class="carousel-col-header">Un-steered</div>
+        <div class="carousel-col-header ours">AttnSteer (Ours)</div>
+      </div>
+      <div class="carousel-video-wrap">
+        <video id="car-video" autoplay muted loop playsinline preload="auto"
+               style="width:100%;height:360px;object-fit:contain;display:block;"></video>
+        <div class="carousel-divider"></div>
+      </div>
+      <div class="carousel-prompt-row">
+        <p class="carousel-prompt" id="car-prompt"></p>
+        <span class="carousel-backend" id="car-backend"></span>
+      </div>
+      <div class="carousel-nav">
+        <button class="carousel-btn" id="car-prev" aria-label="Previous">&#8592;</button>
+        <div class="carousel-dots" id="car-dots"></div>
+        <button class="carousel-btn" id="car-next" aria-label="Next">&#8594;</button>
+      </div>
+      <p class="carousel-counter" id="car-counter"></p>
+      <p class="carousel-caption">{{ carousel_caption }}</p>
+    </div>
+  </div>
+</section>
+
+<script>
+(function () {
+  const CLIPS = [
+    // Figure 1 — teaser examples
+    {src:"static/videos/carousel/fig1_ltx375.mp4",  prompt:"a snowboard and a car and a refrigerator",                                             fig:"Fig. 1", backend:"LTX-2"},
+    {src:"static/videos/carousel/fig1_ltx259.mp4",  prompt:"a tie and a cow and a dog and a boat",                                                 fig:"Fig. 1", backend:"LTX-2"},
+    {src:"static/videos/carousel/fig1_wan281.mp4",  prompt:"a kite and a baseball bat",                                                             fig:"Fig. 1", backend:"Wan 2.1"},
+    {src:"static/videos/carousel/fig1_wan318.mp4",  prompt:"a bus and a teddy bear and a pizza and broccoli",                                       fig:"Fig. 1", backend:"Wan 2.1"},
+    {src:"static/videos/carousel/fig1_wan231.mp4",  prompt:"a tie and a book and a dog and a frisbee and a fork",                                   fig:"Fig. 1", backend:"Wan 2.1"},
+    // Figure 6 — multi-object comparison (Wan 2.1, LTX-2, CogVideoX)
+    {src:"static/videos/carousel/fig6_wan145.mp4",  prompt:"a bicycle and a vase and a cup and a toaster and a microwave and a horse",              fig:"Fig. 6", backend:"Wan 2.1"},
+    {src:"static/videos/carousel/fig6_wan52.mp4",   prompt:"a donut and an umbrella and a sink",                                                    fig:"Fig. 6", backend:"Wan 2.1"},
+    {src:"static/videos/carousel/fig6_ltx4.mp4",    prompt:"a sandwich and a book and a stop sign and a truck and a banana",                        fig:"Fig. 6", backend:"LTX-2"},
+    {src:"static/videos/carousel/fig6_ltx42.mp4",   prompt:"an oven and skis and a toilet and a chair and a person and a tie and a cell phone",     fig:"Fig. 6", backend:"LTX-2"},
+    {src:"static/videos/carousel/fig6_cogx144.mp4", prompt:"a zebra and an elephant and a fire hydrant and skis",                                   fig:"Fig. 6", backend:"CogVideoX"},
+    {src:"static/videos/carousel/fig6_cogx168.mp4", prompt:"a refrigerator and an elephant and a kite",                                             fig:"Fig. 6", backend:"CogVideoX"},
+    // Figure 12 — single-object examples
+    {src:"static/videos/carousel/fig12_so68.mp4",   prompt:"an oven",                                                                               fig:"Fig. 12", backend:"LTX-2"},
+    {src:"static/videos/carousel/fig12_so17.mp4",   prompt:"a horse",                                                                               fig:"Fig. 12", backend:"LTX-2"},
+    {src:"static/videos/carousel/fig12_so49.mp4",   prompt:"an orange",                                                                              fig:"Fig. 12", backend:"LTX-2"},
+  ];
+
+  const video     = document.getElementById('car-video');
+  const promptEl  = document.getElementById('car-prompt');
+  const backendEl = document.getElementById('car-backend');
+  const dotsEl    = document.getElementById('car-dots');
+  const prevBtn   = document.getElementById('car-prev');
+  const nextBtn   = document.getElementById('car-next');
+  const counter   = document.getElementById('car-counter');
+
+  let idx = 0, timer = null;
+
+  CLIPS.forEach((_, i) => {
+    const d = document.createElement('button');
+    d.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+    d.setAttribute('aria-label', 'Clip ' + (i + 1));
+    d.addEventListener('click', () => goTo(i));
+    dotsEl.appendChild(d);
+  });
+
+  function goTo(i) {
+    idx = (i + CLIPS.length) % CLIPS.length;
+    const c = CLIPS[idx];
+    promptEl.textContent  = c.prompt;
+    backendEl.textContent = c.backend;
+    video.src = c.src;
+    video.load();
+    video.play().catch(() => {});
+    dotsEl.querySelectorAll('.carousel-dot').forEach((d, j) => {
+      d.classList.toggle('active', j === idx);
+    });
+    counter.textContent = (idx + 1) + ' / ' + CLIPS.length;
+    resetTimer();
+  }
+
+  function resetTimer() {
+    clearInterval(timer);
+    timer = setInterval(() => goTo(idx + 1), 6000);
+  }
+
+  prevBtn.addEventListener('click', () => goTo(idx - 1));
+  nextBtn.addEventListener('click', () => goTo(idx + 1));
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowLeft')  goTo(idx - 1);
+    if (e.key === 'ArrowRight') goTo(idx + 1);
+  });
+
+  goTo(0);
+})();
+</script>
+
+<hr class="section-rule">
+
+<!-- ── ABSTRACT ──────────────────────────────────────────────────── -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Abstract</h2>
+    <div class="content has-text-justified">
+      <p>{{ abstract_p1 }}</p>
+      <p>{{ abstract_p2 }}</p>
+    </div>
+  </div>
+</section>
+
+<hr class="section-rule">
+
+<!-- ── KEY RESULTS ───────────────────────────────────────────────── -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Key Results</h2>
+    <div class="columns is-centered has-text-centered stat-row">
+
+      <div class="column">
+        <p class="stat-label" style="font-weight:700; font-size:0.95rem; margin-bottom:0.5rem; color:#555;">
+          LTX-2 &nbsp;&middot;&nbsp; All-objects accuracy
+        </p>
+        <div style="display:flex; align-items:baseline; justify-content:center; gap:0.5rem;">
+          <span style="font-size:2.2rem; font-weight:600; color:#bbb;">49.0<span style="font-size:1rem; font-weight:400;">%</span></span>
+          <span style="font-size:2rem; color:#999; line-height:1; margin: 0 0.1rem;">&#8594;</span>
+          <p class="stat-number" style="margin:0; line-height:1;">61.9<span class="stat-unit">%</span></p>
+        </div>
+        <p class="stat-label" style="margin-top:0.4rem;"><span class="stat-base">A&amp;E &rarr; AttnSteer (ours)</span></p>
+      </div>
+
+      <div class="column">
+        <p class="stat-label" style="font-weight:700; font-size:0.95rem; margin-bottom:0.5rem; color:#555;">
+          Wan&nbsp;2.1 &nbsp;&middot;&nbsp; All-objects accuracy
+        </p>
+        <div style="display:flex; align-items:baseline; justify-content:center; gap:0.5rem;">
+          <span style="font-size:2.2rem; font-weight:600; color:#bbb;">42.1<span style="font-size:1rem; font-weight:400;">%</span></span>
+          <span style="font-size:2rem; color:#999; line-height:1; margin: 0 0.1rem;">&#8594;</span>
+          <p class="stat-number" style="margin:0; line-height:1;">46.5<span class="stat-unit">%</span></p>
+        </div>
+        <p class="stat-label" style="margin-top:0.4rem;"><span class="stat-base">A&amp;E &rarr; AttnSteer (ours)</span></p>
+      </div>
+
+      <div class="column">
+        <p class="stat-label" style="font-weight:700; font-size:0.95rem; margin-bottom:0.5rem; color:#555;">
+          LTX-2 &nbsp;&middot;&nbsp; Temporal specificity
+        </p>
+        <div style="display:flex; align-items:baseline; justify-content:center; gap:0.5rem;">
+          <span style="font-size:2.2rem; font-weight:600; color:#bbb;">35.7<span style="font-size:1rem; font-weight:400;">%</span></span>
+          <span style="font-size:2rem; color:#999; line-height:1; margin: 0 0.1rem;">&#8594;</span>
+          <p class="stat-number" style="margin:0; line-height:1;">52.6<span class="stat-unit">%</span></p>
+        </div>
+        <p class="stat-label" style="margin-top:0.4rem;"><span class="stat-base">TempoControl &rarr; AttnSteer (ours)</span></p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<hr class="section-rule">
+
+<!-- ── METHOD ────────────────────────────────────────────────────── -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Method</h2>
+
+    <h3 class="title is-4" style="margin-top:1.5rem;">Inference</h3>
+    <div class="content has-text-justified">
+      <p>{{ method_inference_text }}</p>
+    </div>
+    <figure class="image">
+      <img src="static/images/fig_method.png" alt="Inference-time steering with AttnSteer">
+      <figcaption class="content has-text-centered">{{ method_inference_caption }}</figcaption>
+    </figure>
+
+    <h3 class="title is-4" style="margin-top:2rem;">AttnSteer Training</h3>
+    <div class="content has-text-justified">
+      <p>{{ method_training_text }}</p>
+    </div>
+    <figure class="image">
+      <img src="static/images/fig_training.png" alt="Training AttnSteer with self-generated supervision">
+      <figcaption class="content has-text-centered">{{ method_training_caption }}</figcaption>
+    </figure>
+  </div>
+</section>
+
+<hr class="section-rule">
+
+<!-- ── RESULTS ───────────────────────────────────────────────────── -->
+<section class="section">
+  <div class="container is-max-desktop">
+
+    <h2 class="title is-3 has-text-centered">Multi-Object Object Presence</h2>
+    <div class="content has-text-justified">
+      <p>{{ results_intro }}</p>
+    </div>
+    <div class="columns is-centered" style="margin-top:1.25rem; margin-bottom:0.25rem;">
+      <div class="column">
+        <figure class="image" style="margin:0;">
+          <img src="static/images/fig_results_wan.png" alt="Wan 2.1 all-object accuracy by k" style="width:100%;">
+        </figure>
+      </div>
+      <div class="column">
+        <figure class="image" style="margin:0;">
+          <img src="static/images/fig_results_ltx.png" alt="LTX-2 all-object accuracy by k" style="width:100%;">
+        </figure>
+      </div>
+      <div class="column">
+        <figure class="image" style="margin:0;">
+          <img src="static/images/fig_results_cogx.png" alt="CogVideoX all-object accuracy by k" style="width:100%;">
+        </figure>
+      </div>
+    </div>
+    <!-- shared legend -->
+    <div style="display:flex; justify-content:center; gap:1.6rem; flex-wrap:wrap; margin:0.6rem 0 0.4rem;">
+      <span style="display:inline-flex; align-items:center; gap:0.45rem; font-size:0.82rem; color:#374151;">
+        <svg width="28" height="10" style="flex-shrink:0;"><line x1="0" y1="5" x2="28" y2="5" stroke="#9467bd" stroke-width="2"/><circle cx="14" cy="5" r="3.5" fill="#9467bd"/></svg>Un-steered
+      </span>
+      <span style="display:inline-flex; align-items:center; gap:0.45rem; font-size:0.82rem; color:#374151;">
+        <svg width="28" height="10" style="flex-shrink:0;"><line x1="0" y1="5" x2="28" y2="5" stroke="#ff7f0e" stroke-width="2"/><circle cx="14" cy="5" r="3.5" fill="#ff7f0e"/></svg>Attend-and-Excite
+      </span>
+      <span style="display:inline-flex; align-items:center; gap:0.45rem; font-size:0.82rem; color:#374151;">
+        <svg width="28" height="10" style="flex-shrink:0;"><line x1="0" y1="5" x2="28" y2="5" stroke="#1f77b4" stroke-width="2"/><circle cx="14" cy="5" r="3.5" fill="#1f77b4"/></svg>Best-of-N
+      </span>
+      <span style="display:inline-flex; align-items:center; gap:0.45rem; font-size:0.82rem; color:#374151; font-weight:700;">
+        <svg width="28" height="10" style="flex-shrink:0;"><line x1="0" y1="5" x2="28" y2="5" stroke="#2ca02c" stroke-width="2"/><circle cx="14" cy="5" r="3.5" fill="#2ca02c"/></svg>Ours
+      </span>
+    </div>
+    <p class="content has-text-centered" style="font-size:0.82rem; color:var(--muted); margin-bottom:1.5rem;">{{ results_all_objects_caption }}</p>
+
+    <h3 class="title is-4 has-text-centered" style="margin-top:1.5rem;">VBench Quality Dimensions</h3>
+    <div class="content has-text-justified">
+      <p>{{ vbench_intro }}</p>
+    </div>
+    <div class="columns is-centered" style="margin-top:1.25rem; margin-bottom:0.25rem;">
+      <div class="column">
+        <figure class="image" style="margin:0;">
+          <img src="static/images/fig_vbench_wan.png" alt="Wan 2.1 VBench quality dimensions" style="width:100%;">
+        </figure>
+      </div>
+      <div class="column">
+        <figure class="image" style="margin:0;">
+          <img src="static/images/fig_vbench_ltx.png" alt="LTX-2 VBench quality dimensions" style="width:100%;">
+        </figure>
+      </div>
+      <div class="column">
+        <figure class="image" style="margin:0;">
+          <img src="static/images/fig_vbench_cogx.png" alt="CogVideoX VBench quality dimensions" style="width:100%;">
+        </figure>
+      </div>
+    </div>
+    <div style="display:flex; justify-content:center; gap:1.6rem; flex-wrap:wrap; margin:0.6rem 0 0.4rem;">
+      <span style="display:inline-flex; align-items:center; gap:0.45rem; font-size:0.82rem; color:#374151;"><svg width="20" height="12" style="flex-shrink:0;"><rect x="0" y="1" width="20" height="10" rx="2" fill="#9467bd"/></svg>Un-steered</span>
+      <span style="display:inline-flex; align-items:center; gap:0.45rem; font-size:0.82rem; color:#374151;"><svg width="20" height="12" style="flex-shrink:0;"><rect x="0" y="1" width="20" height="10" rx="2" fill="#ff7f0e"/></svg>Attend-and-Excite</span>
+      <span style="display:inline-flex; align-items:center; gap:0.45rem; font-size:0.82rem; color:#374151;"><svg width="20" height="12" style="flex-shrink:0;"><rect x="0" y="1" width="20" height="10" rx="2" fill="#1f77b4"/></svg>Best-of-N</span>
+      <span style="display:inline-flex; align-items:center; gap:0.45rem; font-size:0.82rem; color:#374151; font-weight:700;"><svg width="20" height="12" style="flex-shrink:0;"><rect x="0" y="1" width="20" height="10" rx="2" fill="#2ca02c"/></svg>Ours</span>
+    </div>
+    <p class="content has-text-centered" style="font-size:0.82rem; color:var(--muted); margin-bottom:1.5rem;">{{ vbench_caption }}</p>
+
+    <div class="table-container">
+      <table class="table is-fullwidth is-narrow is-size-7 results-table">
+        <thead>
+          <tr>
+            <th rowspan="2">Model</th>
+            <th rowspan="2">Params</th>
+            <th rowspan="2">Det.&nbsp;ratio&nbsp;(%)&nbsp;↑</th>
+            <th colspan="7">All-object accuracy&nbsp;(%)&nbsp;↑</th>
+            <th colspan="2">Quality&nbsp;(%)&nbsp;↑</th>
+            <th colspan="3">Inference cost</th>
+          </tr>
+          <tr>
+            <th>mean</th><th>k=2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th>
+            <th>VBench</th><th>MUSIQ</th>
+            <th>Upd.&nbsp;↓</th><th>Time(s)&nbsp;↓</th><th>&times;base&nbsp;↓</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Reference models -->
+          <tr><td>Wan&nbsp;2.2</td><td>5&nbsp;B</td><td>78.9</td><td>38.3</td><td>87.5</td><td>52.5</td><td>35.0</td><td>35.0</td><td>7.5</td><td>9.6</td><td>84.4</td><td>75.4</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
+          <tr><td>LTX-2.5</td><td>22&nbsp;B</td><td>62.1</td><td>17.5</td><td>45.0</td><td>16.3</td><td>17.5</td><td>11.3</td><td>8.7</td><td>5.5</td><td><u>86.9</u></td><td>73.6</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
+          <tr><td>MiniMax-H3</td><td>33&nbsp;B</td><td>84.6</td><td>49.7</td><td>90.0</td><td>55.0</td><td>33.8</td><td>48.7</td><td>36.2</td><td>32.9</td><td>81.5</td><td>64.8</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
+          <!-- Wan 2.1 block -->
+          <tr class="rule-row"><td colspan="15"></td></tr>
+          <tr><td>Wan&nbsp;2.1</td><td>1.3&nbsp;B</td><td>73.4</td><td>27.1</td><td>80.6</td><td>31.5</td><td>24.3</td><td>22.7</td><td>1.6</td><td>2.1</td><td>79.9</td><td>75.5</td><td>0</td><td>26.2</td><td>1.00&times;</td></tr>
+          <tr><td>&emsp;+ Best-of-N</td><td></td><td>81.7</td><td>40.4</td><td><b>93.6</b></td><td>59.5</td><td>35.9</td><td>28.2</td><td>11.8</td><td>13.2</td><td>80.1</td><td><b>75.5</b></td><td>0</td><td>78.5</td><td>3.00&times;</td></tr>
+          <tr><td>&emsp;+ A&amp;E</td><td></td><td>79.8</td><td>39.2</td><td>83.1</td><td>52.1</td><td>47.6</td><td>27.5</td><td>11.1</td><td>13.7</td><td>79.2</td><td>71.8</td><td>53</td><td>66.4</td><td>2.54&times;</td></tr>
+          <tr><td>&emsp;+ Ours</td><td></td><td><b>89.3</b></td><td><b>59.9</b></td><td>90.9</td><td><b>72.4</b></td><td><b>60.9</b></td><td><b>54.9</b></td><td><b>41.3</b></td><td><b>39.3</b></td><td><b>82.5</b></td><td>74.6</td><td>23</td><td>70.2</td><td>2.68&times;</td></tr>
+          <!-- LTX-2 block -->
+          <tr class="rule-row"><td colspan="15"></td></tr>
+          <tr><td>LTX-2</td><td>22&nbsp;B</td><td>78.9</td><td>38.3</td><td>75.6</td><td>60.3</td><td>35.5</td><td>26.3</td><td>20.0</td><td>12.1</td><td>83.7</td><td>70.6</td><td>0</td><td>59.8</td><td>1.00&times;</td></tr>
+          <tr><td>&emsp;+ Best-of-N</td><td></td><td>85.9</td><td>51.1</td><td>88.6</td><td>67.5</td><td>49.4</td><td>45.6</td><td>30.4</td><td>25.0</td><td><b>84.3</b></td><td>70.7</td><td>0</td><td>179.4</td><td>3.00&times;</td></tr>
+          <tr><td>&emsp;+ A&amp;E</td><td></td><td>78.3</td><td>37.8</td><td>74.7</td><td>52.6</td><td>33.3</td><td>27.8</td><td>25.7</td><td>12.5</td><td>84.1</td><td>70.5</td><td>55</td><td>149.2</td><td>2.50&times;</td></tr>
+          <tr><td>&emsp;+ Ours</td><td></td><td><b><u>93.9</u></b></td><td><b><u>75.5</u></b></td><td><b><u>95.0</u></b></td><td><b><u>86.7</u></b></td><td><b><u>84.4</u></b></td><td><b><u>68.9</u></b></td><td><b><u>65.7</u></b></td><td><b><u>52.3</u></b></td><td>83.5</td><td><b>71.3</b></td><td>30</td><td>145.5</td><td>2.43&times;</td></tr>
+          <!-- CogVideoX-5B block -->
+          <tr class="rule-row"><td colspan="15"></td></tr>
+          <tr><td>CogVideoX-5B</td><td>5&nbsp;B</td><td>73.1</td><td>30.5</td><td>80.0</td><td>54.1</td><td>20.3</td><td>13.4</td><td>8.6</td><td>6.5</td><td><b>79.5</b></td><td>66.6</td><td>0</td><td>135.0</td><td>1.00&times;</td></tr>
+          <tr><td>&emsp;+ Best-of-N</td><td></td><td>82.2</td><td>43.9</td><td>92.4</td><td>73.4</td><td>40.5</td><td>27.0</td><td>21.1</td><td>8.8</td><td>79.3</td><td>67.4</td><td>0</td><td>404.9</td><td>3.00&times;</td></tr>
+          <tr><td>&emsp;+ A&amp;E</td><td></td><td>87.3</td><td>56.1</td><td>92.4</td><td>69.7</td><td>52.9</td><td>49.3</td><td>43.3</td><td>28.8</td><td>79.1</td><td>65.6</td><td>54</td><td>358.5</td><td>2.66&times;</td></tr>
+          <tr><td>&emsp;+ Ours</td><td></td><td><b>91.2</b></td><td><b>65.9</b></td><td><b>94.9</b></td><td><b>81.8</b></td><td><b>64.4</b></td><td><b>61.1</b></td><td><b>57.1</b></td><td><b>36.2</b></td><td>78.4</td><td><b>70.6</b></td><td>13</td><td>278.9</td><td>2.07&times;</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="content is-size-7" style="margin-top:0.5rem;">{{ results_table_note }}</p>
+
+  </div>
+</section>
+
+<hr class="section-rule">
+
+<!-- ── USER STUDY ─────────────────────────────────────────────────── -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">User Study</h2>
+    <div class="content has-text-justified">
+      <p>{{ userstudy_text }}</p>
+    </div>
+    <div class="columns is-centered" style="margin-top:1.25rem; margin-bottom:0.25rem;">
+      <div class="column">
+        <figure class="image" style="margin:0;">
+          <img src="static/images/fig_userstudy_ltx.png" alt="LTX-2 user study win rates vs Attend-and-Excite" style="width:100%;">
+        </figure>
+      </div>
+      <div class="column">
+        <figure class="image" style="margin:0;">
+          <img src="static/images/fig_userstudy_wan.png" alt="Wan 2.1 user study win rates vs Attend-and-Excite" style="width:100%;">
+        </figure>
+      </div>
+    </div>
+    <div style="display:flex; justify-content:center; gap:1.6rem; flex-wrap:wrap; margin:0.6rem 0 0.4rem;">
+      <span style="display:inline-flex; align-items:center; gap:0.45rem; font-size:0.82rem; color:#374151;"><svg width="20" height="12" style="flex-shrink:0;"><rect x="0" y="1" width="20" height="10" rx="2" fill="#2ca02c"/></svg>Ours</span>
+      <span style="display:inline-flex; align-items:center; gap:0.45rem; font-size:0.82rem; color:#374151;"><svg width="20" height="12" style="flex-shrink:0;"><rect x="0" y="1" width="20" height="10" rx="2" fill="#c9ced4"/></svg>About the same</span>
+      <span style="display:inline-flex; align-items:center; gap:0.45rem; font-size:0.82rem; color:#374151;"><svg width="20" height="12" style="flex-shrink:0;"><rect x="0" y="1" width="20" height="10" rx="2" fill="#ff7f0e"/></svg>Attend-and-Excite</span>
+    </div>
+    <p class="content has-text-centered" style="font-size:0.82rem; color:var(--muted); margin-bottom:0;">{{ userstudy_caption }}</p>
+  </div>
+</section>
+
+<hr class="section-rule">
+
+<!-- ── SINGLE-OBJECT GUARDRAIL ─────────────────────────────────────── -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Single-Object Guardrail</h2>
+    <div class="content has-text-justified">
+      <p>{{ single_object_text }}</p>
+    </div>
+
+    <div class="table-container">
+      <table class="table is-fullwidth is-narrow is-size-7 results-table">
+        <thead>
+          <tr>
+            <th rowspan="2">Metric</th>
+            <th colspan="3" style="text-align:center; box-shadow:inset 0 -3px 0 0 var(--accent);">CogVideoX-5B</th>
+            <th colspan="3" style="text-align:center; box-shadow:inset 0 -3px 0 0 var(--accent); border-left:2px solid var(--accent);">Wan&nbsp;2.1</th>
+            <th colspan="3" style="text-align:center; box-shadow:inset 0 -3px 0 0 var(--accent); border-left:2px solid var(--accent);">LTX-2</th>
+          </tr>
+          <tr>
+            <th style="text-align:center">Base</th><th style="text-align:center">+A&amp;E</th><th style="text-align:center">+Ours</th>
+            <th style="text-align:center; border-left:2px solid var(--accent)">Base</th><th style="text-align:center">+A&amp;E</th><th style="text-align:center">+Ours</th>
+            <th style="text-align:center; border-left:2px solid var(--accent)">Base</th><th style="text-align:center">+A&amp;E</th><th style="text-align:center">+Ours</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Presence 3-det.&nbsp;(%)&nbsp;↑</td>
+            <td>92.3</td><td>90.9</td><td><b><u>96.2</u></b></td>
+            <td style="text-align:center; border-left:2px solid var(--accent)"><b>92.2</b></td><td>87.2</td><td>88.3</td>
+            <td style="text-align:center; border-left:2px solid var(--accent)"><b><u>96.2</u></b></td><td>91.1</td><td><b><u>96.2</u></b></td>
+          </tr>
+          <tr>
+            <td>Presence GRiT&nbsp;(%)&nbsp;↑</td>
+            <td>81.0</td><td>72.2</td><td><b>82.3</b></td>
+            <td style="text-align:center; border-left:2px solid var(--accent)"><b>81.0</b></td><td><b>81.0</b></td><td><b>81.0</b></td>
+            <td style="text-align:center; border-left:2px solid var(--accent)">88.6</td><td>78.5</td><td><b><u>89.9</u></b></td>
+          </tr>
+          <tr>
+            <td>VBench&nbsp;(%)&nbsp;↑</td>
+            <td><b>78.3</b></td><td>75.4</td><td>75.9</td>
+            <td style="text-align:center; border-left:2px solid var(--accent)">77.0</td><td>76.0</td><td><b>79.7</b></td>
+            <td style="text-align:center; border-left:2px solid var(--accent)"><b>82.9</b></td><td>82.1</td><td>81.9</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="content has-text-centered" style="font-size:0.82rem; color:var(--muted); margin-bottom:1.5rem;">{{ single_object_table_note }}</p>
+
+    <h3 class="title is-4 has-text-centered" style="margin-top:2rem;">Qualitative examples</h3>
+    <div class="carousel-wrap" style="margin-top:1.25rem;">
+      <div class="carousel-col-headers">
+        <div class="carousel-col-header">Un-steered</div>
+        <div class="carousel-col-header ours">AttnSteer (Ours)</div>
+      </div>
+      <div class="carousel-video-wrap">
+        <video id="car2-video" autoplay muted loop playsinline preload="auto"
+               style="width:100%; display:block;"></video>
+        <div class="carousel-divider"></div>
+      </div>
+      <div class="carousel-prompt-row">
+        <p class="carousel-prompt" id="car2-prompt"></p>
+        <span class="carousel-backend" id="car2-backend"></span>
+      </div>
+      <div class="carousel-nav">
+        <button class="carousel-btn" id="car2-prev" aria-label="Previous">&#8592;</button>
+        <div class="carousel-dots" id="car2-dots"></div>
+        <button class="carousel-btn" id="car2-next" aria-label="Next">&#8594;</button>
+      </div>
+      <p class="carousel-counter" id="car2-counter"></p>
+      <p class="carousel-caption">{{ carousel_caption_2 }}</p>
+    </div>
+  </div>
+</section>
+
+<script>
+(function () {
+  const CLIPS2 = [
+    {src:"static/videos/carousel/fig12_so68.mp4", prompt:"an oven",   backend:"LTX-2"},
+    {src:"static/videos/carousel/fig12_so17.mp4", prompt:"a horse",   backend:"LTX-2"},
+    {src:"static/videos/carousel/fig12_so49.mp4", prompt:"an orange", backend:"LTX-2"},
+  ];
+
+  const video2     = document.getElementById('car2-video');
+  const promptEl2  = document.getElementById('car2-prompt');
+  const backendEl2 = document.getElementById('car2-backend');
+  const dotsEl2    = document.getElementById('car2-dots');
+  const prevBtn2   = document.getElementById('car2-prev');
+  const nextBtn2   = document.getElementById('car2-next');
+  const counter2   = document.getElementById('car2-counter');
+
+  let idx2 = 0, timer2 = null;
+
+  CLIPS2.forEach((_, i) => {
+    const d = document.createElement('button');
+    d.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+    d.setAttribute('aria-label', 'Clip ' + (i + 1));
+    d.addEventListener('click', () => goTo2(i));
+    dotsEl2.appendChild(d);
+  });
+
+  function goTo2(i) {
+    idx2 = (i + CLIPS2.length) % CLIPS2.length;
+    const c = CLIPS2[idx2];
+    promptEl2.textContent  = c.prompt;
+    backendEl2.textContent = c.backend;
+    video2.src = c.src;
+    video2.load();
+    video2.play().catch(() => {});
+    dotsEl2.querySelectorAll('.carousel-dot').forEach((d, j) => {
+      d.classList.toggle('active', j === idx2);
+    });
+    counter2.textContent = (idx2 + 1) + ' / ' + CLIPS2.length;
+    resetTimer2();
+  }
+
+  function resetTimer2() {
+    clearInterval(timer2);
+    timer2 = setInterval(() => goTo2(idx2 + 1), 6000);
+  }
+
+  prevBtn2.addEventListener('click', () => goTo2(idx2 - 1));
+  nextBtn2.addEventListener('click', () => goTo2(idx2 + 1));
+
+  goTo2(0);
+})();
+</script>
+
+<hr class="section-rule">
+
+<!-- ── TEMPORAL CONTROL ───────────────────────────────────────────── -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Temporal Control</h2>
+    <div class="content has-text-justified">
+      <p>{{ temporal_text }}</p>
+    </div>
+    <div class="table-container">
+      <table class="table is-fullwidth is-narrow is-size-7 results-table">
+        <thead>
+          <tr>
+            <th rowspan="2">Model</th>
+            <th colspan="6" style="text-align:center; box-shadow:inset 0 -3px 0 0 var(--accent);">Single object (n=80)</th>
+            <th colspan="6" style="text-align:center; box-shadow:inset 0 -3px 0 0 var(--accent); border-left:2px solid var(--accent);">Static + dynamic (n=82)</th>
+          </tr>
+          <tr>
+            <th style="text-align:center">Prec.</th><th style="text-align:center">Rec.</th><th style="text-align:center">Spec.</th><th style="text-align:center">F1</th><th style="text-align:center">t-IoU</th><th style="text-align:center">R@0.5</th>
+            <th style="text-align:center; border-left:2px solid var(--accent)">Prec.</th><th style="text-align:center">Rec.</th><th style="text-align:center">Spec.</th><th style="text-align:center">F1</th><th style="text-align:center">t-IoU</th><th style="text-align:center">R@0.5</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>LTX-2</td><td>55.9</td><td>78.9</td><td>31.2</td><td>58.6</td><td>40.6</td><td>37.5</td><td style="border-left:2px solid var(--accent)">86.4</td><td>77.1</td><td>54.1</td><td>83.0</td><td>67.4</td><td>78.7</td></tr>
+          <tr><td>&emsp;+ TempoControl</td><td>57.7</td><td>80.9</td><td>35.7</td><td>60.5</td><td>41.8</td><td>37.5</td><td style="border-left:2px solid var(--accent)">87.1</td><td>80.5</td><td>53.7</td><td>83.1</td><td>70.8</td><td>81.7</td></tr>
+          <tr><td>&emsp;+ AttnSteer</td><td><b>63.8</b></td><td>68.1</td><td><b>52.6</b></td><td><b>62.5</b></td><td><b>45.0</b></td><td><b>45.0</b></td><td style="border-left:2px solid var(--accent)"><b>87.2</b></td><td><b>84.1</b></td><td>52.2</td><td><b>85.5</b></td><td><b>74.5</b></td><td><b>85.4</b></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="title is-4 has-text-centered" style="margin-top:2rem;">Temporal control examples</h3>
+    <div class="content has-text-justified">
+      <p>{{ temporal_examples_text }}</p>
+    </div>
+
+    <div class="video-grid">
+      <video class="result-video" autoplay muted loop playsinline style="grid-column: 1 / -1;" src="static/videos/temporal/temporal_paper_sandwich.mp4"></video>
+      <video class="result-video" autoplay muted loop playsinline src="static/videos/temporal/temporal_paper_car.mp4"></video>
+      <video class="result-video" autoplay muted loop playsinline src="static/videos/temporal/temporal_paper_giraffe.mp4"></video>
+      <video class="result-video" autoplay muted loop playsinline src="static/videos/temporal/temporal_paper_keyboard_phone.mp4"></video>
+      <video class="result-video" autoplay muted loop playsinline style="grid-column: 1 / -1;" src="static/videos/temporal/temporal_paper_teddy_bear.mp4"></video>
+    </div>
+    <p class="caption has-text-centered">{{ temporal_examples_caption }}</p>
+
+    <div class="content">
+      <p><b>More examples (supplementary, LTX-2), GIF downloads:</b></p>
+      <ul>
+        <li>Single object:
+          <a href="static/gifs/temporal_teddy_bear.gif" download>teddy bear</a> &middot;
+          <a href="static/gifs/temporal_giraffe.gif" download>giraffe</a> &middot;
+          <a href="static/gifs/temporal_remote.gif" download>remote</a> &middot;
+          <a href="static/gifs/temporal_person.gif" download>person</a> &middot;
+          <a href="static/gifs/temporal_fire_hydrant.gif" download>fire hydrant</a></li>
+        <li>Static + dynamic:
+          <a href="static/gifs/temporal_boat_airplane.gif" download>boat + airplane</a> &middot;
+          <a href="static/gifs/temporal_teddy_bear_frisbee.gif" download>teddy bear + frisbee</a> &middot;
+          <a href="static/gifs/temporal_bicycle_car.gif" download>bicycle + car</a></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ── DATASET ────────────────────────────────────────────────────── -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Dataset</h2>
+    <div class="content has-text-justified">
+      <p>{{ dataset_p1 }}</p>
+      <p>{{ dataset_p2 }}</p>
+    </div>
+
+    <div class="columns is-centered" style="margin:1.5rem 0 0.25rem;">
+      <div class="column is-narrow has-text-centered">
+        <p class="stat-number">473</p>
+        <p class="stat-label">prompts total</p>
+      </div>
+      <div class="column is-narrow has-text-centered">
+        <p class="stat-number">76</p>
+        <p class="stat-label">object classes</p>
+      </div>
+      <div class="column is-narrow has-text-centered">
+        <p class="stat-number" style="font-size:2.4rem;">2–7</p>
+        <p class="stat-label">objects per prompt</p>
+      </div>
+    </div>
+
+    <div class="table-container" style="margin-top:1rem;">
+      <table class="table is-fullwidth is-narrow is-size-7 results-table" style="max-width:520px; margin:0 auto;">
+        <thead>
+          <tr>
+            <th style="text-align:left"><i>k</i> (objects / prompt)</th>
+            <th style="text-align:center">2</th>
+            <th style="text-align:center">3</th>
+            <th style="text-align:center">4</th>
+            <th style="text-align:center">5</th>
+            <th style="text-align:center">6</th>
+            <th style="text-align:center">7</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Prompts</td>
+            <td style="text-align:center">80</td>
+            <td style="text-align:center">80</td>
+            <td style="text-align:center">80</td>
+            <td style="text-align:center">80</td>
+            <td style="text-align:center">80</td>
+            <td style="text-align:center">73</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="has-text-centered" style="margin-top:1.75rem;">
+      <!-- TODO: replace # with the actual dataset download URL -->
+      <a class="button is-link is-rounded is-medium" href="#">
+        <span class="icon"><i class="fas fa-download"></i></span>
+        <span>Download prompts (CSV, 473 prompts)</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<hr class="section-rule">
+
+<!-- ── BIBTEX ─────────────────────────────────────────────────────── -->
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <div class="bibtex-header">
+      <h2 class="title is-3">BibTeX</h2>
+      <button class="copy-bibtex-btn" type="button" id="copy-bibtex"><i class="fas fa-copy"></i><span class="copy-text">Copy</span></button>
+    </div>
+    <!-- TODO: replace with the camera-ready citation -->
+    <pre><code id="bibtex-text">@inproceedings{anonymous2027willitrender,
+  title     = {Will It Render? Learned Attention Steering for Object Presence in Text-to-Video},
+  author    = {TODO},
+  booktitle = {Proceedings of the IEEE/CVF Winter Conference on Applications of Computer Vision (WACV)},
+  year      = {2027}
+}</code></pre>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+      <p>{{ footer_text }}</p>
+      <p>{{ footer_template }}</p>
+    </div>
+  </div>
+</footer>
+
+<script src="static/js/index.js"></script>
+<script>
+// Render timeline cells from data-frames="0,1,1,0,..." attributes
+document.querySelectorAll('.timeline-track[data-frames]').forEach(function(track) {
+  track.dataset.frames.split(',').forEach(function(f) {
+    var cell = document.createElement('div');
+    cell.className = 'timeline-cell' + (f.trim() === '1' ? ' present' : '');
+    track.appendChild(cell);
+  });
+});
+</script>
+</body>
+</html>

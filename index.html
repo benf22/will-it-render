@@ -53,7 +53,9 @@
 
     <div class="tldr-box">
       <span class="tldr-label">TL;DR</span>
-      We train a 37k-parameter probe on the generator's own videos to predict whether each requested object will render, then use it as a differentiable steering signal at inference time — no model retraining, no hand-crafted objectives.
+      We train a 37k-parameter probe on the generator's own videos to predict whether each requested
+object will render, then use it as a differentiable steering signal at inference time —
+no model retraining, no hand-crafted objectives.
     </div>
 
     <div class="carousel-wrap">
@@ -76,7 +78,8 @@
         <button class="carousel-btn" id="car-next" aria-label="Next">&#8594;</button>
       </div>
       <p class="carousel-counter" id="car-counter"></p>
-      <p class="carousel-caption">Each clip shows the <b>un-steered backbone</b> (left) alongside <b>AttnSteer</b> (right), generated from the same prompt and seed.</p>
+      <p class="carousel-caption">Each clip shows the <strong>un-steered backbone</strong> (left) alongside <strong>AttnSteer</strong> (right),
+generated from the same prompt and seed.</p>
     </div>
   </div>
 </section>
@@ -160,23 +163,19 @@
   <div class="container is-max-desktop">
     <h2 class="title is-3 has-text-centered">Abstract</h2>
     <div class="content has-text-justified">
-      <p>
-        Text-to-video diffusion models generate increasingly realistic videos, yet often fail to render all objects
-        requested by the prompt, particularly as the number of objects grows. Improving such fine-grained adherence
-        through training requires substantial video supervision, motivating inference-time methods that steer
-        intermediate diffusion latents. Existing approaches typically define hand-crafted objectives over
-        cross-attention maps, relying on indirect attention statistics rather than whether the model ultimately
-        renders a requested object.
-      </p>
-      <p>
-        We propose <b>AttnSteer</b>, a learned attention-steering model that predicts object rendering directly from
-        intermediate cross-attention. AttnSteer is trained entirely on the generator's own trajectories using
-        automatically obtained detector labels and contains only 37k parameters. At inference time, its predictions
-        define differentiable objectives for steering object presence; the same framework also extends to
-        frame-level temporal control. AttnSteer improves all-objects accuracy over the strongest baseline from
-        49.0% to 61.9% on LTX-2 and from 42.1% to 46.5% on Wan&nbsp;2.1, and raises temporal specificity from 35.7%
-        to 52.6%, at comparable video quality.
-      </p>
+      <p>Text-to-video diffusion models generate increasingly realistic videos, yet often fail to render all objects
+requested by the prompt, particularly as the number of objects grows. Improving such fine-grained adherence
+through training requires substantial video supervision, motivating inference-time methods that steer
+intermediate diffusion latents. Existing approaches typically define hand-crafted objectives over
+cross-attention maps, relying on indirect attention statistics rather than whether the model ultimately
+renders a requested object.</p>
+      <p>We propose <strong>AttnSteer</strong>, a learned attention-steering model that predicts object rendering directly from
+intermediate cross-attention. AttnSteer is trained entirely on the generator's own trajectories using
+automatically obtained detector labels and contains only 37k parameters. At inference time, its predictions
+define differentiable objectives for steering object presence; the same framework also extends to
+frame-level temporal control. AttnSteer improves all-objects accuracy over the strongest baseline from
+49.0% to 61.9% on LTX-2 and from 42.1% to 46.5% on Wan&nbsp;2.1, and raises temporal specificity from
+35.7% to 52.6%, at comparable video quality.</p>
     </div>
   </div>
 </section>
@@ -238,29 +237,27 @@
 
     <h3 class="title is-4" style="margin-top:1.5rem;">Inference</h3>
     <div class="content has-text-justified">
-      <p>
-        At inference time, the probe's predictions define differentiable objectives for steering object presence.
-        The video latent is optimized while the generator stays fixed. For multi-object prompts, independent
-        per-object updates can conflict: we normalize each object's gradient, anchor the update on the object
-        least likely to be rendered, and suppress locally opposing contributions.
-      </p>
+      <p>At inference time, the probe's predictions define differentiable objectives for steering object presence.
+The video latent is optimized while the generator stays fixed. For multi-object prompts, independent
+per-object updates can conflict: we normalize each object's gradient, anchor the update on the object
+least likely to be rendered, and suppress locally opposing contributions.</p>
     </div>
     <figure class="image">
       <img src="static/images/fig_method.png" alt="Inference-time steering with AttnSteer">
-      <figcaption class="content has-text-centered"><b>Inference-time steering.</b> At each selected denoising step, object-specific attention features are scored by the frozen AttnSteer predictor, and the latent is updated along the resulting gradient.</figcaption>
+      <figcaption class="content has-text-centered"><strong>Inference-time steering.</strong> At each selected denoising step, object-specific attention features are
+scored by the frozen AttnSteer predictor, and the latent is updated along the resulting gradient.</figcaption>
     </figure>
 
     <h3 class="title is-4" style="margin-top:2rem;">AttnSteer Training</h3>
     <div class="content has-text-justified">
-      <p>
-        We train a small probe to predict whether each requested object will be rendered, using per-step,
-        per-layer, per-head cross-attention features from the frozen generator. Labels come from detectors
-        run on the generator's own final videos, so no external video supervision is needed.
-      </p>
+      <p>We train a small probe to predict whether each requested object will be rendered, using per-step,
+per-layer, per-head cross-attention features from the frozen generator. Labels come from detectors
+run on the generator's own final videos, so no external video supervision is needed.</p>
     </div>
     <figure class="image">
       <img src="static/images/fig_training.png" alt="Training AttnSteer with self-generated supervision">
-      <figcaption class="content has-text-centered"><b>Training with self-generated supervision.</b> Cross-attention features from the frozen generator are paired with detector labels from its final video.</figcaption>
+      <figcaption class="content has-text-centered"><strong>Training with self-generated supervision.</strong> Cross-attention features from the frozen generator
+are paired with detector labels from its final video.</figcaption>
     </figure>
   </div>
 </section>
@@ -273,11 +270,9 @@
 
     <h2 class="title is-3 has-text-centered">Multi-Object Object Presence</h2>
     <div class="content has-text-justified">
-      <p>
-        We evaluate on 473 short prompts with the extended VBench object benchmark. The table reports the detection
-        ratio and the fraction of clips where <i>all</i> requested objects are detected, overall and by <i>k</i>, the number of
-        requested objects. The gain grows with <i>k</i>.
-      </p>
+      <p>We evaluate on 473 short prompts with the extended VBench object benchmark. The table reports the
+detection ratio and the fraction of clips where <em>all</em> requested objects are detected, overall and
+by <em>k</em>, the number of requested objects. The gain grows with <em>k</em>.</p>
     </div>
     <div class="columns is-centered" style="margin-top:1.25rem; margin-bottom:0.25rem;">
       <div class="column">
@@ -311,11 +306,12 @@
         <svg width="28" height="10" style="flex-shrink:0;"><line x1="0" y1="5" x2="28" y2="5" stroke="#2ca02c" stroke-width="2"/><circle cx="14" cy="5" r="3.5" fill="#2ca02c"/></svg>Ours
       </span>
     </div>
-    <p class="content has-text-centered" style="font-size:0.82rem; color:var(--muted); margin-bottom:1.5rem;">All-object accuracy vs. prompt complexity (<i>k</i> objects). Bands show &plusmn;1 SE.</p>
+    <p class="content has-text-centered" style="font-size:0.82rem; color:var(--muted); margin-bottom:1.5rem;">All-object accuracy vs. prompt complexity (<em>k</em> objects). Bands show &plusmn;1 SE.</p>
 
     <h3 class="title is-4 has-text-centered" style="margin-top:1.5rem;">VBench Quality Dimensions</h3>
     <div class="content has-text-justified">
-      <p>AttnSteer preserves or improves video quality across all VBench dimensions. Each bar shows the per-dimension score for one backbone.</p>
+      <p>AttnSteer preserves or improves video quality across all VBench dimensions.
+Each bar shows the per-dimension score for one backbone.</p>
     </div>
     <div class="columns is-centered" style="margin-top:1.25rem; margin-bottom:0.25rem;">
       <div class="column">
@@ -385,9 +381,8 @@
         </tbody>
       </table>
     </div>
-    <p class="content is-size-7" style="margin-top:0.5rem;">
-      <b>Bold</b> = best within backbone block; <u>underline</u> = best overall. Inference cost measured on a single H100 GPU; ×base = multiple of un-steered generation time.
-    </p>
+    <p class="content is-size-7" style="margin-top:0.5rem;"><strong>Bold</strong> = best within backbone block; <u>underline</u> = best overall.
+Inference cost measured on a single H100 GPU; &times;base = multiple of un-steered generation time.</p>
 
   </div>
 </section>
@@ -399,13 +394,12 @@
   <div class="container is-max-desktop">
     <h2 class="title is-3 has-text-centered">User Study</h2>
     <div class="content has-text-justified">
-      <p>
-        To confirm the improvement is visible to people, we ran a paired human-preference study on LTX-2 and Wan&nbsp;2.1,
-        comparing AttnSteer against Attend-and-Excite on object presence, photorealism, and motion smoothness.
-        37 volunteer annotators completed 622 clip judgements. AttnSteer is preferred on every question and both
-        backbones. The largest margin is object presence on Wan&nbsp;2.1 (73.9% of decisive votes);
-        photorealism and motion smoothness — included as quality guardrails — also come out in our favor (58–67%).
-      </p>
+      <p>To confirm the improvement is visible to people, we ran a paired human-preference study on LTX-2
+and Wan&nbsp;2.1, comparing AttnSteer against Attend-and-Excite on object presence, photorealism,
+and motion smoothness. 37 volunteer annotators completed 622 clip judgements. AttnSteer is preferred
+on every question and both backbones. The largest margin is object presence on Wan&nbsp;2.1
+(73.9% of decisive votes); photorealism and motion smoothness — included as quality guardrails —
+also come out in our favor (58–67%).</p>
     </div>
     <div class="columns is-centered" style="margin-top:1.25rem; margin-bottom:0.25rem;">
       <div class="column">
@@ -435,12 +429,10 @@
   <div class="container is-max-desktop">
     <h2 class="title is-3 has-text-centered">Single-Object Guardrail</h2>
     <div class="content has-text-justified">
-      <p>
-        We evaluate on 79 VBench <code>object_class</code> single-object prompts as a guardrail:
-        with only one requested object, backbones already succeed on most clips, and the goal is to verify
-        that steering does not harm this easy regime. AttnSteer in fact improves single-object presence on
-        LTX-2 under both detectors, while leaving VBench quality unchanged.
-      </p>
+      <p>We evaluate on 79 VBench <code>object_class</code> single-object prompts as a guardrail:
+with only one requested object, backbones already succeed on most clips, and the goal is to verify
+that steering does not harm this easy regime. AttnSteer in fact improves single-object presence on
+LTX-2 under both detectors, while leaving VBench quality unchanged.</p>
     </div>
 
     <div class="table-container">
@@ -480,9 +472,7 @@
         </tbody>
       </table>
     </div>
-    <p class="content has-text-centered" style="font-size:0.82rem; color:var(--muted); margin-bottom:1.5rem;">
-      <b>Bold</b> = best within backbone. <u>Underline</u> = best across all backbones.
-    </p>
+    <p class="content has-text-centered" style="font-size:0.82rem; color:var(--muted); margin-bottom:1.5rem;"><strong>Bold</strong> = best within backbone. <u>Underline</u> = best across all backbones.</p>
 
     <h3 class="title is-4 has-text-centered" style="margin-top:2rem;">Qualitative examples</h3>
     <div class="carousel-wrap" style="margin-top:1.25rem;">
@@ -505,7 +495,8 @@
         <button class="carousel-btn" id="car2-next" aria-label="Next">&#8594;</button>
       </div>
       <p class="carousel-counter" id="car2-counter"></p>
-      <p class="carousel-caption">Each clip shows the <b>un-steered backbone</b> (left) alongside <b>AttnSteer</b> (right), generated from the same prompt and seed.</p>
+      <p class="carousel-caption">Each clip shows the <strong>un-steered backbone</strong> (left) alongside <strong>AttnSteer</strong> (right),
+generated from the same prompt and seed.</p>
     </div>
   </div>
 </section>
@@ -570,12 +561,10 @@
   <div class="container is-max-desktop">
     <h2 class="title is-3 has-text-centered">Temporal Control</h2>
     <div class="content has-text-justified">
-      <p>
-        The same learned objective applies frame by frame, so it can control <i>when</i> an object appears. On
-        single-object prompts, where an object must enter at a prescribed time, AttnSteer raises specificity from
-        31.2% to 52.6%, meaning fewer frames before the requested onset are wrongly filled. Temporal alignment (t-IoU)
-        rises from 40.6% to 45.0%, and VBench quality is unchanged (74.7 vs. 75.1).
-      </p>
+      <p>The same learned objective applies frame by frame, so it can control <em>when</em> an object appears. On
+single-object prompts, where an object must enter at a prescribed time, AttnSteer raises specificity
+from 31.2% to 52.6%, meaning fewer frames before the requested onset are wrongly filled. Temporal
+alignment (t-IoU) rises from 40.6% to 45.0%, and VBench quality is unchanged (74.7 vs. 75.1).</p>
     </div>
     <div class="table-container">
       <table class="table is-fullwidth is-narrow is-size-7 results-table">
@@ -600,10 +589,8 @@
 
     <h3 class="title is-4 has-text-centered" style="margin-top:2rem;">Temporal control examples</h3>
     <div class="content has-text-justified">
-      <p>
-        TempoControl (left) vs. AttnSteer (right), played in sync. The timeline shows the requested control
-        signal and the actual per-frame detections for each method.
-      </p>
+      <p>TempoControl (left) vs. AttnSteer (right), played in sync. The timeline shows the requested control
+signal and the actual per-frame detections for each method.</p>
     </div>
 
     <div class="video-grid">
@@ -613,9 +600,7 @@
       <video class="result-video" autoplay muted loop playsinline src="static/videos/temporal/temporal_paper_keyboard_phone.mp4"></video>
       <video class="result-video" autoplay muted loop playsinline style="grid-column: 1 / -1;" src="static/videos/temporal/temporal_paper_teddy_bear.mp4"></video>
     </div>
-    <p class="caption has-text-centered">
-      The five examples from the main paper (LTX-2, and Wan&nbsp;2.1 for the teddy bear).
-    </p>
+    <p class="caption has-text-centered">The five examples from the main paper (LTX-2, and Wan&nbsp;2.1 for the teddy bear).</p>
 
     <div class="content">
       <p><b>More examples (supplementary, LTX-2), GIF downloads:</b></p>
@@ -640,21 +625,16 @@
   <div class="container is-max-desktop">
     <h2 class="title is-3 has-text-centered">Dataset</h2>
     <div class="content has-text-justified">
-      <p>
-        We introduce a 473-prompt multi-object benchmark that extends VBench's
-        <code>multiple_objects</code> dimension from two to seven objects. Each prompt uses
-        VBench's template ("a X and a Y and a Z …") and draws <i>k</i> objects at random from
-        the same 76-class list, under a <b>pairwise-uniqueness constraint</b> — no two objects
-        that share one prompt ever co-occur in another. Because combinations are sampled
-        independently of natural co-occurrence, prompts are frequently unusual (e.g.,
-        <em>"a pizza and a surfboard and a kite"</em>), which makes object presence hard and
-        prevents generators from exploiting familiar scene statistics.
-      </p>
-      <p>
-        All three backbones (LTX-2, Wan&nbsp;2.1, CogVideoX-5B) and all arms (un-steered,
-        Best-of-N, A&amp;E, Ours) are evaluated on the same 473 prompts, each with a fixed
-        random seed shared across arms.
-      </p>
+      <p>We introduce a 473-prompt multi-object benchmark that extends VBench's <code>multiple_objects</code> dimension
+from two to seven objects. Each prompt uses VBench's template ("a X and a Y and a Z …") and draws
+<em>k</em> objects at random from the same 76-class list, under a <strong>pairwise-uniqueness constraint</strong> — no
+two objects that share one prompt ever co-occur in another. Because combinations are sampled
+independently of natural co-occurrence, prompts are frequently unusual (e.g.,
+<em>"a pizza and a surfboard and a kite"</em>), which makes object presence hard and prevents generators
+from exploiting familiar scene statistics.</p>
+      <p>All three backbones (LTX-2, Wan&nbsp;2.1, CogVideoX-5B) and all arms (un-steered, Best-of-N,
+A&amp;E, Ours) are evaluated on the same 473 prompts, each with a fixed random seed shared
+across arms.</p>
     </div>
 
     <div class="columns is-centered" style="margin:1.5rem 0 0.25rem;">
@@ -731,10 +711,8 @@
 <footer class="footer">
   <div class="container">
     <div class="content has-text-centered">
-      <p>
-        This page is a template-based project page. Content is licensed under a
-        <a href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
-      </p>
+      <p>This page is a template-based project page. Content is licensed under a
+<a href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.</p>
       <p>Template: <a href="https://github.com/eliahuhorwitz/Academic-project-page-template">Academic Project Page Template</a> by Eliahu Horwitz.</p>
     </div>
   </div>
