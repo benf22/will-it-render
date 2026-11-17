@@ -51,10 +51,12 @@ method_training_caption: |
   **Training with self-generated supervision.** Cross-attention features from the frozen generator
   are paired with detector labels from its final video.
 
+results_section_intro: |
+  We evaluate over our own benchmark: extended 473 prompts of VBench multiple-objects dimension.
+
 results_intro: |
   The table reports the detection ratio and the fraction of clips where *all* requested objects are
   detected, overall and by *k*, the number of requested objects. The gain grows with *k*.
-
 
 results_all_objects_caption: "All-object accuracy vs. prompt complexity (*k* objects). Bands show &plusmn;1 SE."
 
