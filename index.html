@@ -66,7 +66,7 @@ no model retraining, no hand-crafted objectives needed.
       </div>
       <div class="carousel-video-wrap">
         <video id="car-video" autoplay muted loop playsinline preload="auto"
-               style="width:100%;height:360px;object-fit:contain;display:block;"></video>
+               style="width:100%;height:360px;object-fit:contain;display:block;" class="carousel-main-video"></video>
         <div class="carousel-divider"></div>
       </div>
       <div class="carousel-prompt-row">
@@ -89,22 +89,22 @@ generated from the same prompt and seed.</p>
 (function () {
   const CLIPS = [
     // Figure 1 — teaser examples
-    {src:"static/videos/carousel/fig1_ltx375.mp4",  prompt:"a snowboard and a car and a refrigerator",                                             fig:"Fig. 1", backend:"LTX-2"},
-    {src:"static/videos/carousel/fig1_ltx259.mp4",  prompt:"a tie and a cow and a dog and a boat",                                                 fig:"Fig. 1", backend:"LTX-2"},
-    {src:"static/videos/carousel/fig1_wan281.mp4",  prompt:"a kite and a baseball bat",                                                             fig:"Fig. 1", backend:"Wan 2.1"},
-    {src:"static/videos/carousel/fig1_wan318.mp4",  prompt:"a bus and a teddy bear and a pizza and broccoli",                                       fig:"Fig. 1", backend:"Wan 2.1"},
-    {src:"static/videos/carousel/fig1_wan231.mp4",  prompt:"a tie and a book and a dog and a frisbee and a fork",                                   fig:"Fig. 1", backend:"Wan 2.1"},
+    {src:"static/videos/carousel/fig1_ltx375.mp4",  msrc:"static/videos/carousel/fig1_ltx375_p.mp4",  prompt:"a snowboard and a car and a refrigerator",                                             fig:"Fig. 1", backend:"LTX-2"},
+    {src:"static/videos/carousel/fig1_ltx259.mp4",  msrc:"static/videos/carousel/fig1_ltx259_p.mp4",  prompt:"a tie and a cow and a dog and a boat",                                                 fig:"Fig. 1", backend:"LTX-2"},
+    {src:"static/videos/carousel/fig1_wan281.mp4",  msrc:"static/videos/carousel/fig1_wan281_p.mp4",  prompt:"a kite and a baseball bat",                                                             fig:"Fig. 1", backend:"Wan 2.1"},
+    {src:"static/videos/carousel/fig1_wan318.mp4",  msrc:"static/videos/carousel/fig1_wan318_p.mp4",  prompt:"a bus and a teddy bear and a pizza and broccoli",                                       fig:"Fig. 1", backend:"Wan 2.1"},
+    {src:"static/videos/carousel/fig1_wan231.mp4",  msrc:"static/videos/carousel/fig1_wan231_p.mp4",  prompt:"a tie and a book and a dog and a frisbee and a fork",                                   fig:"Fig. 1", backend:"Wan 2.1"},
     // Figure 6 — multi-object comparison (Wan 2.1, LTX-2, CogVideoX)
-    {src:"static/videos/carousel/fig6_wan145.mp4",  prompt:"a bicycle and a vase and a cup and a toaster and a microwave and a horse",              fig:"Fig. 6", backend:"Wan 2.1"},
-    {src:"static/videos/carousel/fig6_wan52.mp4",   prompt:"a donut and an umbrella and a sink",                                                    fig:"Fig. 6", backend:"Wan 2.1"},
-    {src:"static/videos/carousel/fig6_ltx4.mp4",    prompt:"a sandwich and a book and a stop sign and a truck and a banana",                        fig:"Fig. 6", backend:"LTX-2"},
-    {src:"static/videos/carousel/fig6_ltx42.mp4",   prompt:"an oven and skis and a toilet and a chair and a person and a tie and a cell phone",     fig:"Fig. 6", backend:"LTX-2"},
-    {src:"static/videos/carousel/fig6_cogx144.mp4", prompt:"a zebra and an elephant and a fire hydrant and skis",                                   fig:"Fig. 6", backend:"CogVideoX"},
-    {src:"static/videos/carousel/fig6_cogx168.mp4", prompt:"a refrigerator and an elephant and a kite",                                             fig:"Fig. 6", backend:"CogVideoX"},
+    {src:"static/videos/carousel/fig6_wan145.mp4",  msrc:"static/videos/carousel/fig6_wan145_p.mp4",  prompt:"a bicycle and a vase and a cup and a toaster and a microwave and a horse",              fig:"Fig. 6", backend:"Wan 2.1"},
+    {src:"static/videos/carousel/fig6_wan52.mp4",   msrc:"static/videos/carousel/fig6_wan52_p.mp4",   prompt:"a donut and an umbrella and a sink",                                                    fig:"Fig. 6", backend:"Wan 2.1"},
+    {src:"static/videos/carousel/fig6_ltx4.mp4",    msrc:"static/videos/carousel/fig6_ltx4_p.mp4",    prompt:"a sandwich and a book and a stop sign and a truck and a banana",                        fig:"Fig. 6", backend:"LTX-2"},
+    {src:"static/videos/carousel/fig6_ltx42.mp4",   msrc:"static/videos/carousel/fig6_ltx42_p.mp4",   prompt:"an oven and skis and a toilet and a chair and a person and a tie and a cell phone",     fig:"Fig. 6", backend:"LTX-2"},
+    {src:"static/videos/carousel/fig6_cogx144.mp4", msrc:"static/videos/carousel/fig6_cogx144_p.mp4", prompt:"a zebra and an elephant and a fire hydrant and skis",                                   fig:"Fig. 6", backend:"CogVideoX"},
+    {src:"static/videos/carousel/fig6_cogx168.mp4", msrc:"static/videos/carousel/fig6_cogx168_p.mp4", prompt:"a refrigerator and an elephant and a kite",                                             fig:"Fig. 6", backend:"CogVideoX"},
     // Figure 12 — single-object examples
-    {src:"static/videos/carousel/fig12_so68.mp4",   prompt:"an oven",                                                                               fig:"Fig. 12", backend:"LTX-2"},
-    {src:"static/videos/carousel/fig12_so17.mp4",   prompt:"a horse",                                                                               fig:"Fig. 12", backend:"LTX-2"},
-    {src:"static/videos/carousel/fig12_so49.mp4",   prompt:"an orange",                                                                              fig:"Fig. 12", backend:"LTX-2"},
+    {src:"static/videos/carousel/fig12_so68.mp4",   msrc:"static/videos/carousel/fig12_so68_p.mp4",   prompt:"an oven",                                                                               fig:"Fig. 12", backend:"LTX-2"},
+    {src:"static/videos/carousel/fig12_so17.mp4",   msrc:"static/videos/carousel/fig12_so17_p.mp4",   prompt:"a horse",                                                                               fig:"Fig. 12", backend:"LTX-2"},
+    {src:"static/videos/carousel/fig12_so49.mp4",   msrc:"static/videos/carousel/fig12_so49_p.mp4",   prompt:"an orange",                                                                             fig:"Fig. 12", backend:"LTX-2"},
   ];
 
   const video     = document.getElementById('car-video');
@@ -116,6 +116,7 @@ generated from the same prompt and seed.</p>
   const counter   = document.getElementById('car-counter');
 
   let idx = 0, timer = null;
+  const mq = window.matchMedia('(max-width: 768px)');
 
   CLIPS.forEach((_, i) => {
     const d = document.createElement('button');
@@ -130,7 +131,7 @@ generated from the same prompt and seed.</p>
     const c = CLIPS[idx];
     promptEl.textContent  = c.prompt;
     backendEl.textContent = c.backend;
-    video.src = c.src;
+    video.src = (mq.matches && c.msrc) ? c.msrc : c.src;
     video.load();
     video.play().catch(() => {});
     dotsEl.querySelectorAll('.carousel-dot').forEach((d, j) => {
@@ -152,6 +153,8 @@ generated from the same prompt and seed.</p>
     if (e.key === 'ArrowLeft')  goTo(idx - 1);
     if (e.key === 'ArrowRight') goTo(idx + 1);
   });
+
+  mq.addEventListener('change', () => goTo(idx));
 
   goTo(0);
 })();
@@ -511,9 +514,9 @@ generated from the same prompt and seed.</p>
 <script>
 (function () {
   const CLIPS2 = [
-    {src:"static/videos/carousel/fig12_so68.mp4", prompt:"an oven",   backend:"LTX-2"},
-    {src:"static/videos/carousel/fig12_so17.mp4", prompt:"a horse",   backend:"LTX-2"},
-    {src:"static/videos/carousel/fig12_so49.mp4", prompt:"an orange", backend:"LTX-2"},
+    {src:"static/videos/carousel/fig12_so68.mp4", msrc:"static/videos/carousel/fig12_so68_p.mp4", prompt:"an oven",   backend:"LTX-2"},
+    {src:"static/videos/carousel/fig12_so17.mp4", msrc:"static/videos/carousel/fig12_so17_p.mp4", prompt:"a horse",   backend:"LTX-2"},
+    {src:"static/videos/carousel/fig12_so49.mp4", msrc:"static/videos/carousel/fig12_so49_p.mp4", prompt:"an orange", backend:"LTX-2"},
   ];
 
   const video2     = document.getElementById('car2-video');
@@ -525,6 +528,7 @@ generated from the same prompt and seed.</p>
   const counter2   = document.getElementById('car2-counter');
 
   let idx2 = 0, timer2 = null;
+  const mq2 = window.matchMedia('(max-width: 768px)');
 
   CLIPS2.forEach((_, i) => {
     const d = document.createElement('button');
@@ -539,7 +543,7 @@ generated from the same prompt and seed.</p>
     const c = CLIPS2[idx2];
     promptEl2.textContent  = c.prompt;
     backendEl2.textContent = c.backend;
-    video2.src = c.src;
+    video2.src = (mq2.matches && c.msrc) ? c.msrc : c.src;
     video2.load();
     video2.play().catch(() => {});
     dotsEl2.querySelectorAll('.carousel-dot').forEach((d, j) => {
@@ -556,6 +560,8 @@ generated from the same prompt and seed.</p>
 
   prevBtn2.addEventListener('click', () => goTo2(idx2 - 1));
   nextBtn2.addEventListener('click', () => goTo2(idx2 + 1));
+
+  mq2.addEventListener('change', () => goTo2(idx2));
 
   goTo2(0);
 })();

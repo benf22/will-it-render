@@ -540,4 +540,28 @@ pre {
   .results-table {
     font-size: 0.75rem;
   }
+
+  /* Portrait (stacked) carousel on mobile */
+  .carousel-col-headers {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .carousel-col-header {
+    padding: 3px 0;
+  }
+
+  .carousel-main-video {
+    height: auto !important;
+    max-height: 80vh;
+  }
+
+  .carousel-divider {
+    top: 50%;
+    left: 0;
+    right: 0;
+    bottom: auto;
+    width: 100%;
+    height: 2px;
+  }
 }
