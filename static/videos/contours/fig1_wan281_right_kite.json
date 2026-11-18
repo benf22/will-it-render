@@ -1,0 +1,13 @@
+{
+  "video": "static/videos/carousel/fig1_wan281.mp4",
+  "noun": "kite",
+  "half": "right",
+  "fps": 16.0,
+  "frame_size": [
+    480,
+    276
+  ],
+  "n_frames": 21,
+  "box_thr": 0.25,
+  "text_thr": 0.2
+}
