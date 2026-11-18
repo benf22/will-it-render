@@ -9,5 +9,30 @@
   ],
   "n_frames": 21,
   "box_thr": 0.25,
-  "text_thr": 0.2
+  "text_thr": 0.2,
+  "tracking": true,
+  "smooth_sigma": 1.5,
+  "source": [
+    "tracker",
+    "gdino",
+    "gdino",
+    "gdino",
+    "gdino",
+    "tracker",
+    "tracker",
+    "tracker",
+    "gdino",
+    "gdino",
+    "gdino",
+    "gdino",
+    "gdino",
+    "gdino",
+    "tracker",
+    "tracker",
+    "tracker",
+    "tracker",
+    "gdino",
+    "tracker",
+    "tracker"
+  ]
 }
