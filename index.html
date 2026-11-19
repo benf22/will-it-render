@@ -132,14 +132,15 @@ generated from the same prompt and seed. &nbsp;·&nbsp; <span class="noun-blue">
       const display = m ? m[2] : part;
       const cls     = oursSet.has(noun)    ? 'noun-red'    :
                       neitherSet.has(noun) ? 'noun-yellow'  : 'noun-blue';
-      const word    = (article ? `${article} ` : '') +
+      const word    = (article ? `<span class="noun-and">${article} </span>` : '') +
                       `<span class="${cls}">${display}</span>`;
       if (i === 0) return word;
       const sep = (c.break_after === i)
         ? '<span class="noun-and"> and </span><br>'
         : '<span class="noun-and"> and </span>';
       return sep + word;
-    }).join('');
+    });
+    return '“' + parts.join('') + '”';
   }
 
   function goTo(i) {
