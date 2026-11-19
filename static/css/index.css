@@ -4,11 +4,16 @@
   --rule: #e5e7eb;
 }
 
+html {
+  overflow-x: hidden;
+}
+
 body {
   font-family: 'Figtree', "Helvetica Neue", Arial, sans-serif;
   color: #4b5563;
   line-height: 1.65;
   background: #f0f6ff;
+  overflow-x: hidden;
 }
 
 .publication-title {
@@ -78,7 +83,7 @@ body {
   border-radius: 0 8px 8px 0;
   font-size: 1.05rem;
   color: #1f2937;
-  max-width: 760px;
+  max-width: 60vw;
   margin: 0 auto 1.8rem;
   line-height: 1.6;
 }
@@ -107,9 +112,15 @@ body {
   border-top: 3px solid var(--accent);
   border-radius: 12px;
   box-shadow: 0 2px 10px rgba(0,0,0,.06);
-  max-width: 70%;
+  max-width: 60%;
   margin: 1.5rem auto;
   padding: 2.5rem 2rem !important;
+}
+
+/* Let content fill the section — override Bulma's is-max-desktop cap */
+.section > .container {
+  max-width: 100% !important;
+  width: 100% !important;
 }
 
 /* Section separators are now just spacing — bubbles provide visual separation */
@@ -124,6 +135,12 @@ body {
 
 .publication-links .link-block {
   margin: 0 0.25rem;
+}
+
+.publication-links .button.is-dark:hover {
+  background-color: var(--accent) !important;
+  border-color: var(--accent) !important;
+  color: #fff !important;
 }
 
 .publication-banner {
@@ -215,6 +232,16 @@ figure.image figcaption {
   white-space: nowrap;
 }
 
+.results-table th,
+.results-table td {
+  padding: 0.2rem 0.35rem !important;
+}
+
+.results-table td b {
+  font-weight: 700;
+  color: #111;
+}
+
 /* Blue line at bottom of header — box-shadow bypasses border-collapse */
 .results-table thead tr:first-child th[rowspan],
 .results-table thead tr:last-child th {
@@ -231,12 +258,13 @@ figure.image figcaption {
   text-align: left;
 }
 
-/* Background-color separator rows — immune to border-collapse */
+/* Separator rows — hairline via box-shadow (immune to border-collapse) */
 .results-table tr.rule-row td {
-  height: 2px;
+  height: 0;
   padding: 0;
-  background: var(--accent);
+  background: transparent;
   border: none !important;
+  box-shadow: 0 2px 0 0 var(--accent);
   font-size: 0;
   line-height: 0;
 }
@@ -371,6 +399,7 @@ pre {
   border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 4px 14px rgba(0,0,0,.12);
+  aspect-ratio: 960 / 276;
 }
 
 .carousel-video-wrap video {
@@ -564,34 +593,86 @@ pre {
   border: none;
 }
 
+/* Dataset bullet tooltip */
+.tooltip-wrap {
+  position: relative;
+  display: inline-block;
+}
+.tooltip-box {
+  display: none;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: calc(100% + 0.5rem);
+  top: auto;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.13);
+  padding: 0.5rem 0.85rem;
+  font-size: 0.82rem;
+  color: #374151;
+  white-space: nowrap;
+  z-index: 100;
+  line-height: 1.7;
+  font-style: italic;
+  font-weight: 400;
+}
+.tooltip-wrap:hover .tooltip-box {
+  display: block;
+}
+
 @media screen and (max-width: 768px) {
+  /* ── Typography ── */
   .publication-title {
-    font-size: 2rem !important;
+    font-size: 1.75rem !important;
   }
 
   .stat-number {
     font-size: 2.4rem;
   }
 
-  .results-table {
-    font-size: 0.75rem;
+  /* ── Section bubbles: full-width on mobile ── */
+  .section:not(.section-teaser) {
+    max-width: calc(100% - 1.5rem);
+    padding: 1.5rem 1rem !important;
+    margin: 0.75rem auto;
   }
 
-  /* Portrait (stacked) carousel on mobile */
-  .carousel-col-headers {
-    flex-direction: column;
-    gap: 0;
+  /* ── TL;DR ── */
+  .tldr-box {
+    max-width: 100%;
   }
 
+  /* ── Publication link buttons: wrap cleanly ── */
+  .publication-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.4rem;
+    margin-top: 0.5rem;
+  }
+  .publication-links .link-block {
+    margin: 0;
+  }
+
+  /* ── Carousel ── */
+  .carousel-wrap {
+    max-width: 100%;
+  }
+  /* Remove the forced widescreen ratio; let the mobile video determine its own height */
+  .carousel-video-wrap {
+    aspect-ratio: unset;
+  }
+  /* Col headers: keep 2-column grid (labels L/R halves of side-by-side video) */
   .carousel-col-header {
     padding: 3px 0;
   }
-
   .carousel-main-video {
     height: auto !important;
     max-height: 80vh;
   }
-
+  /* Horizontal divider for stacked portrait clips */
   .carousel-divider {
     top: 50%;
     left: 0;
@@ -599,5 +680,80 @@ pre {
     bottom: auto;
     width: 100%;
     height: 2px;
+  }
+  /* Backend label: unpin from absolute so it doesn't overlap the prompt */
+  .carousel-backend {
+    position: static;
+    transform: none;
+    display: block;
+    text-align: center;
+    margin-top: 0.3rem;
+  }
+
+  /* ── Key Results summary grid: scale numbers down to fit ── */
+  .key-results-grid {
+    gap: 0.15rem 0.4rem !important;
+  }
+  /* column headers: LTX-2, Wan 2.1, CogVideoX */
+  .key-results-grid > div:nth-child(2),
+  .key-results-grid > div:nth-child(3),
+  .key-results-grid > div:nth-child(4) {
+    font-size: 0.72rem !important;
+    padding-bottom: 0.1rem !important;
+  }
+  /* row labels */
+  .key-results-grid > div:nth-child(5),
+  .key-results-grid > div:nth-child(13),
+  .key-results-grid > div:nth-child(21) {
+    font-size: 0.68rem !important;
+    padding-right: 0.3rem !important;
+  }
+  /* un-steered numbers */
+  .key-results-grid > div:nth-child(6),
+  .key-results-grid > div:nth-child(7),
+  .key-results-grid > div:nth-child(8) {
+    font-size: 0.9rem !important;
+    line-height: 1.1 !important;
+  }
+  /* A&E numbers */
+  .key-results-grid > div:nth-child(14),
+  .key-results-grid > div:nth-child(15),
+  .key-results-grid > div:nth-child(16) {
+    font-size: 1.1rem !important;
+    line-height: 1.1 !important;
+  }
+  /* AttnSteer numbers */
+  .key-results-grid > div:nth-child(22),
+  .key-results-grid > div:nth-child(23),
+  .key-results-grid > div:nth-child(24) {
+    font-size: 1.4rem !important;
+    line-height: 1.1 !important;
+  }
+
+  /* ── Results tables: smaller text, horizontal scroll via .table-container ── */
+  .results-table {
+    font-size: 0.65rem;
+  }
+  .results-table th,
+  .results-table td {
+    padding: 0.15rem 0.25rem !important;
+  }
+
+  /* ── Dataset layout: stack columns vertically ── */
+  .dataset-layout {
+    flex-direction: column !important;
+    gap: 1.5rem !important;
+    align-items: stretch !important;
+  }
+  .dataset-layout > div {
+    flex: none !important;
+  }
+
+  /* ── Tooltip: prevent overflow when shown on mobile ── */
+  .tooltip-box {
+    white-space: normal;
+    max-width: 85vw;
+    left: 0;
+    transform: none;
   }
 }
