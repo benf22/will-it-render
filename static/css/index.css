@@ -294,12 +294,6 @@ pre {
 .noun-yellow  { color: #d97706; font-weight: 700; }
 .noun-and     { color: #9ca3af; }
 
-.carousel-legend {
-  font-size: 0.8rem;
-  color: var(--muted);
-  text-align: center;
-  margin-top: 0.5rem;
-}
 
 .carousel-backend {
   position: absolute;
