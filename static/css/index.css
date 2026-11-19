@@ -289,9 +289,18 @@ pre {
   line-height: 1.3;
 }
 
-.noun-blue { color: #3b82f6; }
-.noun-red  { color: #ef4444; }
-.noun-and  { color: #9ca3af; }
+.noun-blue    { color: #3b82f6; font-weight: 700; }
+.noun-red     { color: #ef4444; font-weight: 700; }
+.noun-yellow  { color: #d97706; font-weight: 700; }
+.noun-article { color: #6b7280; }
+.noun-and     { color: #9ca3af; }
+
+.carousel-legend {
+  font-size: 0.8rem;
+  color: var(--muted);
+  text-align: center;
+  margin-top: 0.5rem;
+}
 
 .carousel-backend {
   position: absolute;
