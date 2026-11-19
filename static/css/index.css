@@ -79,7 +79,7 @@ body {
   font-size: 1.05rem;
   color: #1f2937;
   max-width: 760px;
-  margin: 0 auto;
+  margin: 0 auto 1.8rem;
   line-height: 1.6;
 }
 
@@ -368,7 +368,7 @@ pre {
 
 .carousel-video-wrap {
   position: relative;
-  background: #000;
+  background: #f0f6ff;
   border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 4px 14px rgba(0,0,0,.12);
@@ -378,6 +378,7 @@ pre {
   display: block;
   width: 100%;
   height: auto;
+  background: #f0f6ff;
 }
 
 .carousel-divider {
