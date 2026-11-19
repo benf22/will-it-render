@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Carousel layout options</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Kalam:wght@700&family=Figtree:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; }
+body { font-family: 'Figtree', sans-serif; background: #f0f6ff; color: #374151; padding: 2rem 1rem; }
+
+h2 { font-size: 1rem; font-weight: 700; color: #9ca3af; letter-spacing: .1em;
+     text-transform: uppercase; margin: 2.5rem 0 1rem; }
+h2 span { color: #374151; }
+
+.card { background: #fff; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,.07);
+        padding: 1.5rem; max-width: 820px; margin: 0 auto 2.5rem; border-top: 3px solid #3b6fb6; }
+
+/* ── shared carousel pieces ───────────────────────────────────── */
+.c-video-wrap { position:relative; background:#000; border-radius:8px; overflow:hidden; }
+.c-video-wrap video { display:block; width:100%; height:auto; }
+.c-divider { position:absolute; top:0; bottom:0; left:50%; width:2px;
+             background:rgba(255,255,255,.45); pointer-events:none; }
+.c-col-headers { display:grid; grid-template-columns:1fr 1fr; margin-bottom:4px; }
+.c-col-header { text-align:center; font-size:.8rem; font-weight:700; letter-spacing:.06em;
+                text-transform:uppercase; color:#6b7280; padding:2px 0; }
+.c-col-header.ours { color:#3b6fb6; }
+.c-prompt { font-family:'Kalam',cursive; font-weight:700; font-size:1.1rem;
+            color:#1f2937; margin:.6rem 0 .2rem; text-align:center; line-height:1.3; }
+.c-nav { display:flex; align-items:center; justify-content:center; gap:.8rem; margin-top:.7rem; }
+.c-btn { background:none; border:2px solid #d1d5db; border-radius:50%;
+         width:34px; height:34px; font-size:1rem; cursor:pointer; color:#374151;
+         display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.c-btn:hover { border-color:#3b6fb6; color:#3b6fb6; }
+.c-dots { display:flex; gap:5px; flex-wrap:wrap; justify-content:center; }
+.c-dot { width:7px; height:7px; border-radius:50%; background:#d1d5db;
+         cursor:pointer; border:none; padding:0; transition:background .15s; }
+.c-dot.active { background:#3b6fb6; }
+.c-counter { font-size:.8rem; color:#9ca3af; text-align:center; margin-top:.3rem; }
+.c-caption { font-size:.8rem; color:#9ca3af; text-align:center; margin-top:.5rem; }
+
+/* noun colours */
+.nb { color:#3b82f6; font-weight:700; }
+.nr { color:#ef4444; font-weight:700; }
+.ny { color:#d97706; font-weight:700; }
+.na { color:#9ca3af; }
+
+/* ── Layout A: pill switcher ──────────────────────────────────── */
+.pills { display:flex; gap:.5rem; justify-content:center; margin-bottom:1rem; flex-wrap:wrap; }
+.pill { padding:.35rem 1rem; border-radius:20px; border:2px solid #d1d5db;
+        font-size:.82rem; font-weight:700; cursor:pointer; background:#fff;
+        letter-spacing:.04em; transition:background .15s, border-color .15s, color .15s; }
+.pill.active { background:#3b6fb6; border-color:#3b6fb6; color:#fff; }
+.pill:hover:not(.active) { border-color:#3b6fb6; color:#3b6fb6; }
+
+/* ── Layout B: stacked sections ───────────────────────────────── */
+.b-section { margin-bottom:1.5rem; }
+.b-label { font-size:.75rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase;
+           color:#3b6fb6; margin-bottom:.5rem; }
+
+/* ── Layout C: tab strip ──────────────────────────────────────── */
+.tabs { display:flex; border-bottom:2px solid #e5e7eb; margin-bottom:1rem; }
+.tab { padding:.5rem 1.2rem; font-size:.85rem; font-weight:700; cursor:pointer;
+       color:#9ca3af; border-bottom:3px solid transparent; margin-bottom:-2px;
+       transition:color .15s, border-color .15s; letter-spacing:.03em; }
+.tab.active { color:#3b6fb6; border-bottom-color:#3b6fb6; }
+.tab:hover:not(.active) { color:#374151; }
+.tab-panel { display:none; }
+.tab-panel.active { display:block; }
+
+/* ── Layout D: side-by-side mini ─────────────────────────────── */
+.mini-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:1rem; }
+@media(max-width:680px){ .mini-grid { grid-template-columns:1fr; } }
+.mini-label { font-size:.7rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase;
+              color:#3b6fb6; margin-bottom:.4rem; text-align:center; }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     LAYOUT A — single carousel with pill filter per backbone
+══════════════════════════════════════════════════════════════════ -->
+<h2>Layout A — <span>Pill switcher (one carousel, filter by backbone)</span></h2>
+<div class="card" id="la">
+  <div class="pills" id="la-pills"></div>
+  <div class="c-col-headers">
+    <div class="c-col-header">Reference</div>
+    <div class="c-col-header ours">Ours</div>
+  </div>
+  <div class="c-video-wrap"><video id="la-v" autoplay muted loop playsinline></video><div class="c-divider"></div></div>
+  <p class="c-prompt" id="la-p"></p>
+  <div class="c-nav">
+    <button class="c-btn" id="la-prev">&#8592;</button>
+    <div class="c-dots" id="la-dots"></div>
+    <button class="c-btn" id="la-next">&#8594;</button>
+  </div>
+  <p class="c-counter" id="la-cnt"></p>
+  <p class="c-caption">Each clip shows the un-steered backbone (left) alongside AttnSteer (right), generated from the same prompt and seed.</p>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     LAYOUT B — stacked carousels, one per backbone
+══════════════════════════════════════════════════════════════════ -->
+<h2>Layout B — <span>Stacked sections (one carousel per backbone)</span></h2>
+<div class="card" id="lb">
+  <!-- LTX-2 -->
+  <div class="b-section">
+    <div class="b-label">LTX-2</div>
+    <div class="c-col-headers"><div class="c-col-header">Reference</div><div class="c-col-header ours">Ours</div></div>
+    <div class="c-video-wrap"><video id="lb-v0" autoplay muted loop playsinline></video><div class="c-divider"></div></div>
+    <p class="c-prompt" id="lb-p0"></p>
+    <div class="c-nav"><button class="c-btn" id="lb-prev0">&#8592;</button><div class="c-dots" id="lb-dots0"></div><button class="c-btn" id="lb-next0">&#8594;</button></div>
+  </div>
+  <!-- Wan 2.1 -->
+  <div class="b-section">
+    <div class="b-label">Wan 2.1</div>
+    <div class="c-col-headers"><div class="c-col-header">Reference</div><div class="c-col-header ours">Ours</div></div>
+    <div class="c-video-wrap"><video id="lb-v1" autoplay muted loop playsinline></video><div class="c-divider"></div></div>
+    <p class="c-prompt" id="lb-p1"></p>
+    <div class="c-nav"><button class="c-btn" id="lb-prev1">&#8592;</button><div class="c-dots" id="lb-dots1"></div><button class="c-btn" id="lb-next1">&#8594;</button></div>
+  </div>
+  <!-- CogVideoX -->
+  <div class="b-section">
+    <div class="b-label">CogVideoX</div>
+    <div class="c-col-headers"><div class="c-col-header">Reference</div><div class="c-col-header ours">Ours</div></div>
+    <div class="c-video-wrap"><video id="lb-v2" autoplay muted loop playsinline></video><div class="c-divider"></div></div>
+    <p class="c-prompt" id="lb-p2"></p>
+    <div class="c-nav"><button class="c-btn" id="lb-prev2">&#8592;</button><div class="c-dots" id="lb-dots2"></div><button class="c-btn" id="lb-next2">&#8594;</button></div>
+  </div>
+  <p class="c-caption" style="margin-top:1rem">Each clip shows the un-steered backbone (left) alongside AttnSteer (right).</p>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     LAYOUT C — horizontal tab strip
+══════════════════════════════════════════════════════════════════ -->
+<h2>Layout C — <span>Tab strip</span></h2>
+<div class="card" id="lc">
+  <div class="tabs" id="lc-tabs"></div>
+  <div id="lc-panels"></div>
+  <p class="c-caption">Each clip shows the un-steered backbone (left) alongside AttnSteer (right).</p>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     LAYOUT D — three mini carousels side by side
+══════════════════════════════════════════════════════════════════ -->
+<h2>Layout D — <span>Side-by-side mini carousels</span></h2>
+<div class="card" style="max-width:1100px">
+  <div class="mini-grid" id="ld"></div>
+  <p class="c-caption" style="margin-top:.8rem">Each clip shows the un-steered backbone (left) alongside AttnSteer (right).</p>
+</div>
+
+<script>
+// ── data ─────────────────────────────────────────────────────────
+const BACKBONES = [
+  {
+    id:'ltx', label:'LTX-2',
+    clips:[
+      {src:'static/videos/carousel/fig1_ltx375.mp4', prompt:'a snowboard and a car and a refrigerator',                                         ours_only:['refrigerator'], neither:[]},
+      {src:'static/videos/carousel/fig1_ltx259.mp4', prompt:'a tie and a cow and a dog and a boat',                                             ours_only:['cow','dog','boat'], neither:[]},
+      {src:'static/videos/carousel/fig6_ltx4.mp4',   prompt:'a sandwich and a book and a stop sign and a truck and a banana',                   ours_only:['stop sign','book','truck','banana'], neither:[], break_after:3},
+      {src:'static/videos/carousel/fig6_ltx42.mp4',  prompt:'an oven and skis and a toilet and a chair and a person and a tie and a cell phone', ours_only:['toilet','cell phone','chair','tie'], neither:[], break_after:4},
+    ]
+  },
+  {
+    id:'wan', label:'Wan 2.1',
+    clips:[
+      {src:'static/videos/carousel/fig1_wan281.mp4', prompt:'a kite and a baseball bat',                                                        ours_only:['kite'], neither:[]},
+      {src:'static/videos/carousel/fig1_wan318.mp4', prompt:'a bus and a teddy bear and a pizza and broccoli',                                   ours_only:['broccoli'], neither:[]},
+      {src:'static/videos/carousel/fig1_wan231.mp4', prompt:'a tie and a book and a dog and a frisbee and a fork',                               ours_only:['tie','fork'], neither:['frisbee'], break_after:3},
+      {src:'static/videos/carousel/fig6_wan145.mp4', prompt:'a bicycle and a vase and a cup and a toaster and a microwave and a horse',          ours_only:['horse','vase'], neither:[], break_after:3},
+      {src:'static/videos/carousel/fig6_wan52.mp4',  prompt:'a donut and an umbrella and a sink',                                               ours_only:['umbrella'], neither:[]},
+    ]
+  },
+  {
+    id:'cogx', label:'CogVideoX',
+    clips:[
+      {src:'static/videos/carousel/fig6_cogx144.mp4', prompt:'a zebra and an elephant and a fire hydrant and skis',         ours_only:['skis'], neither:[]},
+      {src:'static/videos/carousel/fig6_cogx168.mp4', prompt:'a refrigerator and an elephant and a kite',                   ours_only:['refrigerator'], neither:[]},
+    ]
+  }
+];
+
+function renderPrompt(c) {
+  const oursSet    = new Set((c.ours_only||[]).map(s=>s.toLowerCase()));
+  const neitherSet = new Set((c.neither  ||[]).map(s=>s.toLowerCase()));
+  const parts = c.prompt.split(' and ').map((part,i)=>{
+    const m = part.match(/^(a|an|the)\s+(.+)$/i);
+    const article = m ? m[1] : '';
+    const noun    = (m ? m[2] : part).toLowerCase();
+    const display = m ? m[2] : part;
+    const cls = oursSet.has(noun)?'nr': neitherSet.has(noun)?'ny':'nb';
+    const word = (article?`<span class="na">${article} </span>`:'')+`<span class="${cls}">${display}</span>`;
+    if(i===0) return word;
+    const sep = (c.break_after===i)?'<span class="na"> and </span><br>':'<span class="na"> and </span>';
+    return sep+word;
+  });
+  return '<span class="na">"</span>'+parts.join('')+'<span class="na">"</span>';
+}
+
+function makeCarousel(videoEl, promptEl, dotsEl, prevBtn, nextBtn, clips) {
+  let idx=0;
+  clips.forEach((_,i)=>{
+    const d=document.createElement('button');
+    d.className='c-dot'+(i===0?' active':'');
+    d.addEventListener('click',()=>go(i));
+    dotsEl.appendChild(d);
+  });
+  function go(i) {
+    idx=(i+clips.length)%clips.length;
+    const c=clips[idx];
+    videoEl.src=c.src; videoEl.load(); videoEl.play().catch(()=>{});
+    promptEl.innerHTML=renderPrompt(c);
+    dotsEl.querySelectorAll('.c-dot').forEach((d,j)=>d.classList.toggle('active',j===idx));
+  }
+  prevBtn.addEventListener('click',()=>go(idx-1));
+  nextBtn.addEventListener('click',()=>go(idx+1));
+  go(0);
+  setInterval(()=>go(idx+1), 6000);
+}
+
+// ── Layout A: pill switcher ───────────────────────────────────────
+(function(){
+  const v=document.getElementById('la-v'), p=document.getElementById('la-p');
+  const dots=document.getElementById('la-dots'), cnt=document.getElementById('la-cnt');
+  const pillsEl=document.getElementById('la-pills');
+  let activeBackbone=0, idx=0, timer=null;
+
+  BACKBONES.forEach((b,bi)=>{
+    const pill=document.createElement('button');
+    pill.className='pill'+(bi===0?' active':'');
+    pill.textContent=b.label;
+    pill.addEventListener('click',()=>{ activeBackbone=bi; rebuildDots(); go(0); highlightPills(); });
+    pillsEl.appendChild(pill);
+  });
+
+  function highlightPills(){
+    pillsEl.querySelectorAll('.pill').forEach((pl,i)=>pl.classList.toggle('active',i===activeBackbone));
+  }
+  function rebuildDots(){
+    dots.innerHTML='';
+    const clips=BACKBONES[activeBackbone].clips;
+    clips.forEach((_,i)=>{
+      const d=document.createElement('button'); d.className='c-dot'; d.addEventListener('click',()=>go(i)); dots.appendChild(d);
+    });
+  }
+  function go(i){
+    const clips=BACKBONES[activeBackbone].clips;
+    idx=(i+clips.length)%clips.length;
+    const c=clips[idx];
+    v.src=c.src; v.load(); v.play().catch(()=>{});
+    p.innerHTML=renderPrompt(c);
+    cnt.textContent=(idx+1)+' / '+clips.length+' — '+BACKBONES[activeBackbone].label;
+    dots.querySelectorAll('.c-dot').forEach((d,j)=>d.classList.toggle('active',j===idx));
+    clearInterval(timer); timer=setInterval(()=>go(idx+1),6000);
+  }
+  document.getElementById('la-prev').addEventListener('click',()=>go(idx-1));
+  document.getElementById('la-next').addEventListener('click',()=>go(idx+1));
+  rebuildDots(); go(0);
+})();
+
+// ── Layout B: stacked ─────────────────────────────────────────────
+BACKBONES.forEach((b,bi)=>{
+  makeCarousel(
+    document.getElementById(`lb-v${bi}`), document.getElementById(`lb-p${bi}`),
+    document.getElementById(`lb-dots${bi}`),
+    document.getElementById(`lb-prev${bi}`), document.getElementById(`lb-next${bi}`),
+    b.clips
+  );
+});
+
+// ── Layout C: tab strip ───────────────────────────────────────────
+(function(){
+  const tabsEl=document.getElementById('lc-tabs'), panelsEl=document.getElementById('lc-panels');
+  BACKBONES.forEach((b,bi)=>{
+    const tab=document.createElement('div'); tab.className='tab'+(bi===0?' active':'');
+    tab.textContent=b.label; tabsEl.appendChild(tab);
+
+    const panel=document.createElement('div'); panel.className='tab-panel'+(bi===0?' active':'');
+    panel.innerHTML=`
+      <div class="c-col-headers"><div class="c-col-header">Reference</div><div class="c-col-header ours">Ours</div></div>
+      <div class="c-video-wrap"><video id="lc-v${bi}" autoplay muted loop playsinline></video><div class="c-divider"></div></div>
+      <p class="c-prompt" id="lc-p${bi}"></p>
+      <div class="c-nav"><button class="c-btn" id="lc-prev${bi}">&#8592;</button><div class="c-dots" id="lc-dots${bi}"></div><button class="c-btn" id="lc-next${bi}">&#8594;</button></div>
+    `;
+    panelsEl.appendChild(panel);
+
+    tab.addEventListener('click',()=>{
+      tabsEl.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',i===bi));
+      panelsEl.querySelectorAll('.tab-panel').forEach((p,i)=>p.classList.toggle('active',i===bi));
+    });
+  });
+  BACKBONES.forEach((b,bi)=>{
+    makeCarousel(
+      document.getElementById(`lc-v${bi}`), document.getElementById(`lc-p${bi}`),
+      document.getElementById(`lc-dots${bi}`),
+      document.getElementById(`lc-prev${bi}`), document.getElementById(`lc-next${bi}`),
+      b.clips
+    );
+  });
+})();
+
+// ── Layout D: mini side-by-side ───────────────────────────────────
+(function(){
+  const grid=document.getElementById('ld');
+  BACKBONES.forEach((b,bi)=>{
+    const col=document.createElement('div');
+    col.innerHTML=`
+      <div class="mini-label">${b.label}</div>
+      <div class="c-col-headers"><div class="c-col-header" style="font-size:.7rem">Reference</div><div class="c-col-header ours" style="font-size:.7rem">Ours</div></div>
+      <div class="c-video-wrap"><video id="ld-v${bi}" autoplay muted loop playsinline></video><div class="c-divider"></div></div>
+      <p class="c-prompt" id="ld-p${bi}" style="font-size:.85rem"></p>
+      <div class="c-nav" style="gap:.5rem"><button class="c-btn" id="ld-prev${bi}" style="width:28px;height:28px;font-size:.85rem">&#8592;</button><div class="c-dots" id="ld-dots${bi}"></div><button class="c-btn" id="ld-next${bi}" style="width:28px;height:28px;font-size:.85rem">&#8594;</button></div>
+    `;
+    grid.appendChild(col);
+    makeCarousel(
+      document.getElementById(`ld-v${bi}`), document.getElementById(`ld-p${bi}`),
+      document.getElementById(`ld-dots${bi}`),
+      document.getElementById(`ld-prev${bi}`), document.getElementById(`ld-next${bi}`),
+      b.clips
+    );
+  });
+})();
+</script>
+</body>
+</html>
