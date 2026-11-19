@@ -82,9 +82,9 @@ no model retraining, no hand-crafted objectives needed.
       <p class="carousel-caption">Each clip shows the <strong>un-steered backbone</strong> (left) alongside <strong>AttnSteer</strong> (right),
 generated from the same prompt and seed.</p>
       <p class="carousel-legend">
-        <span class="noun-article">a</span> <span class="noun-blue">noun</span> — appears in both &nbsp;·&nbsp;
-        <span class="noun-article">a</span> <span class="noun-red">noun</span> — appears only in ours &nbsp;·&nbsp;
-        <span class="noun-article">a</span> <span class="noun-yellow">noun</span> — appears in neither
+        a <span class="noun-blue">noun</span> — appears in both &nbsp;·&nbsp;
+        a <span class="noun-red">noun</span> — appears only in ours &nbsp;·&nbsp;
+        a <span class="noun-yellow">noun</span> — appears in neither
       </p>
     </div>
   </div>
@@ -137,7 +137,7 @@ generated from the same prompt and seed.</p>
       const display = m ? m[2] : part;
       const cls     = oursSet.has(noun)    ? 'noun-red'    :
                       neitherSet.has(noun) ? 'noun-yellow'  : 'noun-blue';
-      const word    = (article ? `<span class="noun-article">${article} </span>` : '') +
+      const word    = (article ? `${article} ` : '') +
                       `<span class="${cls}">${display}</span>`;
       if (i === 0) return word;
       const sep = (c.break_after === i)
