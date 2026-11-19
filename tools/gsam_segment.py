@@ -110,7 +110,7 @@ def main():
     ap.add_argument("--text-thr",     type=float, default=0.20)
     ap.add_argument("--track",        action="store_true",
                     help="Fill GDINO gaps with CSRT tracker + smooth boxes")
-    ap.add_argument("--smooth-sigma", type=float, default=1.5,
+    ap.add_argument("--smooth-sigma", type=float, default=2.5,
                     help="Gaussian sigma for box smoothing (--track only)")
     ap.add_argument("--device", default="cuda" if torch.cuda.is_available() else "cpu")
     args = ap.parse_args()
@@ -173,51 +173,20 @@ def main():
     detected = int((all_scores > 0).sum())
     print(f"  GDINO detected {detected}/{N} frames")
 
-    # ── pass 2 (optional): CSRT tracker fills gaps ───────────────────────────
+    # ── pass 2 (optional): interpolate boxes across all frames ──────────────
     if args.track and detected > 0:
-        print("pass 2: CSRT gap-filling …")
-        det_indices = np.where(all_scores > 0)[0]
+        print("pass 2: interpolating + smoothing boxes …")
+        # Interpolate box coords between GDINO detections (np.interp clamps at
+        # edges, so pre/post-detection frames get nearest detection's box).
+        gdino_mask = (all_scores > 0).astype(float)
+        all_boxes = smooth_boxes(all_boxes, gdino_mask, args.smooth_sigma)
 
-        # forward tracking from each detected frame into subsequent gaps
-        tracker = cv2.TrackerMIL_create()
-        tracker_init = False
+        # Mark all frames as having a box (interp fills the gaps)
         for i in range(N):
-            if all_scores[i] > 0:
-                # (re-)init tracker on this GDINO box
-                x, y, w, h = xyxy_to_xywh(all_boxes[i].tolist())
-                tracker = cv2.TrackerMIL_create()
-                tracker.init(frames_bgr[i], (int(x), int(y), int(w), int(h)))
-                tracker_init = True
-            elif tracker_init and source[i] == "none":
-                ok, (x, y, w, h) = tracker.update(frames_bgr[i])
-                if ok:
-                    all_boxes[i]  = xywh_to_xyxy([x, y, w, h])
-                    all_scores[i] = -1.0   # negative = tracker (not GDINO)
-                    source[i]     = "tracker"
-                    print(f"  frame {i:02d}: tracker  box={[round(v,1) for v in all_boxes[i]]}")
-
-        # backward tracking from first detection into earlier frames
-        tracker = cv2.TrackerMIL_create()
-        tracker_init = False
-        for i in range(N - 1, -1, -1):
-            if all_scores[i] > 0 and source[i] == "gdino":
-                x, y, w, h = xyxy_to_xywh(all_boxes[i].tolist())
-                tracker = cv2.TrackerMIL_create()
-                tracker.init(frames_bgr[i], (int(x), int(y), int(w), int(h)))
-                tracker_init = True
-            elif tracker_init and source[i] == "none":
-                ok, (x, y, w, h) = tracker.update(frames_bgr[i])
-                if ok:
-                    all_boxes[i]  = xywh_to_xyxy([x, y, w, h])
-                    all_scores[i] = -1.0
-                    source[i]     = "tracker"
-                    print(f"  frame {i:02d}: tracker←  box={[round(v,1) for v in all_boxes[i]]}")
-
-        # smooth all boxes (detected + tracked) with Gaussian
-        print(f"  smoothing boxes (sigma={args.smooth_sigma}) …")
-        # treat all filled frames (gdino + tracker) as "detected" for smoothing
-        smooth_mask = np.array([s != 0 for s in all_scores])
-        all_boxes = smooth_boxes(all_boxes, smooth_mask.astype(float), args.smooth_sigma)
+            if all_scores[i] == 0:
+                all_scores[i] = -0.5   # interp flag
+                source[i]     = "interp"
+                print(f"  frame {i:02d}: interp  box={[round(v,1) for v in all_boxes[i]]}")
 
     # ── pass 3: SAM on every box-filled frame ────────────────────────────────
     need_sam = all_scores != 0
