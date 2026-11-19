@@ -407,6 +407,7 @@ pre {
   display: block;
   width: 100%;
   height: auto;
+  transition: opacity 0.12s ease;
 }
 
 .carousel-divider {
