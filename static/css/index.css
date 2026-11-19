@@ -480,6 +480,11 @@ pre {
   margin-top: 0.4rem;
 }
 
+/* Wrapper that lets col-headers overlay the video on mobile */
+.carousel-media-wrap {
+  position: relative;
+}
+
 /* ---- end carousel ---- */
 
 /* ---- Temporal control timelines ---- */
@@ -666,9 +671,24 @@ pre {
   .carousel-video-wrap {
     aspect-ratio: unset;
   }
-  /* Col headers: keep 2-column grid (labels L/R halves of side-by-side video) */
+  /* Col headers: overlay each half of the stacked mobile video */
+  .carousel-col-headers {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+    display: flex;
+    flex-direction: column;
+  }
   .carousel-col-header {
-    padding: 3px 0;
+    flex: 1;
+    display: flex;
+    align-items: flex-start;
+    padding: 5px 8px;
+    color: rgba(255,255,255,0.95) !important;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.75);
+    background: linear-gradient(to bottom, rgba(0,0,0,0.38) 0%, transparent 55%);
+    font-size: 0.78rem;
   }
   .carousel-main-video {
     height: auto !important;
