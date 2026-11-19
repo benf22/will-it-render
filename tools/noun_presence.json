@@ -1,0 +1,65 @@
+{
+  "fig1_ltx375": {
+    "ours_only": [
+      "refrigerator"
+    ]
+  },
+  "fig1_ltx259": {
+    "ours_only": [
+      "cow",
+      "dog",
+      "boat"
+    ]
+  },
+  "fig1_wan281": {
+    "ours_only": [
+      "kite"
+    ]
+  },
+  "fig1_wan318": {
+    "ours_only": [
+      "broccoli"
+    ]
+  },
+  "fig1_wan231": {
+    "ours_only": []
+  },
+  "fig6_wan145": {
+    "ours_only": [
+      "horse"
+    ]
+  },
+  "fig6_wan52": {
+    "ours_only": [
+      "umbrella"
+    ]
+  },
+  "fig6_ltx4": {
+    "ours_only": [
+      "stop sign"
+    ]
+  },
+  "fig6_ltx42": {
+    "ours_only": [
+      "toilet",
+      "cell phone"
+    ]
+  },
+  "fig6_cogx144": {
+    "ours_only": [
+      "skis"
+    ]
+  },
+  "fig6_cogx168": {
+    "ours_only": []
+  },
+  "fig12_so68": {
+    "ours_only": []
+  },
+  "fig12_so17": {
+    "ours_only": []
+  },
+  "fig12_so49": {
+    "ours_only": []
+  }
+}
