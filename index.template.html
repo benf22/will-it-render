@@ -82,6 +82,26 @@
 </section>
 
 <script>
+function renderPrompt(c) {
+  const oursSet    = new Set((c.ours_only || []).map(s => s.toLowerCase()));
+  const neitherSet = new Set((c.neither   || []).map(s => s.toLowerCase()));
+  const parts = c.prompt.split(' and ').map((part, i) => {
+    const m       = part.match(/^(a|an|the)\s+(.+)$/i);
+    const article = m ? m[1] : '';
+    const noun    = (m ? m[2] : part).toLowerCase();
+    const display = m ? m[2] : part;
+    const cls     = oursSet.has(noun)    ? 'noun-red'    :
+                    neitherSet.has(noun) ? 'noun-yellow'  : 'noun-blue';
+    const word    = (article ? `<span class="noun-and">${article} </span>` : '') +
+                    `<span class="${cls}">${display}</span>`;
+    if (i === 0) return word;
+    const sep = (c.break_after === i)
+      ? '<span class="noun-and"> and </span><br>'
+      : '<span class="noun-and"> and </span>';
+    return sep + word;
+  });
+  return '<span class="noun-and">"</span>' + parts.join('') + '<span class="noun-and">"</span>';
+}
 (function () {
   const CLIPS = [
     // Figure 1 — teaser examples
@@ -117,27 +137,6 @@
     d.addEventListener('click', () => goTo(i));
     dotsEl.appendChild(d);
   });
-
-  function renderPrompt(c) {
-    const oursSet    = new Set((c.ours_only || []).map(s => s.toLowerCase()));
-    const neitherSet = new Set((c.neither   || []).map(s => s.toLowerCase()));
-    const parts = c.prompt.split(' and ').map((part, i) => {
-      const m       = part.match(/^(a|an|the)\s+(.+)$/i);
-      const article = m ? m[1] : '';
-      const noun    = (m ? m[2] : part).toLowerCase();
-      const display = m ? m[2] : part;
-      const cls     = oursSet.has(noun)    ? 'noun-red'    :
-                      neitherSet.has(noun) ? 'noun-yellow'  : 'noun-blue';
-      const word    = (article ? `<span class=”noun-and”>${article} </span>` : '') +
-                      `<span class=”${cls}”>${display}</span>`;
-      if (i === 0) return word;
-      const sep = (c.break_after === i)
-        ? '<span class=”noun-and”> and </span><br>'
-        : '<span class=”noun-and”> and </span>';
-      return sep + word;
-    });
-    return '<span class=”noun-and”>“</span>' + parts.join('') + '<span class=”noun-and”>”</span>';
-  }
 
   function goTo(i) {
     idx = (i + CLIPS.length) % CLIPS.length;
@@ -496,9 +495,9 @@
 <script>
 (function () {
   const CLIPS2 = [
-    {src:"static/videos/carousel/fig12_so68.mp4", msrc:"static/videos/carousel/fig12_so68_p.mp4", prompt:"an oven",   backend:"LTX-2"},
-    {src:"static/videos/carousel/fig12_so17.mp4", msrc:"static/videos/carousel/fig12_so17_p.mp4", prompt:"a horse",   backend:"LTX-2"},
-    {src:"static/videos/carousel/fig12_so49.mp4", msrc:"static/videos/carousel/fig12_so49_p.mp4", prompt:"an orange", backend:"LTX-2"},
+    {src:"static/videos/carousel/fig12_so68.mp4", msrc:"static/videos/carousel/fig12_so68_p.mp4", prompt:"an oven",   backend:"LTX-2", ours_only:[], neither:[]},
+    {src:"static/videos/carousel/fig12_so17.mp4", msrc:"static/videos/carousel/fig12_so17_p.mp4", prompt:"a horse",   backend:"LTX-2", ours_only:[], neither:[]},
+    {src:"static/videos/carousel/fig12_so49.mp4", msrc:"static/videos/carousel/fig12_so49_p.mp4", prompt:"an orange", backend:"LTX-2", ours_only:[], neither:[]},
   ];
 
   const video2     = document.getElementById('car2-video');
@@ -523,7 +522,7 @@
   function goTo2(i) {
     idx2 = (i + CLIPS2.length) % CLIPS2.length;
     const c = CLIPS2[idx2];
-    promptEl2.textContent  = c.prompt;
+    promptEl2.innerHTML    = renderPrompt(c);
     backendEl2.textContent = c.backend;
     video2.src = (mq2.matches && c.msrc) ? c.msrc : c.src;
     video2.load();
