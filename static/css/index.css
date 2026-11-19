@@ -368,7 +368,6 @@ pre {
 
 .carousel-video-wrap {
   position: relative;
-  background: #f0f6ff;
   border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 4px 14px rgba(0,0,0,.12);
@@ -378,7 +377,6 @@ pre {
   display: block;
   width: 100%;
   height: auto;
-  background: #f0f6ff;
 }
 
 .carousel-divider {
