@@ -12,6 +12,7 @@
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.9.4/css/academicons.min.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Kalam:wght@700&family=Figtree:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
@@ -40,6 +41,7 @@
             <span class="link-block"><a class="external-link button is-normal is-rounded is-dark" href="#"><span class="icon"><i class="fas fa-file-pdf"></i></span><span>Paper</span></a></span>
             <span class="link-block"><a class="external-link button is-normal is-rounded is-dark" href="#"><span class="icon"><i class="ai ai-arxiv"></i></span><span>arXiv</span></a></span>
             <span class="link-block"><a class="external-link button is-normal is-rounded is-dark" href="#"><span class="icon"><i class="fab fa-github"></i></span><span>Code</span></a></span>
+            <span class="link-block"><a class="external-link button is-normal is-rounded is-dark" href="#dataset"><span class="icon"><i class="fas fa-database"></i></span><span>Dataset</span></a></span>
           </div>
         </div>
       </div>
@@ -81,7 +83,7 @@ no model retraining, no hand-crafted objectives needed.
       </div>
       <p class="carousel-counter" id="car-counter"></p>
       <p class="carousel-caption">Each clip shows the <strong>un-steered backbone</strong> (left) alongside <strong>AttnSteer</strong> (right),
-generated from the same prompt and seed. &nbsp;·&nbsp; <span class="noun-blue">blue</span> = appears in both &nbsp;·&nbsp; <span class="noun-red">red</span> = appears only in ours &nbsp;·&nbsp; <span class="noun-yellow">yellow</span> = appears in neither</p>
+generated from the same prompt and seed.<br><span class="noun-blue">blue</span> = appears in both &nbsp;·&nbsp; <span class="noun-red">red</span> = appears only in ours &nbsp;·&nbsp; <span class="noun-yellow">yellow</span> = appears in neither</p>
     </div>
   </div>
 </section>
@@ -110,21 +112,21 @@ function renderPrompt(c) {
 (function () {
   const BACKBONES = [
     { label: "LTX-2", clips: [
-      {src:"static/videos/carousel/fig1_ltx375.mp4",  msrc:"static/videos/carousel/fig1_ltx375_p.mp4",  prompt:"a snowboard and a car and a refrigerator",                                             ours_only:["refrigerator"],                           neither:[]},
-      {src:"static/videos/carousel/fig1_ltx259.mp4",  msrc:"static/videos/carousel/fig1_ltx259_p.mp4",  prompt:"a tie and a cow and a dog and a boat",                                                 ours_only:["cow","dog","boat"],                        neither:[]},
-      {src:"static/videos/carousel/fig6_ltx4.mp4",    msrc:"static/videos/carousel/fig6_ltx4_p.mp4",    prompt:"a sandwich and a book and a stop sign and a truck and a banana",                        ours_only:["stop sign","book","truck","banana"],        neither:[], break_after:3},
-      {src:"static/videos/carousel/fig6_ltx42.mp4",   msrc:"static/videos/carousel/fig6_ltx42_p.mp4",   prompt:"an oven and skis and a toilet and a chair and a person and a tie and a cell phone",     ours_only:["toilet","cell phone","chair","tie"],        neither:[], break_after:4},
+      {src:"static/videos/carousel/fig1_ltx375.mp4",  csrc:"static/videos/carousel_contour/fig1_ltx375.mp4",  msrc:"static/videos/carousel/fig1_ltx375_p.mp4",  prompt:"a snowboard and a car and a refrigerator",                                             ours_only:["refrigerator"],                           neither:[]},
+      {src:"static/videos/carousel/fig1_ltx259.mp4",  csrc:"static/videos/carousel_contour/fig1_ltx259.mp4",  msrc:"static/videos/carousel/fig1_ltx259_p.mp4",  prompt:"a tie and a cow and a dog and a boat",                                                 ours_only:["cow","dog","boat"],                        neither:[]},
+      {src:"static/videos/carousel/fig6_ltx4.mp4",    csrc:"static/videos/carousel_contour/fig6_ltx4.mp4",    msrc:"static/videos/carousel/fig6_ltx4_p.mp4",    prompt:"a sandwich and a book and a stop sign and a truck and a banana",                        ours_only:["stop sign","book","truck","banana"],        neither:[], break_after:3},
+      {src:"static/videos/carousel/fig6_ltx42.mp4",   csrc:"static/videos/carousel_contour/fig6_ltx42.mp4",   msrc:"static/videos/carousel/fig6_ltx42_p.mp4",   prompt:"an oven and skis and a toilet and a chair and a person and a tie and a cell phone",     ours_only:["toilet","cell phone","chair","tie"],        neither:[], break_after:4},
     ]},
     { label: "Wan 2.1", clips: [
-      {src:"static/videos/carousel/fig1_wan281.mp4",  msrc:"static/videos/carousel/fig1_wan281_p.mp4",  prompt:"a kite and a baseball bat",                                                             ours_only:["kite"],                                    neither:[]},
-      {src:"static/videos/carousel/fig1_wan318.mp4",  msrc:"static/videos/carousel/fig1_wan318_p.mp4",  prompt:"a bus and a teddy bear and a pizza and broccoli",                                       ours_only:["broccoli"],                               neither:[]},
-      {src:"static/videos/carousel/fig1_wan231.mp4",  msrc:"static/videos/carousel/fig1_wan231_p.mp4",  prompt:"a tie and a book and a dog and a frisbee and a fork",                                   ours_only:["tie","fork"],                              neither:["frisbee"], break_after:3},
-      {src:"static/videos/carousel/fig6_wan145.mp4",  msrc:"static/videos/carousel/fig6_wan145_p.mp4",  prompt:"a bicycle and a vase and a cup and a toaster and a microwave and a horse",              ours_only:["horse","vase"],                            neither:[], break_after:3},
-      {src:"static/videos/carousel/fig6_wan52.mp4",   msrc:"static/videos/carousel/fig6_wan52_p.mp4",   prompt:"a donut and an umbrella and a sink",                                                    ours_only:["umbrella"],                               neither:[]},
+      {src:"static/videos/carousel/fig1_wan281.mp4",  csrc:"static/videos/carousel_contour/fig1_wan281.mp4",  msrc:"static/videos/carousel/fig1_wan281_p.mp4",  prompt:"a kite and a baseball bat",                                                             ours_only:["kite"],                                    neither:[]},
+      {src:"static/videos/carousel/fig1_wan318.mp4",  csrc:"static/videos/carousel_contour/fig1_wan318.mp4",  msrc:"static/videos/carousel/fig1_wan318_p.mp4",  prompt:"a bus and a teddy bear and a pizza and broccoli",                                       ours_only:["broccoli"],                               neither:[]},
+      {src:"static/videos/carousel/fig1_wan231.mp4",  csrc:"static/videos/carousel_contour/fig1_wan231.mp4",  msrc:"static/videos/carousel/fig1_wan231_p.mp4",  prompt:"a tie and a book and a dog and a frisbee and a fork",                                   ours_only:["tie","fork"],                              neither:["frisbee"], break_after:3},
+      {src:"static/videos/carousel/fig6_wan145.mp4",  csrc:"static/videos/carousel_contour/fig6_wan145.mp4",  msrc:"static/videos/carousel/fig6_wan145_p.mp4",  prompt:"a bicycle and a vase and a cup and a toaster and a microwave and a horse",              ours_only:["horse","vase"],                            neither:[], break_after:3},
+      {src:"static/videos/carousel/fig6_wan52.mp4",   csrc:"static/videos/carousel_contour/fig6_wan52.mp4",   msrc:"static/videos/carousel/fig6_wan52_p.mp4",   prompt:"a donut and an umbrella and a sink",                                                    ours_only:["umbrella"],                               neither:[]},
     ]},
     { label: "CogVideoX", clips: [
-      {src:"static/videos/carousel/fig6_cogx144.mp4", msrc:"static/videos/carousel/fig6_cogx144_p.mp4", prompt:"a zebra and an elephant and a fire hydrant and skis",                                   ours_only:["skis"],                                   neither:[]},
-      {src:"static/videos/carousel/fig6_cogx168.mp4", msrc:"static/videos/carousel/fig6_cogx168_p.mp4", prompt:"a refrigerator and an elephant and a kite",                                             ours_only:["refrigerator"],                           neither:[]},
+      {src:"static/videos/carousel/fig6_cogx144.mp4", csrc:"static/videos/carousel_contour/fig6_cogx144.mp4", msrc:"static/videos/carousel/fig6_cogx144_p.mp4", prompt:"a zebra and an elephant and a fire hydrant and skis",                                   ours_only:["skis"],                                   neither:[]},
+      {src:"static/videos/carousel/fig6_cogx168.mp4", csrc:"static/videos/carousel_contour/fig6_cogx168.mp4", msrc:"static/videos/carousel/fig6_cogx168_p.mp4", prompt:"a refrigerator and an elephant and a kite",                                             ours_only:["refrigerator"],                           neither:[]},
     ]},
   ];
 
@@ -224,43 +226,44 @@ frame-level temporal control. AttnSteer improves all-objects accuracy over the s
 <section class="section">
   <div class="container is-max-desktop">
     <h2 class="title is-3 has-text-centered">Key Results</h2>
-    <div class="columns is-centered has-text-centered stat-row">
+    <p class="has-text-centered" style="font-size:0.85rem; color:#999; margin:-0.5rem 0 1.25rem;">All-objects accuracy</p>
+    <div style="display:grid; grid-template-columns: max-content 1fr 1fr 1fr; align-items:center; gap:0.2rem 1.2rem; margin-top:0.5rem;">
 
-      <div class="column">
-        <p class="stat-label" style="font-weight:700; font-size:0.95rem; margin-bottom:0.5rem; color:#555;">
-          LTX-2 &nbsp;&middot;&nbsp; All-objects accuracy
-        </p>
-        <div style="display:flex; align-items:baseline; justify-content:center; gap:0.5rem;">
-          <span style="font-size:2.2rem; font-weight:600; color:#bbb;">49.0<span style="font-size:1rem; font-weight:400;">%</span></span>
-          <span style="font-size:2rem; color:#999; line-height:1; margin: 0 0.1rem;">&#8594;</span>
-          <p class="stat-number" style="margin:0; line-height:1;">61.9<span class="stat-unit">%</span></p>
-        </div>
-        <p class="stat-label" style="margin-top:0.4rem;"><span class="stat-base">A&amp;E &rarr; AttnSteer (ours)</span></p>
-      </div>
+      <!-- header -->
+      <div></div>
+      <div style="text-align:center; font-weight:700; font-size:0.95rem; color:#555; padding-bottom:0.4rem;">LTX-2</div>
+      <div style="text-align:center; font-weight:700; font-size:0.95rem; color:#555; padding-bottom:0.4rem;">Wan&nbsp;2.1</div>
+      <div style="text-align:center; font-weight:700; font-size:0.95rem; color:#555; padding-bottom:0.4rem;">CogVideoX</div>
 
-      <div class="column">
-        <p class="stat-label" style="font-weight:700; font-size:0.95rem; margin-bottom:0.5rem; color:#555;">
-          Wan&nbsp;2.1 &nbsp;&middot;&nbsp; All-objects accuracy
-        </p>
-        <div style="display:flex; align-items:baseline; justify-content:center; gap:0.5rem;">
-          <span style="font-size:2.2rem; font-weight:600; color:#bbb;">42.1<span style="font-size:1rem; font-weight:400;">%</span></span>
-          <span style="font-size:2rem; color:#999; line-height:1; margin: 0 0.1rem;">&#8594;</span>
-          <p class="stat-number" style="margin:0; line-height:1;">46.5<span class="stat-unit">%</span></p>
-        </div>
-        <p class="stat-label" style="margin-top:0.4rem;"><span class="stat-base">A&amp;E &rarr; AttnSteer (ours)</span></p>
-      </div>
+      <!-- un-steered -->
+      <div style="text-align:right; font-size:0.8rem; color:#bbb; white-space:nowrap; padding-right:0.6rem;">Un-steered</div>
+      <div style="text-align:center; font-size:1.2rem; font-weight:600; color:#ccc;">38.3%</div>
+      <div style="text-align:center; font-size:1.2rem; font-weight:600; color:#ccc;">27.1%</div>
+      <div style="text-align:center; font-size:1.2rem; font-weight:600; color:#ccc;">30.5%</div>
 
-      <div class="column">
-        <p class="stat-label" style="font-weight:700; font-size:0.95rem; margin-bottom:0.5rem; color:#555;">
-          LTX-2 &nbsp;&middot;&nbsp; Temporal specificity
-        </p>
-        <div style="display:flex; align-items:baseline; justify-content:center; gap:0.5rem;">
-          <span style="font-size:2.2rem; font-weight:600; color:#bbb;">35.7<span style="font-size:1rem; font-weight:400;">%</span></span>
-          <span style="font-size:2rem; color:#999; line-height:1; margin: 0 0.1rem;">&#8594;</span>
-          <p class="stat-number" style="margin:0; line-height:1;">52.6<span class="stat-unit">%</span></p>
-        </div>
-        <p class="stat-label" style="margin-top:0.4rem;"><span class="stat-base">TempoControl &rarr; AttnSteer (ours)</span></p>
-      </div>
+      <!-- arrow -->
+      <div></div>
+      <div style="text-align:center; color:#999; font-size:1rem; font-weight:700; line-height:1;">&#8595;</div>
+      <div style="text-align:center; color:#999; font-size:1rem; font-weight:700; line-height:1;">&#8595;</div>
+      <div style="text-align:center; color:#999; font-size:1rem; font-weight:700; line-height:1;">&#8595;</div>
+
+      <!-- A&E -->
+      <div style="text-align:right; font-size:0.8rem; color:#888; white-space:nowrap; padding-right:0.6rem;">A&amp;E&nbsp;<span style="color:#bbb;">(baseline)</span></div>
+      <div style="text-align:center; font-size:1.6rem; font-weight:600; color:#999;">49.0%</div>
+      <div style="text-align:center; font-size:1.6rem; font-weight:600; color:#999;">42.1%</div>
+      <div style="text-align:center; font-size:1.6rem; font-weight:600; color:#999;">56.1%</div>
+
+      <!-- arrow -->
+      <div></div>
+      <div style="text-align:center; color:#999; font-size:1rem; font-weight:700; line-height:1;">&#8595;</div>
+      <div style="text-align:center; color:#999; font-size:1rem; font-weight:700; line-height:1;">&#8595;</div>
+      <div style="text-align:center; color:#999; font-size:1rem; font-weight:700; line-height:1;">&#8595;</div>
+
+      <!-- AttnSteer -->
+      <div style="text-align:right; font-size:0.8rem; color:#555; white-space:nowrap; padding-right:0.6rem;">AttnSteer&nbsp;<span style="color:#888;">(ours)</span></div>
+      <div style="text-align:center; font-size:2.2rem; font-weight:700; color:var(--accent); line-height:1.1;">61.9%</div>
+      <div style="text-align:center; font-size:2.2rem; font-weight:700; color:var(--accent); line-height:1.1;">46.5%</div>
+      <div style="text-align:center; font-size:2.2rem; font-weight:700; color:var(--accent); line-height:1.1;">65.9%</div>
 
     </div>
   </div>
@@ -299,6 +302,30 @@ run on the generator's own final videos.</p>
       <img src="static/images/fig_training.png" alt="Training AttnSteer with self-generated supervision">
       <figcaption class="content has-text-centered"><strong>Training with self-generated supervision.</strong> Cross-attention features from the frozen generator
 are paired with detector labels from its final video.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<hr class="section-rule">
+
+<!-- ── STEERING PROCESS ──────────────────────────────────────────── -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Steering Process Visualization</h2>
+    <div class="content has-text-justified">
+      <p>Each row shows the predicted clean video (x̂₀) at successive denoising steps for the prompt
+      <em>"a truck and a bird and a cow"</em> steered toward <em>"a bird"</em>.
+      The highlighted cell (step 7) is expanded below: the four optimization iterations within that
+      single denoising step show the probe score jumping from 0.61 → 0.99 within two iterations.</p>
+    </div>
+    <figure class="image" style="max-width:904px; margin:0 auto;">
+      <video autoplay muted loop playsinline preload="auto" style="width:100%; border-radius:6px;">
+        <source src="static/videos/grid_video.mp4" type="video/mp4">
+      </video>
+      <figcaption class="content has-text-centered" style="margin-top:0.5rem;">
+        <strong>Top:</strong> x̂₀ previews at selected denoising steps (step 7 highlighted in orange).
+        <strong>Bottom:</strong> x̂₀ at every other optimization iteration inside step 7.
+      </figcaption>
     </figure>
   </div>
 </section>
@@ -389,46 +416,44 @@ detected, overall and by <em>k</em>, the number of requested objects. The gain g
         <thead>
           <tr>
             <th rowspan="2">Model</th>
-            <th rowspan="2">Params</th>
-            <th rowspan="2">Det.&nbsp;ratio&nbsp;(%)&nbsp;↑</th>
+            <th rowspan="2" style="white-space:normal; min-width:3rem;">Det.&nbsp;ratio<br>(%&nbsp;↑)</th>
             <th colspan="7">All-object accuracy&nbsp;(%)&nbsp;↑</th>
             <th colspan="2">Quality&nbsp;(%)&nbsp;↑</th>
-            <th colspan="3">Inference cost</th>
+            <th colspan="3" style="text-align:center;">Inference cost</th>
           </tr>
           <tr>
             <th>mean</th><th>k=2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th>
             <th>VBench</th><th>MUSIQ</th>
-            <th>Upd.&nbsp;↓</th><th>Time(s)&nbsp;↓</th><th>&times;base&nbsp;↓</th>
+            <th><strong>Upd.&nbsp;↓</strong></th><th><strong>Time(s)&nbsp;↓</strong></th><th><strong>&times;base&nbsp;↓</strong></th>
           </tr>
         </thead>
         <tbody>
           <!-- Reference models -->
-          <tr><td>Wan&nbsp;2.2</td><td>5&nbsp;B</td><td>78.9</td><td>38.3</td><td>87.5</td><td>52.5</td><td>35.0</td><td>35.0</td><td>7.5</td><td>9.6</td><td>84.4</td><td>75.4</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
-          <tr><td>LTX-2.5</td><td>22&nbsp;B</td><td>62.1</td><td>17.5</td><td>45.0</td><td>16.3</td><td>17.5</td><td>11.3</td><td>8.7</td><td>5.5</td><td><u>86.9</u></td><td>73.6</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
-          <tr><td>MiniMax-H3</td><td>33&nbsp;B</td><td>84.6</td><td>49.7</td><td>90.0</td><td>55.0</td><td>33.8</td><td>48.7</td><td>36.2</td><td>32.9</td><td>81.5</td><td>64.8</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
+          <tr><td>Wan&nbsp;2.2</td><td>78.9</td><td>38.3</td><td>87.5</td><td>52.5</td><td>35.0</td><td>35.0</td><td>7.5</td><td>9.6</td><td>84.4</td><td>75.4</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
+          <tr><td>LTX-2.5</td><td>62.1</td><td>17.5</td><td>45.0</td><td>16.3</td><td>17.5</td><td>11.3</td><td>8.7</td><td>5.5</td><td><u>86.9</u></td><td>73.6</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
+          <tr><td>MiniMax-H3</td><td>84.6</td><td>49.7</td><td>90.0</td><td>55.0</td><td>33.8</td><td>48.7</td><td>36.2</td><td>32.9</td><td>81.5</td><td>64.8</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
           <!-- Wan 2.1 block -->
-          <tr class="rule-row"><td colspan="15"></td></tr>
-          <tr><td>Wan&nbsp;2.1</td><td>1.3&nbsp;B</td><td>73.4</td><td>27.1</td><td>80.6</td><td>31.5</td><td>24.3</td><td>22.7</td><td>1.6</td><td>2.1</td><td>79.9</td><td>75.5</td><td>0</td><td>26.2</td><td>1.00&times;</td></tr>
-          <tr><td>&emsp;+ Best-of-N</td><td></td><td>81.7</td><td>40.4</td><td><b>93.6</b></td><td>59.5</td><td>35.9</td><td>28.2</td><td>11.8</td><td>13.2</td><td>80.1</td><td><b>75.5</b></td><td>0</td><td>78.5</td><td>3.00&times;</td></tr>
-          <tr><td>&emsp;+ A&amp;E</td><td></td><td>79.8</td><td>39.2</td><td>83.1</td><td>52.1</td><td>47.6</td><td>27.5</td><td>11.1</td><td>13.7</td><td>79.2</td><td>71.8</td><td>53</td><td>66.4</td><td>2.54&times;</td></tr>
-          <tr><td>&emsp;+ Ours</td><td></td><td><b>89.3</b></td><td><b>59.9</b></td><td>90.9</td><td><b>72.4</b></td><td><b>60.9</b></td><td><b>54.9</b></td><td><b>41.3</b></td><td><b>39.3</b></td><td><b>82.5</b></td><td>74.6</td><td>23</td><td>70.2</td><td>2.68&times;</td></tr>
+          <tr class="rule-row"><td colspan="14"></td></tr>
+          <tr><td>Wan&nbsp;2.1</td><td>73.4</td><td>27.1</td><td>80.6</td><td>31.5</td><td>24.3</td><td>22.7</td><td>1.6</td><td>2.1</td><td>79.9</td><td>75.5</td><td style="color:#9ca3af;">0</td><td style="color:#9ca3af;">26.2</td><td style="color:#9ca3af;">1.00&times;</td></tr>
+          <tr><td>&emsp;+ Best-of-N</td><td>81.7</td><td>40.4</td><td><b>93.6</b></td><td>59.5</td><td>35.9</td><td>28.2</td><td>11.8</td><td>13.2</td><td>80.1</td><td><b>75.5</b></td><td>0</td><td>78.5</td><td>3.00&times;</td></tr>
+          <tr><td>&emsp;+ A&amp;E</td><td>79.8</td><td>39.2</td><td>83.1</td><td>52.1</td><td>47.6</td><td>27.5</td><td>11.1</td><td>13.7</td><td>79.2</td><td>71.8</td><td>53</td><td><b>66.4</b></td><td><b>2.54&times;</b></td></tr>
+          <tr><td>&emsp;+ Ours</td><td><b>89.3</b></td><td><b>59.9</b></td><td>90.9</td><td><b>72.4</b></td><td><b>60.9</b></td><td><b>54.9</b></td><td><b>41.3</b></td><td><b>39.3</b></td><td><b>82.5</b></td><td>74.6</td><td><b>23</b></td><td>70.2</td><td>2.68&times;</td></tr>
           <!-- LTX-2 block -->
-          <tr class="rule-row"><td colspan="15"></td></tr>
-          <tr><td>LTX-2</td><td>22&nbsp;B</td><td>78.9</td><td>38.3</td><td>75.6</td><td>60.3</td><td>35.5</td><td>26.3</td><td>20.0</td><td>12.1</td><td>83.7</td><td>70.6</td><td>0</td><td>59.8</td><td>1.00&times;</td></tr>
-          <tr><td>&emsp;+ Best-of-N</td><td></td><td>85.9</td><td>51.1</td><td>88.6</td><td>67.5</td><td>49.4</td><td>45.6</td><td>30.4</td><td>25.0</td><td><b>84.3</b></td><td>70.7</td><td>0</td><td>179.4</td><td>3.00&times;</td></tr>
-          <tr><td>&emsp;+ A&amp;E</td><td></td><td>78.3</td><td>37.8</td><td>74.7</td><td>52.6</td><td>33.3</td><td>27.8</td><td>25.7</td><td>12.5</td><td>84.1</td><td>70.5</td><td>55</td><td>149.2</td><td>2.50&times;</td></tr>
-          <tr><td>&emsp;+ Ours</td><td></td><td><b><u>93.9</u></b></td><td><b><u>75.5</u></b></td><td><b><u>95.0</u></b></td><td><b><u>86.7</u></b></td><td><b><u>84.4</u></b></td><td><b><u>68.9</u></b></td><td><b><u>65.7</u></b></td><td><b><u>52.3</u></b></td><td>83.5</td><td><b>71.3</b></td><td>30</td><td>145.5</td><td>2.43&times;</td></tr>
+          <tr class="rule-row"><td colspan="14"></td></tr>
+          <tr><td>LTX-2</td><td>78.9</td><td>38.3</td><td>75.6</td><td>60.3</td><td>35.5</td><td>26.3</td><td>20.0</td><td>12.1</td><td>83.7</td><td>70.6</td><td style="color:#9ca3af;">0</td><td style="color:#9ca3af;">59.8</td><td style="color:#9ca3af;">1.00&times;</td></tr>
+          <tr><td>&emsp;+ Best-of-N</td><td>85.9</td><td>51.1</td><td>88.6</td><td>67.5</td><td>49.4</td><td>45.6</td><td>30.4</td><td>25.0</td><td><b>84.3</b></td><td>70.7</td><td>0</td><td>179.4</td><td>3.00&times;</td></tr>
+          <tr><td>&emsp;+ A&amp;E</td><td>78.3</td><td>37.8</td><td>74.7</td><td>52.6</td><td>33.3</td><td>27.8</td><td>25.7</td><td>12.5</td><td>84.1</td><td>70.5</td><td>55</td><td>149.2</td><td>2.50&times;</td></tr>
+          <tr><td>&emsp;+ Ours</td><td><b><u>93.9</u></b></td><td><b><u>75.5</u></b></td><td><b><u>95.0</u></b></td><td><b><u>86.7</u></b></td><td><b><u>84.4</u></b></td><td><b><u>68.9</u></b></td><td><b><u>65.7</u></b></td><td><b><u>52.3</u></b></td><td>83.5</td><td><b>71.3</b></td><td><b>30</b></td><td><b>145.5</b></td><td><b>2.43&times;</b></td></tr>
           <!-- CogVideoX-5B block -->
-          <tr class="rule-row"><td colspan="15"></td></tr>
-          <tr><td>CogVideoX-5B</td><td>5&nbsp;B</td><td>73.1</td><td>30.5</td><td>80.0</td><td>54.1</td><td>20.3</td><td>13.4</td><td>8.6</td><td>6.5</td><td><b>79.5</b></td><td>66.6</td><td>0</td><td>135.0</td><td>1.00&times;</td></tr>
-          <tr><td>&emsp;+ Best-of-N</td><td></td><td>82.2</td><td>43.9</td><td>92.4</td><td>73.4</td><td>40.5</td><td>27.0</td><td>21.1</td><td>8.8</td><td>79.3</td><td>67.4</td><td>0</td><td>404.9</td><td>3.00&times;</td></tr>
-          <tr><td>&emsp;+ A&amp;E</td><td></td><td>87.3</td><td>56.1</td><td>92.4</td><td>69.7</td><td>52.9</td><td>49.3</td><td>43.3</td><td>28.8</td><td>79.1</td><td>65.6</td><td>54</td><td>358.5</td><td>2.66&times;</td></tr>
-          <tr><td>&emsp;+ Ours</td><td></td><td><b>91.2</b></td><td><b>65.9</b></td><td><b>94.9</b></td><td><b>81.8</b></td><td><b>64.4</b></td><td><b>61.1</b></td><td><b>57.1</b></td><td><b>36.2</b></td><td>78.4</td><td><b>70.6</b></td><td>13</td><td>278.9</td><td>2.07&times;</td></tr>
+          <tr class="rule-row"><td colspan="14"></td></tr>
+          <tr><td>CogVideoX-5B</td><td>73.1</td><td>30.5</td><td>80.0</td><td>54.1</td><td>20.3</td><td>13.4</td><td>8.6</td><td>6.5</td><td><b>79.5</b></td><td>66.6</td><td style="color:#9ca3af;">0</td><td style="color:#9ca3af;">135.0</td><td style="color:#9ca3af;">1.00&times;</td></tr>
+          <tr><td>&emsp;+ Best-of-N</td><td>82.2</td><td>43.9</td><td>92.4</td><td>73.4</td><td>40.5</td><td>27.0</td><td>21.1</td><td>8.8</td><td>79.3</td><td>67.4</td><td>0</td><td>404.9</td><td>3.00&times;</td></tr>
+          <tr><td>&emsp;+ A&amp;E</td><td>87.3</td><td>56.1</td><td>92.4</td><td>69.7</td><td>52.9</td><td>49.3</td><td>43.3</td><td>28.8</td><td>79.1</td><td>65.6</td><td>54</td><td>358.5</td><td>2.66&times;</td></tr>
+          <tr><td>&emsp;+ Ours</td><td><b>91.2</b></td><td><b>65.9</b></td><td><b>94.9</b></td><td><b>81.8</b></td><td><b>64.4</b></td><td><b>61.1</b></td><td><b>57.1</b></td><td><b>36.2</b></td><td>78.4</td><td><b>70.6</b></td><td><b>13</b></td><td><b>278.9</b></td><td><b>2.07&times;</b></td></tr>
         </tbody>
       </table>
     </div>
-    <p class="content is-size-7" style="margin-top:0.5rem;"><strong>Bold</strong> = best within backbone block; <u>underline</u> = best overall.
-Inference cost measured on a single H100 GPU; &times;base = multiple of un-steered generation time.</p>
+    <p class="content is-size-7" style="margin-top:0.5rem;"><strong>Bold</strong> = best within backbone block; in inference-time columns — best after excluding the unsteered. <u>Underline</u> = best overall.<br>Inference cost measured on a single H100 GPU; &times;base = multiple of un-steered generation time.</p>
 
   </div>
 </section>
@@ -670,69 +695,69 @@ signal and the actual per-frame detections for each method.</p>
 </section>
 
 <!-- ── DATASET ────────────────────────────────────────────────────── -->
-<section class="section">
+<section class="section" id="dataset">
   <div class="container is-max-desktop">
     <h2 class="title is-3 has-text-centered">Dataset</h2>
-    <div class="content has-text-justified">
-      <p>We introduce a 473-prompt multi-object benchmark that extends VBench's <code>multiple_objects</code> dimension
-from two to seven objects. Each prompt uses VBench's template ("a X and a Y and a Z …") and draws
-<em>k</em> objects at random from the same 76-class list, under a <strong>pairwise-uniqueness constraint</strong> — no
-two objects that share one prompt ever co-occur in another. Because combinations are sampled
-independently of natural co-occurrence, prompts are frequently unusual (e.g.,
-<em>"a pizza and a surfboard and a kite"</em>), which makes object presence hard and prevents generators
-from exploiting familiar scene statistics.</p>
-      <p>All three backbones (LTX-2, Wan&nbsp;2.1, CogVideoX-5B) and all arms (un-steered, Best-of-N,
-A&amp;E, Ours) are evaluated on the same 473 prompts, each with a fixed random seed shared
-across arms.</p>
-    </div>
+    <p class="has-text-centered" style="font-size:0.9rem; color:var(--muted); margin:-0.75rem 0 1.5rem;">We extend VBench's <code>multiple_objects</code> dimension from k=2 (80 prompts) up to k=7, totaling 473 prompts.</p>
 
-    <div class="columns is-centered" style="margin:1.5rem 0 0.25rem;">
-      <div class="column is-narrow has-text-centered">
-        <p class="stat-number">473</p>
-        <p class="stat-label">prompts total</p>
-      </div>
-      <div class="column is-narrow has-text-centered">
-        <p class="stat-number">76</p>
-        <p class="stat-label">object classes</p>
-      </div>
-      <div class="column is-narrow has-text-centered">
-        <p class="stat-number" style="font-size:2.4rem;">2–7</p>
-        <p class="stat-label">objects per prompt</p>
-      </div>
-    </div>
+    <div style="display:flex; gap:2.5rem; align-items:center; margin-top:1.5rem;">
 
-    <div class="table-container" style="margin-top:1rem;">
-      <table class="table is-fullwidth is-narrow is-size-7 results-table" style="max-width:520px; margin:0 auto;">
-        <thead>
-          <tr>
-            <th style="text-align:left"><i>k</i> (objects / prompt)</th>
-            <th style="text-align:center">2</th>
-            <th style="text-align:center">3</th>
-            <th style="text-align:center">4</th>
-            <th style="text-align:center">5</th>
-            <th style="text-align:center">6</th>
-            <th style="text-align:center">7</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Prompts</td>
-            <td style="text-align:center">80</td>
-            <td style="text-align:center">80</td>
-            <td style="text-align:center">80</td>
-            <td style="text-align:center">80</td>
-            <td style="text-align:center">80</td>
-            <td style="text-align:center">73</td>
-          </tr>
-        </tbody>
-      </table>
+      <!-- Col 1: stats -->
+      <div style="flex:0.7; min-width:0; display:flex; flex-direction:column; gap:0.9rem; text-align:center;">
+        <div>
+          <p class="stat-number">473</p>
+          <p class="stat-label">prompts</p>
+        </div>
+        <div>
+          <p class="stat-number" style="font-size:2.4rem;">2–7</p>
+          <p class="stat-label">objects&nbsp;/ prompt</p>
+        </div>
+      </div>
+
+      <!-- Col 2: stats -->
+      <div style="flex:0.7; min-width:0; display:flex; flex-direction:column; gap:0.9rem; text-align:center;">
+        <div>
+          <p class="stat-number">76</p>
+          <p class="stat-label">classes</p>
+        </div>
+        <div>
+          <p class="stat-number" style="font-size:2rem;">73–80</p>
+          <p class="stat-label">prompts&nbsp;/ k</p>
+        </div>
+      </div>
+
+      <!-- Col 3: design items -->
+      <div style="flex:1.6; min-width:0; display:flex; flex-direction:column; gap:0.9rem; text-align:center;">
+        <div>
+          <p style="font-size:1.5rem; font-weight:700; color:var(--accent); line-height:1.2;">VBench's template</p>
+          <p class="stat-label">"a X and a Y and a Z …"
+            <span class="tooltip-wrap"><span style="color:var(--accent); border-bottom:1px dashed var(--accent); cursor:default; font-size:0.78rem;">&nbsp;(examples)</span>
+              <span class="tooltip-box">
+                "a kite and a baseball bat"<br>
+                "a pizza and a surfboard and a kite"<br>
+                "a tie and a book and a dog and a frisbee and a fork"<br>
+                "a bicycle and a vase and a cup and a toaster and a microwave and a horse"
+              </span>
+            </span>
+          </p>
+        </div>
+        <div>
+          <p style="font-size:1.5rem; font-weight:700; color:var(--accent); line-height:1.2;">Random k objects</p>
+          <p class="stat-label">drawn from the same 76-class list</p>
+        </div>
+        <div>
+          <p style="font-size:1.5rem; font-weight:700; color:var(--accent); line-height:1.2;">Pairwise-unique</p>
+          <p class="stat-label">no object pair co-occurs in two prompts</p>
+        </div>
+      </div>
+
     </div>
 
     <div class="has-text-centered" style="margin-top:1.75rem;">
       <!-- TODO: replace # with the actual dataset download URL -->
-      <a class="button is-link is-rounded is-medium" href="#">
+      <a class="button is-link is-rounded" href="#" style="font-size:0.82rem;">
         <span class="icon"><i class="fas fa-download"></i></span>
-        <span>Download prompts (CSV, 473 prompts)</span>
+        <span>Download prompts (CSV)</span>
       </a>
     </div>
   </div>
@@ -747,10 +772,9 @@ across arms.</p>
       <h2 class="title is-3">BibTeX</h2>
       <button class="copy-bibtex-btn" type="button" id="copy-bibtex"><i class="fas fa-copy"></i><span class="copy-text">Copy</span></button>
     </div>
-    <!-- TODO: replace with the camera-ready citation -->
-    <pre><code id="bibtex-text">@inproceedings{anonymous2027willitrender,
+    <pre><code id="bibtex-text">@inproceedings{fishman2027willitrender,
   title     = {Will It Render? Learned Attention Steering for Object Presence in Text-to-Video},
-  author    = {TODO},
+  author    = {Fishman, Ben and Samuel, Dvir and Chechik, Gal and Schwartz, Idan},
   booktitle = {Proceedings of the IEEE/CVF Winter Conference on Applications of Computer Vision (WACV)},
   year      = {2027}
 }</code></pre>
@@ -760,9 +784,7 @@ across arms.</p>
 <footer class="footer">
   <div class="container">
     <div class="content has-text-centered">
-      <p>This page is a template-based project page. Content is licensed under a
-<a href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.</p>
-      <p>Template: <a href="https://github.com/eliahuhorwitz/Academic-project-page-template">Academic Project Page Template</a> by Eliahu Horwitz.</p>
+      <p style="font-size:0.72rem; color:#9ca3af;">This page is a template-based project page. Content is licensed under a <a href="http://creativecommons.org/licenses/by-sa/4.0/" style="color:#9ca3af;">Creative Commons Attribution-ShareAlike 4.0 International License</a>. Template: <a href="https://github.com/eliahuhorwitz/Academic-project-page-template" style="color:#9ca3af;">Academic Project Page Template</a> by Eliahu Horwitz.</p>
     </div>
   </div>
 </footer>
