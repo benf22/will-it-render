@@ -14,7 +14,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Figtree:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Kalam:wght@700&family=Figtree:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="static/css/index.css">
 </head>
 <body>
@@ -125,22 +125,22 @@ generated from the same prompt and seed. &nbsp;·&nbsp; <span class="noun-blue">
   function renderPrompt(c) {
     const oursSet    = new Set((c.ours_only || []).map(s => s.toLowerCase()));
     const neitherSet = new Set((c.neither   || []).map(s => s.toLowerCase()));
-    return c.prompt.split(' and ').map((part, i) => {
+    const parts = c.prompt.split(' and ').map((part, i) => {
       const m       = part.match(/^(a|an|the)\s+(.+)$/i);
       const article = m ? m[1] : '';
       const noun    = (m ? m[2] : part).toLowerCase();
       const display = m ? m[2] : part;
       const cls     = oursSet.has(noun)    ? 'noun-red'    :
                       neitherSet.has(noun) ? 'noun-yellow'  : 'noun-blue';
-      const word    = (article ? `<span class="noun-and">${article} </span>` : '') +
-                      `<span class="${cls}">${display}</span>`;
+      const word    = (article ? `<span class=”noun-and”>${article} </span>` : '') +
+                      `<span class=”${cls}”>${display}</span>`;
       if (i === 0) return word;
       const sep = (c.break_after === i)
-        ? '<span class="noun-and"> and </span><br>'
-        : '<span class="noun-and"> and </span>';
+        ? '<span class=”noun-and”> and </span><br>'
+        : '<span class=”noun-and”> and </span>';
       return sep + word;
     });
-    return '“' + parts.join('') + '”';
+    return '<span class=”noun-and”>“</span>' + parts.join('') + '<span class=”noun-and”>”</span>';
   }
 
   function goTo(i) {
