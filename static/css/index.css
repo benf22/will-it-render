@@ -272,6 +272,37 @@ pre {
   user-select: none;
 }
 
+.carousel-pills {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 0.9rem;
+}
+
+.carousel-pill {
+  padding: 0.35rem 1.1rem;
+  border-radius: 20px;
+  border: 2px solid #d1d5db;
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  background: #fff;
+  letter-spacing: 0.04em;
+  transition: background .15s, border-color .15s, color .15s;
+}
+
+.carousel-pill.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.carousel-pill:hover:not(.active) {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
 .carousel-prompt-row {
   position: relative;
   text-align: center;

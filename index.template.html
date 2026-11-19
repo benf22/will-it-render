@@ -57,6 +57,7 @@
     </div>
 
     <div class="carousel-wrap">
+      <div class="carousel-pills" id="car-pills"></div>
       <div class="carousel-col-headers">
         <div class="carousel-col-header">Un-steered</div>
         <div class="carousel-col-header ours">AttnSteer (Ours)</div>
@@ -103,20 +104,24 @@ function renderPrompt(c) {
   return '<span class="noun-and">"</span>' + parts.join('') + '<span class="noun-and">"</span>';
 }
 (function () {
-  const CLIPS = [
-    // Figure 1 — teaser examples
-    {src:"static/videos/carousel/fig1_ltx375.mp4",  msrc:"static/videos/carousel/fig1_ltx375_p.mp4",  prompt:"a snowboard and a car and a refrigerator",                                             fig:"Fig. 1", backend:"LTX-2",    ours_only:["refrigerator"],                           neither:[]},
-    {src:"static/videos/carousel/fig1_ltx259.mp4",  msrc:"static/videos/carousel/fig1_ltx259_p.mp4",  prompt:"a tie and a cow and a dog and a boat",                                                 fig:"Fig. 1", backend:"LTX-2",    ours_only:["cow","dog","boat"],                        neither:[]},
-    {src:"static/videos/carousel/fig1_wan281.mp4",  msrc:"static/videos/carousel/fig1_wan281_p.mp4",  prompt:"a kite and a baseball bat",                                                             fig:"Fig. 1", backend:"Wan 2.1",  ours_only:["kite"],                                    neither:[]},
-    {src:"static/videos/carousel/fig1_wan318.mp4",  msrc:"static/videos/carousel/fig1_wan318_p.mp4",  prompt:"a bus and a teddy bear and a pizza and broccoli",                                       fig:"Fig. 1", backend:"Wan 2.1",  ours_only:["broccoli"],                               neither:[]},
-    {src:"static/videos/carousel/fig1_wan231.mp4",  msrc:"static/videos/carousel/fig1_wan231_p.mp4",  prompt:"a tie and a book and a dog and a frisbee and a fork",                                   fig:"Fig. 1", backend:"Wan 2.1",  ours_only:["tie","fork"],                              neither:["frisbee"], break_after:3},
-    // Figure 6 — multi-object comparison (Wan 2.1, LTX-2, CogVideoX)
-    {src:"static/videos/carousel/fig6_wan145.mp4",  msrc:"static/videos/carousel/fig6_wan145_p.mp4",  prompt:"a bicycle and a vase and a cup and a toaster and a microwave and a horse",              fig:"Fig. 6", backend:"Wan 2.1",  ours_only:["horse","vase"],                            neither:[], break_after:3},
-    {src:"static/videos/carousel/fig6_wan52.mp4",   msrc:"static/videos/carousel/fig6_wan52_p.mp4",   prompt:"a donut and an umbrella and a sink",                                                    fig:"Fig. 6", backend:"Wan 2.1",  ours_only:["umbrella"],                               neither:[]},
-    {src:"static/videos/carousel/fig6_ltx4.mp4",    msrc:"static/videos/carousel/fig6_ltx4_p.mp4",    prompt:"a sandwich and a book and a stop sign and a truck and a banana",                        fig:"Fig. 6", backend:"LTX-2",    ours_only:["stop sign","book","truck","banana"],        neither:[]},
-    {src:"static/videos/carousel/fig6_ltx42.mp4",   msrc:"static/videos/carousel/fig6_ltx42_p.mp4",   prompt:"an oven and skis and a toilet and a chair and a person and a tie and a cell phone",     fig:"Fig. 6", backend:"LTX-2",    ours_only:["toilet","cell phone","chair","tie"],        neither:[], break_after:4},
-    {src:"static/videos/carousel/fig6_cogx144.mp4", msrc:"static/videos/carousel/fig6_cogx144_p.mp4", prompt:"a zebra and an elephant and a fire hydrant and skis",                                   fig:"Fig. 6", backend:"CogVideoX", ours_only:["skis"],                                   neither:[]},
-    {src:"static/videos/carousel/fig6_cogx168.mp4", msrc:"static/videos/carousel/fig6_cogx168_p.mp4", prompt:"a refrigerator and an elephant and a kite",                                             fig:"Fig. 6", backend:"CogVideoX", ours_only:["refrigerator"],                           neither:[]},
+  const BACKBONES = [
+    { label: "LTX-2", clips: [
+      {src:"static/videos/carousel/fig1_ltx375.mp4",  msrc:"static/videos/carousel/fig1_ltx375_p.mp4",  prompt:"a snowboard and a car and a refrigerator",                                             ours_only:["refrigerator"],                           neither:[]},
+      {src:"static/videos/carousel/fig1_ltx259.mp4",  msrc:"static/videos/carousel/fig1_ltx259_p.mp4",  prompt:"a tie and a cow and a dog and a boat",                                                 ours_only:["cow","dog","boat"],                        neither:[]},
+      {src:"static/videos/carousel/fig6_ltx4.mp4",    msrc:"static/videos/carousel/fig6_ltx4_p.mp4",    prompt:"a sandwich and a book and a stop sign and a truck and a banana",                        ours_only:["stop sign","book","truck","banana"],        neither:[], break_after:3},
+      {src:"static/videos/carousel/fig6_ltx42.mp4",   msrc:"static/videos/carousel/fig6_ltx42_p.mp4",   prompt:"an oven and skis and a toilet and a chair and a person and a tie and a cell phone",     ours_only:["toilet","cell phone","chair","tie"],        neither:[], break_after:4},
+    ]},
+    { label: "Wan 2.1", clips: [
+      {src:"static/videos/carousel/fig1_wan281.mp4",  msrc:"static/videos/carousel/fig1_wan281_p.mp4",  prompt:"a kite and a baseball bat",                                                             ours_only:["kite"],                                    neither:[]},
+      {src:"static/videos/carousel/fig1_wan318.mp4",  msrc:"static/videos/carousel/fig1_wan318_p.mp4",  prompt:"a bus and a teddy bear and a pizza and broccoli",                                       ours_only:["broccoli"],                               neither:[]},
+      {src:"static/videos/carousel/fig1_wan231.mp4",  msrc:"static/videos/carousel/fig1_wan231_p.mp4",  prompt:"a tie and a book and a dog and a frisbee and a fork",                                   ours_only:["tie","fork"],                              neither:["frisbee"], break_after:3},
+      {src:"static/videos/carousel/fig6_wan145.mp4",  msrc:"static/videos/carousel/fig6_wan145_p.mp4",  prompt:"a bicycle and a vase and a cup and a toaster and a microwave and a horse",              ours_only:["horse","vase"],                            neither:[], break_after:3},
+      {src:"static/videos/carousel/fig6_wan52.mp4",   msrc:"static/videos/carousel/fig6_wan52_p.mp4",   prompt:"a donut and an umbrella and a sink",                                                    ours_only:["umbrella"],                               neither:[]},
+    ]},
+    { label: "CogVideoX", clips: [
+      {src:"static/videos/carousel/fig6_cogx144.mp4", msrc:"static/videos/carousel/fig6_cogx144_p.mp4", prompt:"a zebra and an elephant and a fire hydrant and skis",                                   ours_only:["skis"],                                   neither:[]},
+      {src:"static/videos/carousel/fig6_cogx168.mp4", msrc:"static/videos/carousel/fig6_cogx168_p.mp4", prompt:"a refrigerator and an elephant and a kite",                                             ours_only:["refrigerator"],                           neither:[]},
+    ]},
   ];
 
   const video     = document.getElementById('car-video');
@@ -126,34 +131,48 @@ function renderPrompt(c) {
   const prevBtn   = document.getElementById('car-prev');
   const nextBtn   = document.getElementById('car-next');
   const counter   = document.getElementById('car-counter');
+  const pillsEl   = document.getElementById('car-pills');
 
-  let idx = 0, timer = null;
+  let activeBackbone = 0, idx = 0, timer = null;
   const mq = window.matchMedia('(max-width: 768px)');
 
-  CLIPS.forEach((_, i) => {
-    const d = document.createElement('button');
-    d.className = 'carousel-dot' + (i === 0 ? ' active' : '');
-    d.setAttribute('aria-label', 'Clip ' + (i + 1));
-    d.addEventListener('click', () => goTo(i));
-    dotsEl.appendChild(d);
+  // build pills
+  BACKBONES.forEach((b, bi) => {
+    const pill = document.createElement('button');
+    pill.className = 'carousel-pill' + (bi === 0 ? ' active' : '');
+    pill.textContent = b.label;
+    pill.addEventListener('click', () => { activeBackbone = bi; rebuildDots(); goTo(0); highlightPills(); });
+    pillsEl.appendChild(pill);
   });
 
+  function highlightPills() {
+    pillsEl.querySelectorAll('.carousel-pill').forEach((p, i) => p.classList.toggle('active', i === activeBackbone));
+  }
+
+  function rebuildDots() {
+    dotsEl.innerHTML = '';
+    BACKBONES[activeBackbone].clips.forEach((_, i) => {
+      const d = document.createElement('button');
+      d.className = 'carousel-dot';
+      d.setAttribute('aria-label', 'Clip ' + (i + 1));
+      d.addEventListener('click', () => goTo(i));
+      dotsEl.appendChild(d);
+    });
+  }
+
   function goTo(i) {
-    idx = (i + CLIPS.length) % CLIPS.length;
-    const c = CLIPS[idx];
+    const clips = BACKBONES[activeBackbone].clips;
+    idx = (i + clips.length) % clips.length;
+    const c = clips[idx];
     promptEl.innerHTML    = renderPrompt(c);
-    backendEl.textContent = c.backend;
+    backendEl.textContent = BACKBONES[activeBackbone].label;
     video.src = (mq.matches && c.msrc) ? c.msrc : c.src;
     video.load();
     video.play().catch(() => {});
     dotsEl.querySelectorAll('.carousel-dot').forEach((d, j) => {
       d.classList.toggle('active', j === idx);
     });
-    counter.textContent = (idx + 1) + ' / ' + CLIPS.length;
-    resetTimer();
-  }
-
-  function resetTimer() {
+    counter.textContent = (idx + 1) + ' / ' + clips.length;
     clearInterval(timer);
     timer = setInterval(() => goTo(idx + 1), 6000);
   }
@@ -168,6 +187,7 @@ function renderPrompt(c) {
 
   mq.addEventListener('change', () => goTo(idx));
 
+  rebuildDots();
   goTo(0);
 })();
 </script>
