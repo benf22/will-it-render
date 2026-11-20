@@ -1,0 +1,2285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Temporal analysis — example picker</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="static/css/index.css">
+  <style>
+body { font-family: 'Figtree', Arial, sans-serif; background: #f0f6ff; color: #1f2937; margin: 0; }
+h1 { text-align:center; padding: 1.5rem 1rem 0.5rem; font-size:1.6rem; color:#1d4ed8; }
+.page-desc { text-align:center; color:#6b7280; margin-bottom:1.5rem; font-size:0.92rem; }
+
+.analysis-section { background:#fff; border-top:3px solid #3b6fb6; border-radius:10px;
+  box-shadow:0 2px 8px rgba(0,0,0,.07); max-width:900px; margin:1.5rem auto; padding:1.5rem 2rem; }
+.analysis-section h2 { font-size:1.15rem; color:#1d4ed8; margin:0 0 0.3rem; }
+.section-desc { color:#6b7280; font-size:0.85rem; margin:0 0 1rem; }
+
+.analysis-grid { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+
+.analysis-card { border:1px solid #e5e7eb; border-radius:8px; overflow:hidden;
+  background:#fafafa; }
+
+.card-meta { display:flex; align-items:baseline; gap:0.75rem; padding:6px 10px 5px;
+  background:#f1f5f9; border-bottom:1px solid #e5e7eb; flex-wrap:wrap; }
+.card-idx { font-size:0.75rem; color:#94a3b8; font-weight:700; }
+.card-objects { font-weight:700; font-size:0.9rem; }
+.card-scores { font-size:0.82rem; margin-left:auto; }
+
+.card-col-headers { display:grid; grid-template-columns:1fr 1fr;
+  background:#111; padding:2px 0; }
+.card-col-headers span { text-align:center; font-size:0.68rem; font-weight:700;
+  letter-spacing:.06em; text-transform:uppercase; color:#9ca3af; }
+.card-col-headers .ours-label { color:#60a5fa; }
+
+.analysis-card video { display:block; width:100%; height:auto; }
+</style>
+</head>
+<body>
+  <h1>Temporal control — example picker</h1>
+  <p class="page-desc">LTX-2 only · majority_ours detector · bceHuberM2 paper arm</p>
+
+  <section class="analysis-section">
+    <h2>1 — Single-object: top by AttnSteer F1</h2>
+    <p class="section-desc">LTX-2, single-object benchmark. Top 20 examples ranked by AttnSteer F1 (↓ = best).</p>
+    <div class="analysis-grid">
+
+    <div class="analysis-card" id="ex-0">
+      <div class="card-meta">
+        <span class="card-idx">#0</span>
+        <span class="card-objects">Person</span>
+        <span class="card-scores">TC: <b style='color:#d97706'>0.42</b> &nbsp; Ours: <b style='color:#15803d'>1.00</b> &nbsp; Δ: +0.58</span>
+      </div>
+      <div class="card-col-headers">
+        <span>TempoControl</span>
+        <span class="ours-label">AttnSteer (ours)</span>
+      </div>
+      <video autoplay muted loop playsinline preload="metadata" src="static/videos/temporal_analysis/an_s_0.mp4"></video>
+      <div class="timeline-block">
+        <div class="timeline-rows-wrap">
+          <div class="timeline-cursor"><div class="cursor-line"></div></div>
+          <div class="timeline-row row-requested">
+            <span class="timeline-label">Requested</span>
+            <div class="timeline-track" data-frames="0,0,0,1,1,1,1,1,1,1,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-tc">
+            <span class="timeline-label">TempoControl</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,0,0,0,0,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-ours">
+            <span class="timeline-label ours-label">AttnSteer (ours)</span>
+            <div class="timeline-track" data-frames="0,0,0,1,1,1,1,1,1,1,1,1,1"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="analysis-card" id="ex-1">
+      <div class="card-meta">
+        <span class="card-idx">#10</span>
+        <span class="card-objects">Fire hydrant</span>
+        <span class="card-scores">TC: <b style='color:#15803d'>0.94</b> &nbsp; Ours: <b style='color:#15803d'>1.00</b> &nbsp; Δ: +0.06</span>
+      </div>
+      <div class="card-col-headers">
+        <span>TempoControl</span>
+        <span class="ours-label">AttnSteer (ours)</span>
+      </div>
+      <video autoplay muted loop playsinline preload="metadata" src="static/videos/temporal_analysis/an_s_10.mp4"></video>
+      <div class="timeline-block">
+        <div class="timeline-rows-wrap">
+          <div class="timeline-cursor"><div class="cursor-line"></div></div>
+          <div class="timeline-row row-requested">
+            <span class="timeline-label">Requested</span>
+            <div class="timeline-track" data-frames="0,0,0,1,1,1,1,1,1,1,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-tc">
+            <span class="timeline-label">TempoControl</span>
+            <div class="timeline-track" data-frames="0,0,0,0,1,1,1,1,1,1,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-ours">
+            <span class="timeline-label ours-label">AttnSteer (ours)</span>
+            <div class="timeline-track" data-frames="0,0,0,1,1,1,1,1,1,1,1,1,1"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="analysis-card" id="ex-2">
+      <div class="card-meta">
+        <span class="card-idx">#23</span>
+        <span class="card-objects">Giraffe</span>
+        <span class="card-scores">TC: <b style='color:#15803d'>0.72</b> &nbsp; Ours: <b style='color:#15803d'>1.00</b> &nbsp; Δ: +0.28</span>
+      </div>
+      <div class="card-col-headers">
+        <span>TempoControl</span>
+        <span class="ours-label">AttnSteer (ours)</span>
+      </div>
+      <video autoplay muted loop playsinline preload="metadata" src="static/videos/temporal_analysis/an_s_23.mp4"></video>
+      <div class="timeline-block">
+        <div class="timeline-rows-wrap">
+          <div class="timeline-cursor"><div class="cursor-line"></div></div>
+          <div class="timeline-row row-requested">
+            <span class="timeline-label">Requested</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,1,1,1,1,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-tc">
+            <span class="timeline-label">TempoControl</span>
+            <div class="timeline-track" data-frames="1,1,1,1,1,1,1,1,1,1,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-ours">
+            <span class="timeline-label ours-label">AttnSteer (ours)</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,1,1,1,1,1,1,1"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="analysis-card" id="ex-3">
+      <div class="card-meta">
+        <span class="card-idx">#77</span>
+        <span class="card-objects">Teddy bear</span>
+        <span class="card-scores">TC: <b style='color:#dc2626'>0.27</b> &nbsp; Ours: <b style='color:#15803d'>1.00</b> &nbsp; Δ: +0.73</span>
+      </div>
+      <div class="card-col-headers">
+        <span>TempoControl</span>
+        <span class="ours-label">AttnSteer (ours)</span>
+      </div>
+      <video autoplay muted loop playsinline preload="metadata" src="static/videos/temporal_analysis/an_s_77.mp4"></video>
+      <div class="timeline-block">
+        <div class="timeline-rows-wrap">
+          <div class="timeline-cursor"><div class="cursor-line"></div></div>
+          <div class="timeline-row row-requested">
+            <span class="timeline-label">Requested</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,0,0,0,0,0,1,1"></div>
+          </div>
+          <div class="timeline-row row-tc">
+            <span class="timeline-label">TempoControl</span>
+            <div class="timeline-track" data-frames="1,1,1,1,1,1,1,1,1,1,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-ours">
+            <span class="timeline-label ours-label">AttnSteer (ours)</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,0,0,0,0,0,1,1"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="analysis-card" id="ex-4">
+      <div class="card-meta">
+        <span class="card-idx">#3</span>
+        <span class="card-objects">Motorcycle</span>
+        <span class="card-scores">TC: <b style='color:#15803d'>0.94</b> &nbsp; Ours: <b style='color:#15803d'>0.96</b> &nbsp; Δ: +0.02</span>
+      </div>
+      <div class="card-col-headers">
+        <span>TempoControl</span>
+        <span class="ours-label">AttnSteer (ours)</span>
+      </div>
+      <video autoplay muted loop playsinline preload="metadata" src="static/videos/temporal_analysis/an_s_3.mp4"></video>
+      <div class="timeline-block">
+        <div class="timeline-rows-wrap">
+          <div class="timeline-cursor"><div class="cursor-line"></div></div>
+          <div class="timeline-row row-requested">
+            <span class="timeline-label">Requested</span>
+            <div class="timeline-track" data-frames="0,0,0,1,1,1,1,1,1,1,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-tc">
+            <span class="timeline-label">TempoControl</span>
+            <div class="timeline-track" data-frames="0,0,1,1,1,1,1,1,1,1,1,1,0"></div>
+          </div>
+          <div class="timeline-row row-ours">
+            <span class="timeline-label ours-label">AttnSteer (ours)</span>
+            <div class="timeline-track" data-frames="0,0,1,1,1,1,1,1,1,1,1,1,0"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="analysis-card" id="ex-5">
+      <div class="card-meta">
+        <span class="card-idx">#11</span>
+        <span class="card-objects">Stop sign</span>
+        <span class="card-scores">TC: <b style='color:#15803d'>0.90</b> &nbsp; Ours: <b style='color:#15803d'>0.90</b> &nbsp; Δ: +0.00</span>
+      </div>
+      <div class="card-col-headers">
+        <span>TempoControl</span>
+        <span class="ours-label">AttnSteer (ours)</span>
+      </div>
+      <video autoplay muted loop playsinline preload="metadata" src="static/videos/temporal_analysis/an_s_11.mp4"></video>
+      <div class="timeline-block">
+        <div class="timeline-rows-wrap">
+          <div class="timeline-cursor"><div class="cursor-line"></div></div>
+          <div class="timeline-row row-requested">
+            <span class="timeline-label">Requested</span>
+            <div class="timeline-track" data-frames="0,0,0,1,1,1,1,1,1,1,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-tc">
+            <span class="timeline-label">TempoControl</span>
+            <div class="timeline-track" data-frames="1,1,1,1,1,1,1,1,1,1,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-ours">
+            <span class="timeline-label ours-label">AttnSteer (ours)</span>
+            <div class="timeline-track" data-frames="1,1,1,1,1,1,1,1,1,1,1,1,1"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="analysis-card" id="ex-6">
+      <div class="card-meta">
+        <span class="card-idx">#12</span>
+        <span class="card-objects">Parking meter</span>
+        <span class="card-scores">TC: <b style='color:#15803d'>0.90</b> &nbsp; Ours: <b style='color:#15803d'>0.90</b> &nbsp; Δ: +0.00</span>
+      </div>
+      <div class="card-col-headers">
+        <span>TempoControl</span>
+        <span class="ours-label">AttnSteer (ours)</span>
+      </div>
+      <video autoplay muted loop playsinline preload="metadata" src="static/videos/temporal_analysis/an_s_12.mp4"></video>
+      <div class="timeline-block">
+        <div class="timeline-rows-wrap">
+          <div class="timeline-cursor"><div class="cursor-line"></div></div>
+          <div class="timeline-row row-requested">
+            <span class="timeline-label">Requested</span>
+            <div class="timeline-track" data-frames="0,0,0,1,1,1,1,1,1,1,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-tc">
+            <span class="timeline-label">TempoControl</span>
+            <div class="timeline-track" data-frames="1,1,1,1,1,1,1,1,1,1,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-ours">
+            <span class="timeline-label ours-label">AttnSteer (ours)</span>
+            <div class="timeline-track" data-frames="1,1,1,1,1,1,1,1,1,1,1,1,1"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="analysis-card" id="ex-7">
+      <div class="card-meta">
+        <span class="card-idx">#13</span>
+        <span class="card-objects">Bench</span>
+        <span class="card-scores">TC: <b style='color:#15803d'>0.90</b> &nbsp; Ours: <b style='color:#15803d'>0.90</b> &nbsp; Δ: +0.00</span>
+      </div>
+      <div class="card-col-headers">
+        <span>TempoControl</span>
+        <span class="ours-label">AttnSteer (ours)</span>
+      </div>
+      <video autoplay muted loop playsinline preload="metadata" src="static/videos/temporal_analysis/an_s_13.mp4"></video>
+      <div class="timeline-block">
+        <div class="timeline-rows-wrap">
+          <div class="timeline-cursor"><div class="cursor-line"></div></div>
+          <div class="timeline-row row-requested">
+            <span class="timeline-label">Requested</span>
+            <div class="timeline-track" data-frames="0,0,0,1,1,1,1,1,1,1,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-tc">
+            <span class="timeline-label">TempoControl</span>
+            <div class="timeline-track" data-frames="1,1,1,1,1,1,1,1,1,1,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-ours">
+            <span class="timeline-label ours-label">AttnSteer (ours)</span>
+            <div class="timeline-track" data-frames="1,1,1,1,1,1,1,1,1,1,1,1,1"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="analysis-card" id="ex-8">
+      <div class="card-meta">
+        <span class="card-idx">#19</span>
+        <span class="card-objects">Cow</span>
+        <span class="card-scores">TC: <b style='color:#d97706'>0.59</b> &nbsp; Ours: <b style='color:#15803d'>0.90</b> &nbsp; Δ: +0.30</span>
+      </div>
+      <div class="card-col-headers">
+        <span>TempoControl</span>
+        <span class="ours-label">AttnSteer (ours)</span>
+      </div>
+      <video autoplay muted loop playsinline preload="metadata" src="static/videos/temporal_analysis/an_s_19.mp4"></video>
+      <div class="timeline-block">
+        <div class="timeline-rows-wrap">
+          <div class="timeline-cursor"><div class="cursor-line"></div></div>
+          <div class="timeline-row row-requested">
+            <span class="timeline-label">Requested</span>
+            <div class="timeline-track" data-frames="0,0,0,1,1,1,1,1,1,1,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-tc">
+            <span class="timeline-label">TempoControl</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,0,0,0,1,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-ours">
+            <span class="timeline-label ours-label">AttnSteer (ours)</span>
+            <div class="timeline-track" data-frames="1,1,1,1,1,1,1,1,1,1,1,1,1"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="analysis-card" id="ex-9">
+      <div class="card-meta">
+        <span class="card-idx">#2</span>
+        <span class="card-objects">Car</span>
+        <span class="card-scores">TC: <b style='color:#d97706'>0.51</b> &nbsp; Ours: <b style='color:#15803d'>0.90</b> &nbsp; Δ: +0.38</span>
+      </div>
+      <div class="card-col-headers">
+        <span>TempoControl</span>
+        <span class="ours-label">AttnSteer (ours)</span>
+      </div>
+      <video autoplay muted loop playsinline preload="metadata" src="static/videos/temporal_analysis/an_s_2.mp4"></video>
+      <div class="timeline-block">
+        <div class="timeline-rows-wrap">
+          <div class="timeline-cursor"><div class="cursor-line"></div></div>
+          <div class="timeline-row row-requested">
+            <span class="timeline-label">Requested</span>
+            <div class="timeline-track" data-frames="0,0,0,1,1,1,1,1,1,1,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-tc">
+            <span class="timeline-label">TempoControl</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,0,0,0,1,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-ours">
+            <span class="timeline-label ours-label">AttnSteer (ours)</span>
+            <div class="timeline-track" data-frames="1,1,1,1,1,1,1,1,1,1,1,1,1"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="analysis-card" id="ex-10">
+      <div class="card-meta">
+        <span class="card-idx">#8</span>
+        <span class="card-objects">Boat</span>
+        <span class="card-scores">TC: <b style='color:#15803d'>0.90</b> &nbsp; Ours: <b style='color:#15803d'>0.90</b> &nbsp; Δ: +0.00</span>
+      </div>
+      <div class="card-col-headers">
+        <span>TempoControl</span>
+        <span class="ours-label">AttnSteer (ours)</span>
+      </div>
+      <video autoplay muted loop playsinline preload="metadata" src="static/videos/temporal_analysis/an_s_8.mp4"></video>
+      <div class="timeline-block">
+        <div class="timeline-rows-wrap">
+          <div class="timeline-cursor"><div class="cursor-line"></div></div>
+          <div class="timeline-row row-requested">
+            <span class="timeline-label">Requested</span>
+            <div class="timeline-track" data-frames="0,0,0,1,1,1,1,1,1,1,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-tc">
+            <span class="timeline-label">TempoControl</span>
+            <div class="timeline-track" data-frames="1,1,1,1,1,1,1,1,1,1,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-ours">
+            <span class="timeline-label ours-label">AttnSteer (ours)</span>
+            <div class="timeline-track" data-frames="1,1,1,1,1,1,1,1,1,1,1,1,1"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="analysis-card" id="ex-11">
+      <div class="card-meta">
+        <span class="card-idx">#9</span>
+        <span class="card-objects">Traffic light</span>
+        <span class="card-scores">TC: <b style='color:#15803d'>0.90</b> &nbsp; Ours: <b style='color:#15803d'>0.90</b> &nbsp; Δ: +0.00</span>
+      </div>
+      <div class="card-col-headers">
+        <span>TempoControl</span>
+        <span class="ours-label">AttnSteer (ours)</span>
+      </div>
+      <video autoplay muted loop playsinline preload="metadata" src="static/videos/temporal_analysis/an_s_9.mp4"></video>
+      <div class="timeline-block">
+        <div class="timeline-rows-wrap">
+          <div class="timeline-cursor"><div class="cursor-line"></div></div>
+          <div class="timeline-row row-requested">
+            <span class="timeline-label">Requested</span>
+            <div class="timeline-track" data-frames="0,0,0,1,1,1,1,1,1,1,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-tc">
+            <span class="timeline-label">TempoControl</span>
+            <div class="timeline-track" data-frames="1,1,1,1,1,1,1,1,1,1,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-ours">
+            <span class="timeline-label ours-label">AttnSteer (ours)</span>
+            <div class="timeline-track" data-frames="1,1,1,1,1,1,1,1,1,1,1,1,1"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="analysis-card" id="ex-12">
+      <div class="card-meta">
+        <span class="card-idx">#7</span>
+        <span class="card-objects">Truck</span>
+        <span class="card-scores">TC: <b style='color:#15803d'>0.88</b> &nbsp; Ours: <b style='color:#15803d'>0.89</b> &nbsp; Δ: +0.02</span>
+      </div>
+      <div class="card-col-headers">
+        <span>TempoControl</span>
+        <span class="ours-label">AttnSteer (ours)</span>
+      </div>
+      <video autoplay muted loop playsinline preload="metadata" src="static/videos/temporal_analysis/an_s_7.mp4"></video>
+      <div class="timeline-block">
+        <div class="timeline-rows-wrap">
+          <div class="timeline-cursor"><div class="cursor-line"></div></div>
+          <div class="timeline-row row-requested">
+            <span class="timeline-label">Requested</span>
+            <div class="timeline-track" data-frames="0,0,0,1,1,1,1,1,1,1,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-tc">
+            <span class="timeline-label">TempoControl</span>
+            <div class="timeline-track" data-frames="1,1,1,1,1,1,1,1,1,1,1,1,0"></div>
+          </div>
+          <div class="timeline-row row-ours">
+            <span class="timeline-label ours-label">AttnSteer (ours)</span>
+            <div class="timeline-track" data-frames="0,1,1,1,1,1,1,1,1,1,1,1,0"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="analysis-card" id="ex-13">
+      <div class="card-meta">
+        <span class="card-idx">#5</span>
+        <span class="card-objects">Bus</span>
+        <span class="card-scores">TC: <b style='color:#15803d'>0.90</b> &nbsp; Ours: <b style='color:#15803d'>0.88</b> &nbsp; Δ: -0.02</span>
+      </div>
+      <div class="card-col-headers">
+        <span>TempoControl</span>
+        <span class="ours-label">AttnSteer (ours)</span>
+      </div>
+      <video autoplay muted loop playsinline preload="metadata" src="static/videos/temporal_analysis/an_s_5.mp4"></video>
+      <div class="timeline-block">
+        <div class="timeline-rows-wrap">
+          <div class="timeline-cursor"><div class="cursor-line"></div></div>
+          <div class="timeline-row row-requested">
+            <span class="timeline-label">Requested</span>
+            <div class="timeline-track" data-frames="0,0,0,1,1,1,1,1,1,1,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-tc">
+            <span class="timeline-label">TempoControl</span>
+            <div class="timeline-track" data-frames="1,1,1,1,1,1,1,1,1,1,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-ours">
+            <span class="timeline-label ours-label">AttnSteer (ours)</span>
+            <div class="timeline-track" data-frames="1,1,1,1,1,1,1,1,1,1,1,1,0"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="analysis-card" id="ex-14">
+      <div class="card-meta">
+        <span class="card-idx">#43</span>
+        <span class="card-objects">Knife</span>
+        <span class="card-scores">TC: <b style='color:#15803d'>0.92</b> &nbsp; Ours: <b style='color:#15803d'>0.87</b> &nbsp; Δ: -0.05</span>
+      </div>
+      <div class="card-col-headers">
+        <span>TempoControl</span>
+        <span class="ours-label">AttnSteer (ours)</span>
+      </div>
+      <video autoplay muted loop playsinline preload="metadata" src="static/videos/temporal_analysis/an_s_43.mp4"></video>
+      <div class="timeline-block">
+        <div class="timeline-rows-wrap">
+          <div class="timeline-cursor"><div class="cursor-line"></div></div>
+          <div class="timeline-row row-requested">
+            <span class="timeline-label">Requested</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,0,0,1,1,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-tc">
+            <span class="timeline-label">TempoControl</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,0,0,0,1,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-ours">
+            <span class="timeline-label ours-label">AttnSteer (ours)</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,0,0,0,1,1,1,1"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="analysis-card" id="ex-15">
+      <div class="card-meta">
+        <span class="card-idx">#33</span>
+        <span class="card-objects">Kite</span>
+        <span class="card-scores">TC: <b style='color:#15803d'>0.72</b> &nbsp; Ours: <b style='color:#15803d'>0.84</b> &nbsp; Δ: +0.12</span>
+      </div>
+      <div class="card-col-headers">
+        <span>TempoControl</span>
+        <span class="ours-label">AttnSteer (ours)</span>
+      </div>
+      <video autoplay muted loop playsinline preload="metadata" src="static/videos/temporal_analysis/an_s_33.mp4"></video>
+      <div class="timeline-block">
+        <div class="timeline-rows-wrap">
+          <div class="timeline-cursor"><div class="cursor-line"></div></div>
+          <div class="timeline-row row-requested">
+            <span class="timeline-label">Requested</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,1,1,1,1,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-tc">
+            <span class="timeline-label">TempoControl</span>
+            <div class="timeline-track" data-frames="1,1,1,1,1,1,1,1,1,1,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-ours">
+            <span class="timeline-label ours-label">AttnSteer (ours)</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,0,0,1,1,1,1,1"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="analysis-card" id="ex-16">
+      <div class="card-meta">
+        <span class="card-idx">#6</span>
+        <span class="card-objects">Train</span>
+        <span class="card-scores">TC: <b style='color:#15803d'>0.90</b> &nbsp; Ours: <b style='color:#15803d'>0.84</b> &nbsp; Δ: -0.06</span>
+      </div>
+      <div class="card-col-headers">
+        <span>TempoControl</span>
+        <span class="ours-label">AttnSteer (ours)</span>
+      </div>
+      <video autoplay muted loop playsinline preload="metadata" src="static/videos/temporal_analysis/an_s_6.mp4"></video>
+      <div class="timeline-block">
+        <div class="timeline-rows-wrap">
+          <div class="timeline-cursor"><div class="cursor-line"></div></div>
+          <div class="timeline-row row-requested">
+            <span class="timeline-label">Requested</span>
+            <div class="timeline-track" data-frames="0,0,0,1,1,1,1,1,1,1,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-tc">
+            <span class="timeline-label">TempoControl</span>
+            <div class="timeline-track" data-frames="1,1,1,1,1,1,1,1,1,1,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-ours">
+            <span class="timeline-label ours-label">AttnSteer (ours)</span>
+            <div class="timeline-track" data-frames="1,1,1,1,1,1,1,1,1,1,1,1,0"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="analysis-card" id="ex-17">
+      <div class="card-meta">
+        <span class="card-idx">#65</span>
+        <span class="card-objects">Remote</span>
+        <span class="card-scores">TC: <b style='color:#dc2626'>0.00</b> &nbsp; Ours: <b style='color:#15803d'>0.83</b> &nbsp; Δ: +0.83</span>
+      </div>
+      <div class="card-col-headers">
+        <span>TempoControl</span>
+        <span class="ours-label">AttnSteer (ours)</span>
+      </div>
+      <video autoplay muted loop playsinline preload="metadata" src="static/videos/temporal_analysis/an_s_65.mp4"></video>
+      <div class="timeline-block">
+        <div class="timeline-rows-wrap">
+          <div class="timeline-cursor"><div class="cursor-line"></div></div>
+          <div class="timeline-row row-requested">
+            <span class="timeline-label">Requested</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,0,0,0,0,0,1,1"></div>
+          </div>
+          <div class="timeline-row row-tc">
+            <span class="timeline-label">TempoControl</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,0,0,0,0,0,0,0"></div>
+          </div>
+          <div class="timeline-row row-ours">
+            <span class="timeline-label ours-label">AttnSteer (ours)</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,0,0,0,0,1,1,1"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="analysis-card" id="ex-18">
+      <div class="card-meta">
+        <span class="card-idx">#68</span>
+        <span class="card-objects">Microwave</span>
+        <span class="card-scores">TC: <b style='color:#dc2626'>0.27</b> &nbsp; Ours: <b style='color:#15803d'>0.83</b> &nbsp; Δ: +0.56</span>
+      </div>
+      <div class="card-col-headers">
+        <span>TempoControl</span>
+        <span class="ours-label">AttnSteer (ours)</span>
+      </div>
+      <video autoplay muted loop playsinline preload="metadata" src="static/videos/temporal_analysis/an_s_68.mp4"></video>
+      <div class="timeline-block">
+        <div class="timeline-rows-wrap">
+          <div class="timeline-cursor"><div class="cursor-line"></div></div>
+          <div class="timeline-row row-requested">
+            <span class="timeline-label">Requested</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,0,0,0,0,0,1,1"></div>
+          </div>
+          <div class="timeline-row row-tc">
+            <span class="timeline-label">TempoControl</span>
+            <div class="timeline-track" data-frames="1,1,1,1,1,1,1,1,1,1,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-ours">
+            <span class="timeline-label ours-label">AttnSteer (ours)</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,0,0,0,0,1,1,1"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="analysis-card" id="ex-19">
+      <div class="card-meta">
+        <span class="card-idx">#74</span>
+        <span class="card-objects">Clock</span>
+        <span class="card-scores">TC: <b style='color:#15803d'>0.77</b> &nbsp; Ours: <b style='color:#15803d'>0.83</b> &nbsp; Δ: +0.06</span>
+      </div>
+      <div class="card-col-headers">
+        <span>TempoControl</span>
+        <span class="ours-label">AttnSteer (ours)</span>
+      </div>
+      <video autoplay muted loop playsinline preload="metadata" src="static/videos/temporal_analysis/an_s_74.mp4"></video>
+      <div class="timeline-block">
+        <div class="timeline-rows-wrap">
+          <div class="timeline-cursor"><div class="cursor-line"></div></div>
+          <div class="timeline-row row-requested">
+            <span class="timeline-label">Requested</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,0,0,0,0,0,1,1"></div>
+          </div>
+          <div class="timeline-row row-tc">
+            <span class="timeline-label">TempoControl</span>
+            <div class="timeline-track" data-frames="1,0,0,0,0,0,0,0,0,0,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-ours">
+            <span class="timeline-label ours-label">AttnSteer (ours)</span>
+            <div class="timeline-track" data-frames="1,0,0,0,0,0,0,0,0,0,0,1,1"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+  </section>
+
+  <section class="analysis-section">
+    <h2>2 — Single-object: ours > TC, TC partially succeeds</h2>
+    <p class="section-desc">LTX-2, single-object. ours F1 > TC F1, TC detection is non-trivial (not all-absent and not all-present). Top 20 by Δ F1.</p>
+    <div class="analysis-grid">
+
+    <div class="analysis-card" id="ex-0">
+      <div class="card-meta">
+        <span class="card-idx">#0</span>
+        <span class="card-objects">Person</span>
+        <span class="card-scores">TC: <b style='color:#d97706'>0.42</b> &nbsp; Ours: <b style='color:#15803d'>1.00</b> &nbsp; Δ: +0.58</span>
+      </div>
+      <div class="card-col-headers">
+        <span>TempoControl</span>
+        <span class="ours-label">AttnSteer (ours)</span>
+      </div>
+      <video autoplay muted loop playsinline preload="metadata" src="static/videos/temporal_analysis/an_s_0.mp4"></video>
+      <div class="timeline-block">
+        <div class="timeline-rows-wrap">
+          <div class="timeline-cursor"><div class="cursor-line"></div></div>
+          <div class="timeline-row row-requested">
+            <span class="timeline-label">Requested</span>
+            <div class="timeline-track" data-frames="0,0,0,1,1,1,1,1,1,1,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-tc">
+            <span class="timeline-label">TempoControl</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,0,0,0,0,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-ours">
+            <span class="timeline-label ours-label">AttnSteer (ours)</span>
+            <div class="timeline-track" data-frames="0,0,0,1,1,1,1,1,1,1,1,1,1"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="analysis-card" id="ex-1">
+      <div class="card-meta">
+        <span class="card-idx">#2</span>
+        <span class="card-objects">Car</span>
+        <span class="card-scores">TC: <b style='color:#d97706'>0.51</b> &nbsp; Ours: <b style='color:#15803d'>0.90</b> &nbsp; Δ: +0.38</span>
+      </div>
+      <div class="card-col-headers">
+        <span>TempoControl</span>
+        <span class="ours-label">AttnSteer (ours)</span>
+      </div>
+      <video autoplay muted loop playsinline preload="metadata" src="static/videos/temporal_analysis/an_s_2.mp4"></video>
+      <div class="timeline-block">
+        <div class="timeline-rows-wrap">
+          <div class="timeline-cursor"><div class="cursor-line"></div></div>
+          <div class="timeline-row row-requested">
+            <span class="timeline-label">Requested</span>
+            <div class="timeline-track" data-frames="0,0,0,1,1,1,1,1,1,1,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-tc">
+            <span class="timeline-label">TempoControl</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,0,0,0,1,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-ours">
+            <span class="timeline-label ours-label">AttnSteer (ours)</span>
+            <div class="timeline-track" data-frames="1,1,1,1,1,1,1,1,1,1,1,1,1"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="analysis-card" id="ex-2">
+      <div class="card-meta">
+        <span class="card-idx">#19</span>
+        <span class="card-objects">Cow</span>
+        <span class="card-scores">TC: <b style='color:#d97706'>0.59</b> &nbsp; Ours: <b style='color:#15803d'>0.90</b> &nbsp; Δ: +0.30</span>
+      </div>
+      <div class="card-col-headers">
+        <span>TempoControl</span>
+        <span class="ours-label">AttnSteer (ours)</span>
+      </div>
+      <video autoplay muted loop playsinline preload="metadata" src="static/videos/temporal_analysis/an_s_19.mp4"></video>
+      <div class="timeline-block">
+        <div class="timeline-rows-wrap">
+          <div class="timeline-cursor"><div class="cursor-line"></div></div>
+          <div class="timeline-row row-requested">
+            <span class="timeline-label">Requested</span>
+            <div class="timeline-track" data-frames="0,0,0,1,1,1,1,1,1,1,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-tc">
+            <span class="timeline-label">TempoControl</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,0,0,0,1,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-ours">
+            <span class="timeline-label ours-label">AttnSteer (ours)</span>
+            <div class="timeline-track" data-frames="1,1,1,1,1,1,1,1,1,1,1,1,1"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="analysis-card" id="ex-3">
+      <div class="card-meta">
+        <span class="card-idx">#30</span>
+        <span class="card-objects">Skis</span>
+        <span class="card-scores">TC: <b style='color:#d97706'>0.50</b> &nbsp; Ours: <b style='color:#15803d'>0.77</b> &nbsp; Δ: +0.27</span>
+      </div>
+      <div class="card-col-headers">
+        <span>TempoControl</span>
+        <span class="ours-label">AttnSteer (ours)</span>
+      </div>
+      <video autoplay muted loop playsinline preload="metadata" src="static/videos/temporal_analysis/an_s_30.mp4"></video>
+      <div class="timeline-block">
+        <div class="timeline-rows-wrap">
+          <div class="timeline-cursor"><div class="cursor-line"></div></div>
+          <div class="timeline-row row-requested">
+            <span class="timeline-label">Requested</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,1,1,1,1,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-tc">
+            <span class="timeline-label">TempoControl</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,0,0,0,1,0,1,1"></div>
+          </div>
+          <div class="timeline-row row-ours">
+            <span class="timeline-label ours-label">AttnSteer (ours)</span>
+            <div class="timeline-track" data-frames="1,0,0,1,1,1,1,1,1,1,1,1,1"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="analysis-card" id="ex-4">
+      <div class="card-meta">
+        <span class="card-idx">#62</span>
+        <span class="card-objects">Tv</span>
+        <span class="card-scores">TC: <b style='color:#d97706'>0.59</b> &nbsp; Ours: <b style='color:#15803d'>0.71</b> &nbsp; Δ: +0.13</span>
+      </div>
+      <div class="card-col-headers">
+        <span>TempoControl</span>
+        <span class="ours-label">AttnSteer (ours)</span>
+      </div>
+      <video autoplay muted loop playsinline preload="metadata" src="static/videos/temporal_analysis/an_s_62.mp4"></video>
+      <div class="timeline-block">
+        <div class="timeline-rows-wrap">
+          <div class="timeline-cursor"><div class="cursor-line"></div></div>
+          <div class="timeline-row row-requested">
+            <span class="timeline-label">Requested</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,0,0,0,0,0,1,1"></div>
+          </div>
+          <div class="timeline-row row-tc">
+            <span class="timeline-label">TempoControl</span>
+            <div class="timeline-track" data-frames="0,0,0,1,0,0,0,0,0,0,0,1,1"></div>
+          </div>
+          <div class="timeline-row row-ours">
+            <span class="timeline-label ours-label">AttnSteer (ours)</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,0,0,0,1,1,1,1"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="analysis-card" id="ex-5">
+      <div class="card-meta">
+        <span class="card-idx">#25</span>
+        <span class="card-objects">Umbrella</span>
+        <span class="card-scores">TC: <b style='color:#d97706'>0.65</b> &nbsp; Ours: <b style='color:#15803d'>0.76</b> &nbsp; Δ: +0.11</span>
+      </div>
+      <div class="card-col-headers">
+        <span>TempoControl</span>
+        <span class="ours-label">AttnSteer (ours)</span>
+      </div>
+      <video autoplay muted loop playsinline preload="metadata" src="static/videos/temporal_analysis/an_s_25.mp4"></video>
+      <div class="timeline-block">
+        <div class="timeline-rows-wrap">
+          <div class="timeline-cursor"><div class="cursor-line"></div></div>
+          <div class="timeline-row row-requested">
+            <span class="timeline-label">Requested</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,1,1,1,1,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-tc">
+            <span class="timeline-label">TempoControl</span>
+            <div class="timeline-track" data-frames="1,1,0,0,1,0,0,0,0,1,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-ours">
+            <span class="timeline-label ours-label">AttnSteer (ours)</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,0,0,0,1,1,1,1"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="analysis-card" id="ex-6">
+      <div class="card-meta">
+        <span class="card-idx">#16</span>
+        <span class="card-objects">Dog</span>
+        <span class="card-scores">TC: <b style='color:#d97706'>0.47</b> &nbsp; Ours: <b style='color:#d97706'>0.56</b> &nbsp; Δ: +0.08</span>
+      </div>
+      <div class="card-col-headers">
+        <span>TempoControl</span>
+        <span class="ours-label">AttnSteer (ours)</span>
+      </div>
+      <video autoplay muted loop playsinline preload="metadata" src="static/videos/temporal_analysis/an_s_16.mp4"></video>
+      <div class="timeline-block">
+        <div class="timeline-rows-wrap">
+          <div class="timeline-cursor"><div class="cursor-line"></div></div>
+          <div class="timeline-row row-requested">
+            <span class="timeline-label">Requested</span>
+            <div class="timeline-track" data-frames="0,0,0,1,1,1,1,1,1,1,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-tc">
+            <span class="timeline-label">TempoControl</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,0,0,0,0,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-ours">
+            <span class="timeline-label ours-label">AttnSteer (ours)</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,0,0,0,1,1,1,1"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="analysis-card" id="ex-7">
+      <div class="card-meta">
+        <span class="card-idx">#17</span>
+        <span class="card-objects">Horse</span>
+        <span class="card-scores">TC: <b style='color:#d97706'>0.51</b> &nbsp; Ours: <b style='color:#d97706'>0.59</b> &nbsp; Δ: +0.08</span>
+      </div>
+      <div class="card-col-headers">
+        <span>TempoControl</span>
+        <span class="ours-label">AttnSteer (ours)</span>
+      </div>
+      <video autoplay muted loop playsinline preload="metadata" src="static/videos/temporal_analysis/an_s_17.mp4"></video>
+      <div class="timeline-block">
+        <div class="timeline-rows-wrap">
+          <div class="timeline-cursor"><div class="cursor-line"></div></div>
+          <div class="timeline-row row-requested">
+            <span class="timeline-label">Requested</span>
+            <div class="timeline-track" data-frames="0,0,0,1,1,1,1,1,1,1,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-tc">
+            <span class="timeline-label">TempoControl</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,0,0,0,1,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-ours">
+            <span class="timeline-label ours-label">AttnSteer (ours)</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,0,0,0,1,1,1,1"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="analysis-card" id="ex-8">
+      <div class="card-meta">
+        <span class="card-idx">#1</span>
+        <span class="card-objects">Bicycle</span>
+        <span class="card-scores">TC: <b style='color:#d97706'>0.59</b> &nbsp; Ours: <b style='color:#d97706'>0.67</b> &nbsp; Δ: +0.07</span>
+      </div>
+      <div class="card-col-headers">
+        <span>TempoControl</span>
+        <span class="ours-label">AttnSteer (ours)</span>
+      </div>
+      <video autoplay muted loop playsinline preload="metadata" src="static/videos/temporal_analysis/an_s_1.mp4"></video>
+      <div class="timeline-block">
+        <div class="timeline-rows-wrap">
+          <div class="timeline-cursor"><div class="cursor-line"></div></div>
+          <div class="timeline-row row-requested">
+            <span class="timeline-label">Requested</span>
+            <div class="timeline-track" data-frames="0,0,0,1,1,1,1,1,1,1,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-tc">
+            <span class="timeline-label">TempoControl</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,0,0,0,1,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-ours">
+            <span class="timeline-label ours-label">AttnSteer (ours)</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,0,0,1,1,1,1,1"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="analysis-card" id="ex-9">
+      <div class="card-meta">
+        <span class="card-idx">#74</span>
+        <span class="card-objects">Clock</span>
+        <span class="card-scores">TC: <b style='color:#15803d'>0.77</b> &nbsp; Ours: <b style='color:#15803d'>0.83</b> &nbsp; Δ: +0.06</span>
+      </div>
+      <div class="card-col-headers">
+        <span>TempoControl</span>
+        <span class="ours-label">AttnSteer (ours)</span>
+      </div>
+      <video autoplay muted loop playsinline preload="metadata" src="static/videos/temporal_analysis/an_s_74.mp4"></video>
+      <div class="timeline-block">
+        <div class="timeline-rows-wrap">
+          <div class="timeline-cursor"><div class="cursor-line"></div></div>
+          <div class="timeline-row row-requested">
+            <span class="timeline-label">Requested</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,0,0,0,0,0,1,1"></div>
+          </div>
+          <div class="timeline-row row-tc">
+            <span class="timeline-label">TempoControl</span>
+            <div class="timeline-track" data-frames="1,0,0,0,0,0,0,0,0,0,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-ours">
+            <span class="timeline-label ours-label">AttnSteer (ours)</span>
+            <div class="timeline-track" data-frames="1,0,0,0,0,0,0,0,0,0,0,1,1"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="analysis-card" id="ex-10">
+      <div class="card-meta">
+        <span class="card-idx">#10</span>
+        <span class="card-objects">Fire hydrant</span>
+        <span class="card-scores">TC: <b style='color:#15803d'>0.94</b> &nbsp; Ours: <b style='color:#15803d'>1.00</b> &nbsp; Δ: +0.06</span>
+      </div>
+      <div class="card-col-headers">
+        <span>TempoControl</span>
+        <span class="ours-label">AttnSteer (ours)</span>
+      </div>
+      <video autoplay muted loop playsinline preload="metadata" src="static/videos/temporal_analysis/an_s_10.mp4"></video>
+      <div class="timeline-block">
+        <div class="timeline-rows-wrap">
+          <div class="timeline-cursor"><div class="cursor-line"></div></div>
+          <div class="timeline-row row-requested">
+            <span class="timeline-label">Requested</span>
+            <div class="timeline-track" data-frames="0,0,0,1,1,1,1,1,1,1,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-tc">
+            <span class="timeline-label">TempoControl</span>
+            <div class="timeline-track" data-frames="0,0,0,0,1,1,1,1,1,1,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-ours">
+            <span class="timeline-label ours-label">AttnSteer (ours)</span>
+            <div class="timeline-track" data-frames="0,0,0,1,1,1,1,1,1,1,1,1,1"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="analysis-card" id="ex-11">
+      <div class="card-meta">
+        <span class="card-idx">#27</span>
+        <span class="card-objects">Tie</span>
+        <span class="card-scores">TC: <b style='color:#15803d'>0.75</b> &nbsp; Ours: <b style='color:#15803d'>0.80</b> &nbsp; Δ: +0.05</span>
+      </div>
+      <div class="card-col-headers">
+        <span>TempoControl</span>
+        <span class="ours-label">AttnSteer (ours)</span>
+      </div>
+      <video autoplay muted loop playsinline preload="metadata" src="static/videos/temporal_analysis/an_s_27.mp4"></video>
+      <div class="timeline-block">
+        <div class="timeline-rows-wrap">
+          <div class="timeline-cursor"><div class="cursor-line"></div></div>
+          <div class="timeline-row row-requested">
+            <span class="timeline-label">Requested</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,1,1,1,1,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-tc">
+            <span class="timeline-label">TempoControl</span>
+            <div class="timeline-track" data-frames="0,1,1,1,1,1,1,1,1,1,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-ours">
+            <span class="timeline-label ours-label">AttnSteer (ours)</span>
+            <div class="timeline-track" data-frames="0,0,1,1,1,1,1,1,1,1,1,1,1"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="analysis-card" id="ex-12">
+      <div class="card-meta">
+        <span class="card-idx">#67</span>
+        <span class="card-objects">Cell phone</span>
+        <span class="card-scores">TC: <b style='color:#dc2626'>0.31</b> &nbsp; Ours: <b style='color:#dc2626'>0.33</b> &nbsp; Δ: +0.02</span>
+      </div>
+      <div class="card-col-headers">
+        <span>TempoControl</span>
+        <span class="ours-label">AttnSteer (ours)</span>
+      </div>
+      <video autoplay muted loop playsinline preload="metadata" src="static/videos/temporal_analysis/an_s_67.mp4"></video>
+      <div class="timeline-block">
+        <div class="timeline-rows-wrap">
+          <div class="timeline-cursor"><div class="cursor-line"></div></div>
+          <div class="timeline-row row-requested">
+            <span class="timeline-label">Requested</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,0,0,0,0,0,1,1"></div>
+          </div>
+          <div class="timeline-row row-tc">
+            <span class="timeline-label">TempoControl</span>
+            <div class="timeline-track" data-frames="0,0,1,1,1,1,1,1,1,1,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-ours">
+            <span class="timeline-label ours-label">AttnSteer (ours)</span>
+            <div class="timeline-track" data-frames="1,1,1,0,0,0,0,0,0,0,1,0,1"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="analysis-card" id="ex-13">
+      <div class="card-meta">
+        <span class="card-idx">#3</span>
+        <span class="card-objects">Motorcycle</span>
+        <span class="card-scores">TC: <b style='color:#15803d'>0.94</b> &nbsp; Ours: <b style='color:#15803d'>0.96</b> &nbsp; Δ: +0.02</span>
+      </div>
+      <div class="card-col-headers">
+        <span>TempoControl</span>
+        <span class="ours-label">AttnSteer (ours)</span>
+      </div>
+      <video autoplay muted loop playsinline preload="metadata" src="static/videos/temporal_analysis/an_s_3.mp4"></video>
+      <div class="timeline-block">
+        <div class="timeline-rows-wrap">
+          <div class="timeline-cursor"><div class="cursor-line"></div></div>
+          <div class="timeline-row row-requested">
+            <span class="timeline-label">Requested</span>
+            <div class="timeline-track" data-frames="0,0,0,1,1,1,1,1,1,1,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-tc">
+            <span class="timeline-label">TempoControl</span>
+            <div class="timeline-track" data-frames="0,0,1,1,1,1,1,1,1,1,1,1,0"></div>
+          </div>
+          <div class="timeline-row row-ours">
+            <span class="timeline-label ours-label">AttnSteer (ours)</span>
+            <div class="timeline-track" data-frames="0,0,1,1,1,1,1,1,1,1,1,1,0"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="analysis-card" id="ex-14">
+      <div class="card-meta">
+        <span class="card-idx">#7</span>
+        <span class="card-objects">Truck</span>
+        <span class="card-scores">TC: <b style='color:#15803d'>0.88</b> &nbsp; Ours: <b style='color:#15803d'>0.89</b> &nbsp; Δ: +0.02</span>
+      </div>
+      <div class="card-col-headers">
+        <span>TempoControl</span>
+        <span class="ours-label">AttnSteer (ours)</span>
+      </div>
+      <video autoplay muted loop playsinline preload="metadata" src="static/videos/temporal_analysis/an_s_7.mp4"></video>
+      <div class="timeline-block">
+        <div class="timeline-rows-wrap">
+          <div class="timeline-cursor"><div class="cursor-line"></div></div>
+          <div class="timeline-row row-requested">
+            <span class="timeline-label">Requested</span>
+            <div class="timeline-track" data-frames="0,0,0,1,1,1,1,1,1,1,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-tc">
+            <span class="timeline-label">TempoControl</span>
+            <div class="timeline-track" data-frames="1,1,1,1,1,1,1,1,1,1,1,1,0"></div>
+          </div>
+          <div class="timeline-row row-ours">
+            <span class="timeline-label ours-label">AttnSteer (ours)</span>
+            <div class="timeline-track" data-frames="0,1,1,1,1,1,1,1,1,1,1,1,0"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="analysis-card" id="ex-15">
+      <div class="card-meta">
+        <span class="card-idx">#20</span>
+        <span class="card-objects">Elephant</span>
+        <span class="card-scores">TC: <b style='color:#d97706'>0.67</b> &nbsp; Ours: <b style='color:#d97706'>0.68</b> &nbsp; Δ: +0.02</span>
+      </div>
+      <div class="card-col-headers">
+        <span>TempoControl</span>
+        <span class="ours-label">AttnSteer (ours)</span>
+      </div>
+      <video autoplay muted loop playsinline preload="metadata" src="static/videos/temporal_analysis/an_s_20.mp4"></video>
+      <div class="timeline-block">
+        <div class="timeline-rows-wrap">
+          <div class="timeline-cursor"><div class="cursor-line"></div></div>
+          <div class="timeline-row row-requested">
+            <span class="timeline-label">Requested</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,1,1,1,1,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-tc">
+            <span class="timeline-label">TempoControl</span>
+            <div class="timeline-track" data-frames="1,1,1,1,1,1,1,1,1,1,1,1,0"></div>
+          </div>
+          <div class="timeline-row row-ours">
+            <span class="timeline-label ours-label">AttnSteer (ours)</span>
+            <div class="timeline-track" data-frames="1,1,1,0,1,1,1,1,1,1,1,0,0"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+  </section>
+
+  <section class="analysis-section">
+    <h2>3 — Static+dynamic: top by AttnSteer F1</h2>
+    <p class="section-desc">LTX-2, static+dynamic benchmark. Timeline shows the controlled (dynamic) object. Top 20 by AttnSteer F1.</p>
+    <div class="analysis-grid">
+
+    <div class="analysis-card" id="ex-0">
+      <div class="card-meta">
+        <span class="card-idx">#41</span>
+        <span class="card-objects">Airplane + Boat <span style='color:#888;font-weight:400;font-size:0.82rem;'>(controlled: Airplane)</span></span>
+        <span class="card-scores">TC: <b style='color:#d97706'>0.44</b> &nbsp; Ours: <b style='color:#15803d'>1.00</b> &nbsp; Δ: +0.56</span>
+      </div>
+      <div class="card-col-headers">
+        <span>TempoControl</span>
+        <span class="ours-label">AttnSteer (ours)</span>
+      </div>
+      <video autoplay muted loop playsinline preload="metadata" src="static/videos/temporal_analysis/an_d_41.mp4"></video>
+      <div class="timeline-block">
+        <div class="timeline-rows-wrap">
+          <div class="timeline-cursor"><div class="cursor-line"></div></div>
+          <div class="timeline-row row-requested">
+            <span class="timeline-label">Requested</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,1,1,1,1,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-tc">
+            <span class="timeline-label">TempoControl</span>
+            <div class="timeline-track" data-frames="1,1,1,1,1,1,1,1,1,0,0,0,0"></div>
+          </div>
+          <div class="timeline-row row-ours">
+            <span class="timeline-label ours-label">AttnSteer (ours)</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,1,1,1,1,1,1,1"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="analysis-card" id="ex-1">
+      <div class="card-meta">
+        <span class="card-idx">#65</span>
+        <span class="card-objects">Backpack + Broccoli <span style='color:#888;font-weight:400;font-size:0.82rem;'>(controlled: Backpack)</span></span>
+        <span class="card-scores">TC: <b style='color:#15803d'>0.91</b> &nbsp; Ours: <b style='color:#15803d'>1.00</b> &nbsp; Δ: +0.09</span>
+      </div>
+      <div class="card-col-headers">
+        <span>TempoControl</span>
+        <span class="ours-label">AttnSteer (ours)</span>
+      </div>
+      <video autoplay muted loop playsinline preload="metadata" src="static/videos/temporal_analysis/an_d_65.mp4"></video>
+      <div class="timeline-block">
+        <div class="timeline-rows-wrap">
+          <div class="timeline-cursor"><div class="cursor-line"></div></div>
+          <div class="timeline-row row-requested">
+            <span class="timeline-label">Requested</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,1,1,1,1,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-tc">
+            <span class="timeline-label">TempoControl</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,0,1,1,1,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-ours">
+            <span class="timeline-label ours-label">AttnSteer (ours)</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,1,1,1,1,1,1,1"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="analysis-card" id="ex-2">
+      <div class="card-meta">
+        <span class="card-idx">#66</span>
+        <span class="card-objects">Umbrella + Carrot <span style='color:#888;font-weight:400;font-size:0.82rem;'>(controlled: Umbrella)</span></span>
+        <span class="card-scores">TC: <b style='color:#d97706'>0.67</b> &nbsp; Ours: <b style='color:#15803d'>1.00</b> &nbsp; Δ: +0.33</span>
+      </div>
+      <div class="card-col-headers">
+        <span>TempoControl</span>
+        <span class="ours-label">AttnSteer (ours)</span>
+      </div>
+      <video autoplay muted loop playsinline preload="metadata" src="static/videos/temporal_analysis/an_d_66.mp4"></video>
+      <div class="timeline-block">
+        <div class="timeline-rows-wrap">
+          <div class="timeline-cursor"><div class="cursor-line"></div></div>
+          <div class="timeline-row row-requested">
+            <span class="timeline-label">Requested</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,1,1,1,1,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-tc">
+            <span class="timeline-label">TempoControl</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,0,0,0,1,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-ours">
+            <span class="timeline-label ours-label">AttnSteer (ours)</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,1,1,1,1,1,1,1"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="analysis-card" id="ex-3">
+      <div class="card-meta">
+        <span class="card-idx">#52</span>
+        <span class="card-objects">Toothbrush + Hair dryer <span style='color:#888;font-weight:400;font-size:0.82rem;'>(controlled: Toothbrush)</span></span>
+        <span class="card-scores">TC: <b style='color:#d97706'>0.56</b> &nbsp; Ours: <b style='color:#15803d'>0.97</b> &nbsp; Δ: +0.41</span>
+      </div>
+      <div class="card-col-headers">
+        <span>TempoControl</span>
+        <span class="ours-label">AttnSteer (ours)</span>
+      </div>
+      <video autoplay muted loop playsinline preload="metadata" src="static/videos/temporal_analysis/an_d_52.mp4"></video>
+      <div class="timeline-block">
+        <div class="timeline-rows-wrap">
+          <div class="timeline-cursor"><div class="cursor-line"></div></div>
+          <div class="timeline-row row-requested">
+            <span class="timeline-label">Requested</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,1,1,1,1,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-tc">
+            <span class="timeline-label">TempoControl</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,0,0,0,0,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-ours">
+            <span class="timeline-label ours-label">AttnSteer (ours)</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,1,1,1,1,1,1,1"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="analysis-card" id="ex-4">
+      <div class="card-meta">
+        <span class="card-idx">#42</span>
+        <span class="card-objects">Car + Bicycle <span style='color:#888;font-weight:400;font-size:0.82rem;'>(controlled: Car)</span></span>
+        <span class="card-scores">TC: <b style='color:#dc2626'>0.00</b> &nbsp; Ours: <b style='color:#15803d'>0.92</b> &nbsp; Δ: +0.92</span>
+      </div>
+      <div class="card-col-headers">
+        <span>TempoControl</span>
+        <span class="ours-label">AttnSteer (ours)</span>
+      </div>
+      <video autoplay muted loop playsinline preload="metadata" src="static/videos/temporal_analysis/an_d_42.mp4"></video>
+      <div class="timeline-block">
+        <div class="timeline-rows-wrap">
+          <div class="timeline-cursor"><div class="cursor-line"></div></div>
+          <div class="timeline-row row-requested">
+            <span class="timeline-label">Requested</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,1,1,1,1,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-tc">
+            <span class="timeline-label">TempoControl</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,0,0,0,0,0,0,0"></div>
+          </div>
+          <div class="timeline-row row-ours">
+            <span class="timeline-label ours-label">AttnSteer (ours)</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,1,1,1,1,1,1,1,1"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="analysis-card" id="ex-5">
+      <div class="card-meta">
+        <span class="card-idx">#24</span>
+        <span class="card-objects">Suitcase + Vase <span style='color:#888;font-weight:400;font-size:0.82rem;'>(controlled: Suitcase)</span></span>
+        <span class="card-scores">TC: <b style='color:#dc2626'>0.29</b> &nbsp; Ours: <b style='color:#15803d'>0.88</b> &nbsp; Δ: +0.59</span>
+      </div>
+      <div class="card-col-headers">
+        <span>TempoControl</span>
+        <span class="ours-label">AttnSteer (ours)</span>
+      </div>
+      <video autoplay muted loop playsinline preload="metadata" src="static/videos/temporal_analysis/an_d_24.mp4"></video>
+      <div class="timeline-block">
+        <div class="timeline-rows-wrap">
+          <div class="timeline-cursor"><div class="cursor-line"></div></div>
+          <div class="timeline-row row-requested">
+            <span class="timeline-label">Requested</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,1,1,1,1,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-tc">
+            <span class="timeline-label">TempoControl</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,0,0,0,0,0,0,1"></div>
+          </div>
+          <div class="timeline-row row-ours">
+            <span class="timeline-label ours-label">AttnSteer (ours)</span>
+            <div class="timeline-track" data-frames="0,0,0,0,1,1,1,1,1,1,1,1,1"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="analysis-card" id="ex-6">
+      <div class="card-meta">
+        <span class="card-idx">#27</span>
+        <span class="card-objects">Frisbee + Teddy bear <span style='color:#888;font-weight:400;font-size:0.82rem;'>(controlled: Frisbee)</span></span>
+        <span class="card-scores">TC: <b style='color:#dc2626'>0.00</b> &nbsp; Ours: <b style='color:#15803d'>0.88</b> &nbsp; Δ: +0.88</span>
+      </div>
+      <div class="card-col-headers">
+        <span>TempoControl</span>
+        <span class="ours-label">AttnSteer (ours)</span>
+      </div>
+      <video autoplay muted loop playsinline preload="metadata" src="static/videos/temporal_analysis/an_d_27.mp4"></video>
+      <div class="timeline-block">
+        <div class="timeline-rows-wrap">
+          <div class="timeline-cursor"><div class="cursor-line"></div></div>
+          <div class="timeline-row row-requested">
+            <span class="timeline-label">Requested</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,1,1,1,1,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-tc">
+            <span class="timeline-label">TempoControl</span>
+            <div class="timeline-track" data-frames="1,1,1,0,0,0,0,0,0,0,0,0,0"></div>
+          </div>
+          <div class="timeline-row row-ours">
+            <span class="timeline-label ours-label">AttnSteer (ours)</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,1,0,0,1,1,1,1"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="analysis-card" id="ex-7">
+      <div class="card-meta">
+        <span class="card-idx">#45</span>
+        <span class="card-objects">Bus + Traffic light <span style='color:#888;font-weight:400;font-size:0.82rem;'>(controlled: Bus)</span></span>
+        <span class="card-scores">TC: <b style='color:#d97706'>0.67</b> &nbsp; Ours: <b style='color:#15803d'>0.88</b> &nbsp; Δ: +0.21</span>
+      </div>
+      <div class="card-col-headers">
+        <span>TempoControl</span>
+        <span class="ours-label">AttnSteer (ours)</span>
+      </div>
+      <video autoplay muted loop playsinline preload="metadata" src="static/videos/temporal_analysis/an_d_45.mp4"></video>
+      <div class="timeline-block">
+        <div class="timeline-rows-wrap">
+          <div class="timeline-cursor"><div class="cursor-line"></div></div>
+          <div class="timeline-row row-requested">
+            <span class="timeline-label">Requested</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,1,1,1,1,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-tc">
+            <span class="timeline-label">TempoControl</span>
+            <div class="timeline-track" data-frames="0,1,1,1,1,1,1,1,1,1,1,1,0"></div>
+          </div>
+          <div class="timeline-row row-ours">
+            <span class="timeline-label ours-label">AttnSteer (ours)</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,0,0,1,1,1,1,1"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="analysis-card" id="ex-8">
+      <div class="card-meta">
+        <span class="card-idx">#64</span>
+        <span class="card-objects">Clock + Orange <span style='color:#888;font-weight:400;font-size:0.82rem;'>(controlled: Clock)</span></span>
+        <span class="card-scores">TC: <b style='color:#d97706'>0.58</b> &nbsp; Ours: <b style='color:#15803d'>0.88</b> &nbsp; Δ: +0.30</span>
+      </div>
+      <div class="card-col-headers">
+        <span>TempoControl</span>
+        <span class="ours-label">AttnSteer (ours)</span>
+      </div>
+      <video autoplay muted loop playsinline preload="metadata" src="static/videos/temporal_analysis/an_d_64.mp4"></video>
+      <div class="timeline-block">
+        <div class="timeline-rows-wrap">
+          <div class="timeline-cursor"><div class="cursor-line"></div></div>
+          <div class="timeline-row row-requested">
+            <span class="timeline-label">Requested</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,1,1,1,1,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-tc">
+            <span class="timeline-label">TempoControl</span>
+            <div class="timeline-track" data-frames="1,1,1,1,1,1,0,0,1,1,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-ours">
+            <span class="timeline-label ours-label">AttnSteer (ours)</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,0,1,1,1,1,1,1"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="analysis-card" id="ex-9">
+      <div class="card-meta">
+        <span class="card-idx">#67</span>
+        <span class="card-objects">Handbag + Hot dog <span style='color:#888;font-weight:400;font-size:0.82rem;'>(controlled: Handbag)</span></span>
+        <span class="card-scores">TC: <b style='color:#15803d'>1.00</b> &nbsp; Ours: <b style='color:#15803d'>0.86</b> &nbsp; Δ: -0.14</span>
+      </div>
+      <div class="card-col-headers">
+        <span>TempoControl</span>
+        <span class="ours-label">AttnSteer (ours)</span>
+      </div>
+      <video autoplay muted loop playsinline preload="metadata" src="static/videos/temporal_analysis/an_d_67.mp4"></video>
+      <div class="timeline-block">
+        <div class="timeline-rows-wrap">
+          <div class="timeline-cursor"><div class="cursor-line"></div></div>
+          <div class="timeline-row row-requested">
+            <span class="timeline-label">Requested</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,1,1,1,1,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-tc">
+            <span class="timeline-label">TempoControl</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,1,1,1,1,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-ours">
+            <span class="timeline-label ours-label">AttnSteer (ours)</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,1,0,1,1,1,1,1,1"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="analysis-card" id="ex-10">
+      <div class="card-meta">
+        <span class="card-idx">#21</span>
+        <span class="card-objects">Umbrella + Handbag <span style='color:#888;font-weight:400;font-size:0.82rem;'>(controlled: Umbrella)</span></span>
+        <span class="card-scores">TC: <b style='color:#dc2626'>0.29</b> &nbsp; Ours: <b style='color:#15803d'>0.84</b> &nbsp; Δ: +0.55</span>
+      </div>
+      <div class="card-col-headers">
+        <span>TempoControl</span>
+        <span class="ours-label">AttnSteer (ours)</span>
+      </div>
+      <video autoplay muted loop playsinline preload="metadata" src="static/videos/temporal_analysis/an_d_21.mp4"></video>
+      <div class="timeline-block">
+        <div class="timeline-rows-wrap">
+          <div class="timeline-cursor"><div class="cursor-line"></div></div>
+          <div class="timeline-row row-requested">
+            <span class="timeline-label">Requested</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,1,1,1,1,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-tc">
+            <span class="timeline-label">TempoControl</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,0,0,0,0,0,0,1"></div>
+          </div>
+          <div class="timeline-row row-ours">
+            <span class="timeline-label ours-label">AttnSteer (ours)</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,0,1,1,1,1,1,1"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="analysis-card" id="ex-11">
+      <div class="card-meta">
+        <span class="card-idx">#37</span>
+        <span class="card-objects">Tennis racket + Bottle <span style='color:#888;font-weight:400;font-size:0.82rem;'>(controlled: Tennis racket)</span></span>
+        <span class="card-scores">TC: <b style='color:#15803d'>0.71</b> &nbsp; Ours: <b style='color:#15803d'>0.84</b> &nbsp; Δ: +0.13</span>
+      </div>
+      <div class="card-col-headers">
+        <span>TempoControl</span>
+        <span class="ours-label">AttnSteer (ours)</span>
+      </div>
+      <video autoplay muted loop playsinline preload="metadata" src="static/videos/temporal_analysis/an_d_37.mp4"></video>
+      <div class="timeline-block">
+        <div class="timeline-rows-wrap">
+          <div class="timeline-cursor"><div class="cursor-line"></div></div>
+          <div class="timeline-row row-requested">
+            <span class="timeline-label">Requested</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,1,1,1,1,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-tc">
+            <span class="timeline-label">TempoControl</span>
+            <div class="timeline-track" data-frames="0,1,1,1,1,1,1,1,1,1,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-ours">
+            <span class="timeline-label ours-label">AttnSteer (ours)</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,0,0,1,1,1,1,1"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="analysis-card" id="ex-12">
+      <div class="card-meta">
+        <span class="card-idx">#55</span>
+        <span class="card-objects">Chair + Wine glass <span style='color:#888;font-weight:400;font-size:0.82rem;'>(controlled: Chair)</span></span>
+        <span class="card-scores">TC: <b style='color:#15803d'>0.72</b> &nbsp; Ours: <b style='color:#15803d'>0.84</b> &nbsp; Δ: +0.12</span>
+      </div>
+      <div class="card-col-headers">
+        <span>TempoControl</span>
+        <span class="ours-label">AttnSteer (ours)</span>
+      </div>
+      <video autoplay muted loop playsinline preload="metadata" src="static/videos/temporal_analysis/an_d_55.mp4"></video>
+      <div class="timeline-block">
+        <div class="timeline-rows-wrap">
+          <div class="timeline-cursor"><div class="cursor-line"></div></div>
+          <div class="timeline-row row-requested">
+            <span class="timeline-label">Requested</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,1,1,1,1,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-tc">
+            <span class="timeline-label">TempoControl</span>
+            <div class="timeline-track" data-frames="1,1,1,1,1,1,1,1,1,1,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-ours">
+            <span class="timeline-label ours-label">AttnSteer (ours)</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,0,0,1,1,1,1,1"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="analysis-card" id="ex-13">
+      <div class="card-meta">
+        <span class="card-idx">#74</span>
+        <span class="card-objects">Skis + Refrigerator <span style='color:#888;font-weight:400;font-size:0.82rem;'>(controlled: Skis)</span></span>
+        <span class="card-scores">TC: <b style='color:#15803d'>0.72</b> &nbsp; Ours: <b style='color:#15803d'>0.84</b> &nbsp; Δ: +0.12</span>
+      </div>
+      <div class="card-col-headers">
+        <span>TempoControl</span>
+        <span class="ours-label">AttnSteer (ours)</span>
+      </div>
+      <video autoplay muted loop playsinline preload="metadata" src="static/videos/temporal_analysis/an_d_74.mp4"></video>
+      <div class="timeline-block">
+        <div class="timeline-rows-wrap">
+          <div class="timeline-cursor"><div class="cursor-line"></div></div>
+          <div class="timeline-row row-requested">
+            <span class="timeline-label">Requested</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,1,1,1,1,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-tc">
+            <span class="timeline-label">TempoControl</span>
+            <div class="timeline-track" data-frames="1,1,1,1,1,1,1,1,1,1,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-ours">
+            <span class="timeline-label ours-label">AttnSteer (ours)</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,0,0,1,1,1,1,1"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="analysis-card" id="ex-14">
+      <div class="card-meta">
+        <span class="card-idx">#75</span>
+        <span class="card-objects">Airplane + Bicycle <span style='color:#888;font-weight:400;font-size:0.82rem;'>(controlled: Airplane)</span></span>
+        <span class="card-scores">TC: <b style='color:#15803d'>0.88</b> &nbsp; Ours: <b style='color:#15803d'>0.84</b> &nbsp; Δ: -0.04</span>
+      </div>
+      <div class="card-col-headers">
+        <span>TempoControl</span>
+        <span class="ours-label">AttnSteer (ours)</span>
+      </div>
+      <video autoplay muted loop playsinline preload="metadata" src="static/videos/temporal_analysis/an_d_75.mp4"></video>
+      <div class="timeline-block">
+        <div class="timeline-rows-wrap">
+          <div class="timeline-cursor"><div class="cursor-line"></div></div>
+          <div class="timeline-row row-requested">
+            <span class="timeline-label">Requested</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,1,1,1,1,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-tc">
+            <span class="timeline-label">TempoControl</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,0,1,1,1,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-ours">
+            <span class="timeline-label ours-label">AttnSteer (ours)</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,1,1,1,1,1,0,0"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="analysis-card" id="ex-15">
+      <div class="card-meta">
+        <span class="card-idx">#49</span>
+        <span class="card-objects">Parking meter + Truck <span style='color:#888;font-weight:400;font-size:0.82rem;'>(controlled: Parking meter)</span></span>
+        <span class="card-scores">TC: <b style='color:#d97706'>0.61</b> &nbsp; Ours: <b style='color:#15803d'>0.82</b> &nbsp; Δ: +0.21</span>
+      </div>
+      <div class="card-col-headers">
+        <span>TempoControl</span>
+        <span class="ours-label">AttnSteer (ours)</span>
+      </div>
+      <video autoplay muted loop playsinline preload="metadata" src="static/videos/temporal_analysis/an_d_49.mp4"></video>
+      <div class="timeline-block">
+        <div class="timeline-rows-wrap">
+          <div class="timeline-cursor"><div class="cursor-line"></div></div>
+          <div class="timeline-row row-requested">
+            <span class="timeline-label">Requested</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,1,1,1,1,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-tc">
+            <span class="timeline-label">TempoControl</span>
+            <div class="timeline-track" data-frames="1,1,1,1,1,1,1,1,1,1,0,1,1"></div>
+          </div>
+          <div class="timeline-row row-ours">
+            <span class="timeline-label ours-label">AttnSteer (ours)</span>
+            <div class="timeline-track" data-frames="0,0,1,0,1,1,1,1,1,1,1,1,1"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="analysis-card" id="ex-16">
+      <div class="card-meta">
+        <span class="card-idx">#20</span>
+        <span class="card-objects">Backpack + Umbrella <span style='color:#888;font-weight:400;font-size:0.82rem;'>(controlled: Backpack)</span></span>
+        <span class="card-scores">TC: <b style='color:#dc2626'>0.00</b> &nbsp; Ours: <b style='color:#15803d'>0.80</b> &nbsp; Δ: +0.80</span>
+      </div>
+      <div class="card-col-headers">
+        <span>TempoControl</span>
+        <span class="ours-label">AttnSteer (ours)</span>
+      </div>
+      <video autoplay muted loop playsinline preload="metadata" src="static/videos/temporal_analysis/an_d_20.mp4"></video>
+      <div class="timeline-block">
+        <div class="timeline-rows-wrap">
+          <div class="timeline-cursor"><div class="cursor-line"></div></div>
+          <div class="timeline-row row-requested">
+            <span class="timeline-label">Requested</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,1,1,1,1,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-tc">
+            <span class="timeline-label">TempoControl</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,0,0,0,0,0,0,0"></div>
+          </div>
+          <div class="timeline-row row-ours">
+            <span class="timeline-label ours-label">AttnSteer (ours)</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,0,0,1,1,1,1,0"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="analysis-card" id="ex-17">
+      <div class="card-meta">
+        <span class="card-idx">#8</span>
+        <span class="card-objects">Zebra + Giraffe <span style='color:#888;font-weight:400;font-size:0.82rem;'>(controlled: Zebra)</span></span>
+        <span class="card-scores">TC: <b style='color:#15803d'>0.97</b> &nbsp; Ours: <b style='color:#15803d'>0.80</b> &nbsp; Δ: -0.17</span>
+      </div>
+      <div class="card-col-headers">
+        <span>TempoControl</span>
+        <span class="ours-label">AttnSteer (ours)</span>
+      </div>
+      <video autoplay muted loop playsinline preload="metadata" src="static/videos/temporal_analysis/an_d_8.mp4"></video>
+      <div class="timeline-block">
+        <div class="timeline-rows-wrap">
+          <div class="timeline-cursor"><div class="cursor-line"></div></div>
+          <div class="timeline-row row-requested">
+            <span class="timeline-label">Requested</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,1,1,1,1,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-tc">
+            <span class="timeline-label">TempoControl</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,1,1,1,1,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-ours">
+            <span class="timeline-label ours-label">AttnSteer (ours)</span>
+            <div class="timeline-track" data-frames="0,1,1,1,1,1,1,1,1,1,1,1,1"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="analysis-card" id="ex-18">
+      <div class="card-meta">
+        <span class="card-idx">#3</span>
+        <span class="card-objects">Horse + Sheep <span style='color:#888;font-weight:400;font-size:0.82rem;'>(controlled: Horse)</span></span>
+        <span class="card-scores">TC: <b style='color:#d97706'>0.67</b> &nbsp; Ours: <b style='color:#15803d'>0.78</b> &nbsp; Δ: +0.12</span>
+      </div>
+      <div class="card-col-headers">
+        <span>TempoControl</span>
+        <span class="ours-label">AttnSteer (ours)</span>
+      </div>
+      <video autoplay muted loop playsinline preload="metadata" src="static/videos/temporal_analysis/an_d_3.mp4"></video>
+      <div class="timeline-block">
+        <div class="timeline-rows-wrap">
+          <div class="timeline-cursor"><div class="cursor-line"></div></div>
+          <div class="timeline-row row-requested">
+            <span class="timeline-label">Requested</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,1,1,1,1,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-tc">
+            <span class="timeline-label">TempoControl</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,0,0,0,1,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-ours">
+            <span class="timeline-label ours-label">AttnSteer (ours)</span>
+            <div class="timeline-track" data-frames="1,0,0,1,1,1,1,1,1,1,1,1,1"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="analysis-card" id="ex-19">
+      <div class="card-meta">
+        <span class="card-idx">#7</span>
+        <span class="card-objects">Zebra + Bear <span style='color:#888;font-weight:400;font-size:0.82rem;'>(controlled: Zebra)</span></span>
+        <span class="card-scores">TC: <b style='color:#15803d'>0.72</b> &nbsp; Ours: <b style='color:#15803d'>0.77</b> &nbsp; Δ: +0.05</span>
+      </div>
+      <div class="card-col-headers">
+        <span>TempoControl</span>
+        <span class="ours-label">AttnSteer (ours)</span>
+      </div>
+      <video autoplay muted loop playsinline preload="metadata" src="static/videos/temporal_analysis/an_d_7.mp4"></video>
+      <div class="timeline-block">
+        <div class="timeline-rows-wrap">
+          <div class="timeline-cursor"><div class="cursor-line"></div></div>
+          <div class="timeline-row row-requested">
+            <span class="timeline-label">Requested</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,1,1,1,1,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-tc">
+            <span class="timeline-label">TempoControl</span>
+            <div class="timeline-track" data-frames="1,1,1,1,1,1,1,1,1,1,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-ours">
+            <span class="timeline-label ours-label">AttnSteer (ours)</span>
+            <div class="timeline-track" data-frames="1,1,1,1,1,0,1,1,1,1,1,1,1"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+  </section>
+
+  <section class="analysis-section">
+    <h2>4 — Static+dynamic: ours > TC, TC partially succeeds</h2>
+    <p class="section-desc">LTX-2, static+dynamic. ours F1 > TC F1 on the dynamic object, TC has non-trivial detection. Top 20 by Δ F1.</p>
+    <div class="analysis-grid">
+
+    <div class="analysis-card" id="ex-0">
+      <div class="card-meta">
+        <span class="card-idx">#27</span>
+        <span class="card-objects">Frisbee + Teddy bear <span style='color:#888;font-weight:400;font-size:0.82rem;'>(controlled: Frisbee)</span></span>
+        <span class="card-scores">TC: <b style='color:#dc2626'>0.00</b> &nbsp; Ours: <b style='color:#15803d'>0.88</b> &nbsp; Δ: +0.88</span>
+      </div>
+      <div class="card-col-headers">
+        <span>TempoControl</span>
+        <span class="ours-label">AttnSteer (ours)</span>
+      </div>
+      <video autoplay muted loop playsinline preload="metadata" src="static/videos/temporal_analysis/an_d_27.mp4"></video>
+      <div class="timeline-block">
+        <div class="timeline-rows-wrap">
+          <div class="timeline-cursor"><div class="cursor-line"></div></div>
+          <div class="timeline-row row-requested">
+            <span class="timeline-label">Requested</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,1,1,1,1,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-tc">
+            <span class="timeline-label">TempoControl</span>
+            <div class="timeline-track" data-frames="1,1,1,0,0,0,0,0,0,0,0,0,0"></div>
+          </div>
+          <div class="timeline-row row-ours">
+            <span class="timeline-label ours-label">AttnSteer (ours)</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,1,0,0,1,1,1,1"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="analysis-card" id="ex-1">
+      <div class="card-meta">
+        <span class="card-idx">#24</span>
+        <span class="card-objects">Suitcase + Vase <span style='color:#888;font-weight:400;font-size:0.82rem;'>(controlled: Suitcase)</span></span>
+        <span class="card-scores">TC: <b style='color:#dc2626'>0.29</b> &nbsp; Ours: <b style='color:#15803d'>0.88</b> &nbsp; Δ: +0.59</span>
+      </div>
+      <div class="card-col-headers">
+        <span>TempoControl</span>
+        <span class="ours-label">AttnSteer (ours)</span>
+      </div>
+      <video autoplay muted loop playsinline preload="metadata" src="static/videos/temporal_analysis/an_d_24.mp4"></video>
+      <div class="timeline-block">
+        <div class="timeline-rows-wrap">
+          <div class="timeline-cursor"><div class="cursor-line"></div></div>
+          <div class="timeline-row row-requested">
+            <span class="timeline-label">Requested</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,1,1,1,1,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-tc">
+            <span class="timeline-label">TempoControl</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,0,0,0,0,0,0,1"></div>
+          </div>
+          <div class="timeline-row row-ours">
+            <span class="timeline-label ours-label">AttnSteer (ours)</span>
+            <div class="timeline-track" data-frames="0,0,0,0,1,1,1,1,1,1,1,1,1"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="analysis-card" id="ex-2">
+      <div class="card-meta">
+        <span class="card-idx">#41</span>
+        <span class="card-objects">Airplane + Boat <span style='color:#888;font-weight:400;font-size:0.82rem;'>(controlled: Airplane)</span></span>
+        <span class="card-scores">TC: <b style='color:#d97706'>0.44</b> &nbsp; Ours: <b style='color:#15803d'>1.00</b> &nbsp; Δ: +0.56</span>
+      </div>
+      <div class="card-col-headers">
+        <span>TempoControl</span>
+        <span class="ours-label">AttnSteer (ours)</span>
+      </div>
+      <video autoplay muted loop playsinline preload="metadata" src="static/videos/temporal_analysis/an_d_41.mp4"></video>
+      <div class="timeline-block">
+        <div class="timeline-rows-wrap">
+          <div class="timeline-cursor"><div class="cursor-line"></div></div>
+          <div class="timeline-row row-requested">
+            <span class="timeline-label">Requested</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,1,1,1,1,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-tc">
+            <span class="timeline-label">TempoControl</span>
+            <div class="timeline-track" data-frames="1,1,1,1,1,1,1,1,1,0,0,0,0"></div>
+          </div>
+          <div class="timeline-row row-ours">
+            <span class="timeline-label ours-label">AttnSteer (ours)</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,1,1,1,1,1,1,1"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="analysis-card" id="ex-3">
+      <div class="card-meta">
+        <span class="card-idx">#21</span>
+        <span class="card-objects">Umbrella + Handbag <span style='color:#888;font-weight:400;font-size:0.82rem;'>(controlled: Umbrella)</span></span>
+        <span class="card-scores">TC: <b style='color:#dc2626'>0.29</b> &nbsp; Ours: <b style='color:#15803d'>0.84</b> &nbsp; Δ: +0.55</span>
+      </div>
+      <div class="card-col-headers">
+        <span>TempoControl</span>
+        <span class="ours-label">AttnSteer (ours)</span>
+      </div>
+      <video autoplay muted loop playsinline preload="metadata" src="static/videos/temporal_analysis/an_d_21.mp4"></video>
+      <div class="timeline-block">
+        <div class="timeline-rows-wrap">
+          <div class="timeline-cursor"><div class="cursor-line"></div></div>
+          <div class="timeline-row row-requested">
+            <span class="timeline-label">Requested</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,1,1,1,1,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-tc">
+            <span class="timeline-label">TempoControl</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,0,0,0,0,0,0,1"></div>
+          </div>
+          <div class="timeline-row row-ours">
+            <span class="timeline-label ours-label">AttnSteer (ours)</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,0,1,1,1,1,1,1"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="analysis-card" id="ex-4">
+      <div class="card-meta">
+        <span class="card-idx">#52</span>
+        <span class="card-objects">Toothbrush + Hair dryer <span style='color:#888;font-weight:400;font-size:0.82rem;'>(controlled: Toothbrush)</span></span>
+        <span class="card-scores">TC: <b style='color:#d97706'>0.56</b> &nbsp; Ours: <b style='color:#15803d'>0.97</b> &nbsp; Δ: +0.41</span>
+      </div>
+      <div class="card-col-headers">
+        <span>TempoControl</span>
+        <span class="ours-label">AttnSteer (ours)</span>
+      </div>
+      <video autoplay muted loop playsinline preload="metadata" src="static/videos/temporal_analysis/an_d_52.mp4"></video>
+      <div class="timeline-block">
+        <div class="timeline-rows-wrap">
+          <div class="timeline-cursor"><div class="cursor-line"></div></div>
+          <div class="timeline-row row-requested">
+            <span class="timeline-label">Requested</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,1,1,1,1,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-tc">
+            <span class="timeline-label">TempoControl</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,0,0,0,0,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-ours">
+            <span class="timeline-label ours-label">AttnSteer (ours)</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,1,1,1,1,1,1,1"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="analysis-card" id="ex-5">
+      <div class="card-meta">
+        <span class="card-idx">#81</span>
+        <span class="card-objects">Person + Sink <span style='color:#888;font-weight:400;font-size:0.82rem;'>(controlled: Person)</span></span>
+        <span class="card-scores">TC: <b style='color:#dc2626'>0.36</b> &nbsp; Ours: <b style='color:#15803d'>0.75</b> &nbsp; Δ: +0.39</span>
+      </div>
+      <div class="card-col-headers">
+        <span>TempoControl</span>
+        <span class="ours-label">AttnSteer (ours)</span>
+      </div>
+      <video autoplay muted loop playsinline preload="metadata" src="static/videos/temporal_analysis/an_d_81.mp4"></video>
+      <div class="timeline-block">
+        <div class="timeline-rows-wrap">
+          <div class="timeline-cursor"><div class="cursor-line"></div></div>
+          <div class="timeline-row row-requested">
+            <span class="timeline-label">Requested</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,1,1,1,1,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-tc">
+            <span class="timeline-label">TempoControl</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,0,0,0,0,0,1,1"></div>
+          </div>
+          <div class="timeline-row row-ours">
+            <span class="timeline-label ours-label">AttnSteer (ours)</span>
+            <div class="timeline-track" data-frames="0,0,0,1,1,1,1,1,1,1,0,1,1"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="analysis-card" id="ex-6">
+      <div class="card-meta">
+        <span class="card-idx">#66</span>
+        <span class="card-objects">Umbrella + Carrot <span style='color:#888;font-weight:400;font-size:0.82rem;'>(controlled: Umbrella)</span></span>
+        <span class="card-scores">TC: <b style='color:#d97706'>0.67</b> &nbsp; Ours: <b style='color:#15803d'>1.00</b> &nbsp; Δ: +0.33</span>
+      </div>
+      <div class="card-col-headers">
+        <span>TempoControl</span>
+        <span class="ours-label">AttnSteer (ours)</span>
+      </div>
+      <video autoplay muted loop playsinline preload="metadata" src="static/videos/temporal_analysis/an_d_66.mp4"></video>
+      <div class="timeline-block">
+        <div class="timeline-rows-wrap">
+          <div class="timeline-cursor"><div class="cursor-line"></div></div>
+          <div class="timeline-row row-requested">
+            <span class="timeline-label">Requested</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,1,1,1,1,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-tc">
+            <span class="timeline-label">TempoControl</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,0,0,0,1,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-ours">
+            <span class="timeline-label ours-label">AttnSteer (ours)</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,1,1,1,1,1,1,1"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="analysis-card" id="ex-7">
+      <div class="card-meta">
+        <span class="card-idx">#64</span>
+        <span class="card-objects">Clock + Orange <span style='color:#888;font-weight:400;font-size:0.82rem;'>(controlled: Clock)</span></span>
+        <span class="card-scores">TC: <b style='color:#d97706'>0.58</b> &nbsp; Ours: <b style='color:#15803d'>0.88</b> &nbsp; Δ: +0.30</span>
+      </div>
+      <div class="card-col-headers">
+        <span>TempoControl</span>
+        <span class="ours-label">AttnSteer (ours)</span>
+      </div>
+      <video autoplay muted loop playsinline preload="metadata" src="static/videos/temporal_analysis/an_d_64.mp4"></video>
+      <div class="timeline-block">
+        <div class="timeline-rows-wrap">
+          <div class="timeline-cursor"><div class="cursor-line"></div></div>
+          <div class="timeline-row row-requested">
+            <span class="timeline-label">Requested</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,1,1,1,1,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-tc">
+            <span class="timeline-label">TempoControl</span>
+            <div class="timeline-track" data-frames="1,1,1,1,1,1,0,0,1,1,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-ours">
+            <span class="timeline-label ours-label">AttnSteer (ours)</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,0,1,1,1,1,1,1"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="analysis-card" id="ex-8">
+      <div class="card-meta">
+        <span class="card-idx">#70</span>
+        <span class="card-objects">Vase + Cake <span style='color:#888;font-weight:400;font-size:0.82rem;'>(controlled: Vase)</span></span>
+        <span class="card-scores">TC: <b style='color:#d97706'>0.50</b> &nbsp; Ours: <b style='color:#15803d'>0.71</b> &nbsp; Δ: +0.21</span>
+      </div>
+      <div class="card-col-headers">
+        <span>TempoControl</span>
+        <span class="ours-label">AttnSteer (ours)</span>
+      </div>
+      <video autoplay muted loop playsinline preload="metadata" src="static/videos/temporal_analysis/an_d_70.mp4"></video>
+      <div class="timeline-block">
+        <div class="timeline-rows-wrap">
+          <div class="timeline-cursor"><div class="cursor-line"></div></div>
+          <div class="timeline-row row-requested">
+            <span class="timeline-label">Requested</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,1,1,1,1,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-tc">
+            <span class="timeline-label">TempoControl</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,0,0,0,0,0,1,1"></div>
+          </div>
+          <div class="timeline-row row-ours">
+            <span class="timeline-label ours-label">AttnSteer (ours)</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,0,0,0,1,1,1,1"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="analysis-card" id="ex-9">
+      <div class="card-meta">
+        <span class="card-idx">#49</span>
+        <span class="card-objects">Parking meter + Truck <span style='color:#888;font-weight:400;font-size:0.82rem;'>(controlled: Parking meter)</span></span>
+        <span class="card-scores">TC: <b style='color:#d97706'>0.61</b> &nbsp; Ours: <b style='color:#15803d'>0.82</b> &nbsp; Δ: +0.21</span>
+      </div>
+      <div class="card-col-headers">
+        <span>TempoControl</span>
+        <span class="ours-label">AttnSteer (ours)</span>
+      </div>
+      <video autoplay muted loop playsinline preload="metadata" src="static/videos/temporal_analysis/an_d_49.mp4"></video>
+      <div class="timeline-block">
+        <div class="timeline-rows-wrap">
+          <div class="timeline-cursor"><div class="cursor-line"></div></div>
+          <div class="timeline-row row-requested">
+            <span class="timeline-label">Requested</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,1,1,1,1,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-tc">
+            <span class="timeline-label">TempoControl</span>
+            <div class="timeline-track" data-frames="1,1,1,1,1,1,1,1,1,1,0,1,1"></div>
+          </div>
+          <div class="timeline-row row-ours">
+            <span class="timeline-label ours-label">AttnSteer (ours)</span>
+            <div class="timeline-track" data-frames="0,0,1,0,1,1,1,1,1,1,1,1,1"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="analysis-card" id="ex-10">
+      <div class="card-meta">
+        <span class="card-idx">#45</span>
+        <span class="card-objects">Bus + Traffic light <span style='color:#888;font-weight:400;font-size:0.82rem;'>(controlled: Bus)</span></span>
+        <span class="card-scores">TC: <b style='color:#d97706'>0.67</b> &nbsp; Ours: <b style='color:#15803d'>0.88</b> &nbsp; Δ: +0.21</span>
+      </div>
+      <div class="card-col-headers">
+        <span>TempoControl</span>
+        <span class="ours-label">AttnSteer (ours)</span>
+      </div>
+      <video autoplay muted loop playsinline preload="metadata" src="static/videos/temporal_analysis/an_d_45.mp4"></video>
+      <div class="timeline-block">
+        <div class="timeline-rows-wrap">
+          <div class="timeline-cursor"><div class="cursor-line"></div></div>
+          <div class="timeline-row row-requested">
+            <span class="timeline-label">Requested</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,1,1,1,1,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-tc">
+            <span class="timeline-label">TempoControl</span>
+            <div class="timeline-track" data-frames="0,1,1,1,1,1,1,1,1,1,1,1,0"></div>
+          </div>
+          <div class="timeline-row row-ours">
+            <span class="timeline-label ours-label">AttnSteer (ours)</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,0,0,1,1,1,1,1"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="analysis-card" id="ex-11">
+      <div class="card-meta">
+        <span class="card-idx">#28</span>
+        <span class="card-objects">Frisbee + Skis <span style='color:#888;font-weight:400;font-size:0.82rem;'>(controlled: Frisbee)</span></span>
+        <span class="card-scores">TC: <b style='color:#d97706'>0.56</b> &nbsp; Ours: <b style='color:#15803d'>0.71</b> &nbsp; Δ: +0.15</span>
+      </div>
+      <div class="card-col-headers">
+        <span>TempoControl</span>
+        <span class="ours-label">AttnSteer (ours)</span>
+      </div>
+      <video autoplay muted loop playsinline preload="metadata" src="static/videos/temporal_analysis/an_d_28.mp4"></video>
+      <div class="timeline-block">
+        <div class="timeline-rows-wrap">
+          <div class="timeline-cursor"><div class="cursor-line"></div></div>
+          <div class="timeline-row row-requested">
+            <span class="timeline-label">Requested</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,1,1,1,1,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-tc">
+            <span class="timeline-label">TempoControl</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,0,0,0,0,1,1,0"></div>
+          </div>
+          <div class="timeline-row row-ours">
+            <span class="timeline-label ours-label">AttnSteer (ours)</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,0,1,0,0,1,1,1"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="analysis-card" id="ex-12">
+      <div class="card-meta">
+        <span class="card-idx">#37</span>
+        <span class="card-objects">Tennis racket + Bottle <span style='color:#888;font-weight:400;font-size:0.82rem;'>(controlled: Tennis racket)</span></span>
+        <span class="card-scores">TC: <b style='color:#15803d'>0.71</b> &nbsp; Ours: <b style='color:#15803d'>0.84</b> &nbsp; Δ: +0.13</span>
+      </div>
+      <div class="card-col-headers">
+        <span>TempoControl</span>
+        <span class="ours-label">AttnSteer (ours)</span>
+      </div>
+      <video autoplay muted loop playsinline preload="metadata" src="static/videos/temporal_analysis/an_d_37.mp4"></video>
+      <div class="timeline-block">
+        <div class="timeline-rows-wrap">
+          <div class="timeline-cursor"><div class="cursor-line"></div></div>
+          <div class="timeline-row row-requested">
+            <span class="timeline-label">Requested</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,1,1,1,1,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-tc">
+            <span class="timeline-label">TempoControl</span>
+            <div class="timeline-track" data-frames="0,1,1,1,1,1,1,1,1,1,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-ours">
+            <span class="timeline-label ours-label">AttnSteer (ours)</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,0,0,1,1,1,1,1"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="analysis-card" id="ex-13">
+      <div class="card-meta">
+        <span class="card-idx">#3</span>
+        <span class="card-objects">Horse + Sheep <span style='color:#888;font-weight:400;font-size:0.82rem;'>(controlled: Horse)</span></span>
+        <span class="card-scores">TC: <b style='color:#d97706'>0.67</b> &nbsp; Ours: <b style='color:#15803d'>0.78</b> &nbsp; Δ: +0.12</span>
+      </div>
+      <div class="card-col-headers">
+        <span>TempoControl</span>
+        <span class="ours-label">AttnSteer (ours)</span>
+      </div>
+      <video autoplay muted loop playsinline preload="metadata" src="static/videos/temporal_analysis/an_d_3.mp4"></video>
+      <div class="timeline-block">
+        <div class="timeline-rows-wrap">
+          <div class="timeline-cursor"><div class="cursor-line"></div></div>
+          <div class="timeline-row row-requested">
+            <span class="timeline-label">Requested</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,1,1,1,1,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-tc">
+            <span class="timeline-label">TempoControl</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,0,0,0,1,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-ours">
+            <span class="timeline-label ours-label">AttnSteer (ours)</span>
+            <div class="timeline-track" data-frames="1,0,0,1,1,1,1,1,1,1,1,1,1"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="analysis-card" id="ex-14">
+      <div class="card-meta">
+        <span class="card-idx">#65</span>
+        <span class="card-objects">Backpack + Broccoli <span style='color:#888;font-weight:400;font-size:0.82rem;'>(controlled: Backpack)</span></span>
+        <span class="card-scores">TC: <b style='color:#15803d'>0.91</b> &nbsp; Ours: <b style='color:#15803d'>1.00</b> &nbsp; Δ: +0.09</span>
+      </div>
+      <div class="card-col-headers">
+        <span>TempoControl</span>
+        <span class="ours-label">AttnSteer (ours)</span>
+      </div>
+      <video autoplay muted loop playsinline preload="metadata" src="static/videos/temporal_analysis/an_d_65.mp4"></video>
+      <div class="timeline-block">
+        <div class="timeline-rows-wrap">
+          <div class="timeline-cursor"><div class="cursor-line"></div></div>
+          <div class="timeline-row row-requested">
+            <span class="timeline-label">Requested</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,1,1,1,1,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-tc">
+            <span class="timeline-label">TempoControl</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,0,1,1,1,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-ours">
+            <span class="timeline-label ours-label">AttnSteer (ours)</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,1,1,1,1,1,1,1"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="analysis-card" id="ex-15">
+      <div class="card-meta">
+        <span class="card-idx">#60</span>
+        <span class="card-objects">Remote control + Bowl <span style='color:#888;font-weight:400;font-size:0.82rem;'>(controlled: Remote control)</span></span>
+        <span class="card-scores">TC: <b style='color:#d97706'>0.67</b> &nbsp; Ours: <b style='color:#15803d'>0.73</b> &nbsp; Δ: +0.07</span>
+      </div>
+      <div class="card-col-headers">
+        <span>TempoControl</span>
+        <span class="ours-label">AttnSteer (ours)</span>
+      </div>
+      <video autoplay muted loop playsinline preload="metadata" src="static/videos/temporal_analysis/an_d_60.mp4"></video>
+      <div class="timeline-block">
+        <div class="timeline-rows-wrap">
+          <div class="timeline-cursor"><div class="cursor-line"></div></div>
+          <div class="timeline-row row-requested">
+            <span class="timeline-label">Requested</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,1,1,1,1,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-tc">
+            <span class="timeline-label">TempoControl</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,0,0,0,1,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-ours">
+            <span class="timeline-label ours-label">AttnSteer (ours)</span>
+            <div class="timeline-track" data-frames="1,0,1,1,1,1,1,1,1,1,1,1,1"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="analysis-card" id="ex-16">
+      <div class="card-meta">
+        <span class="card-idx">#33</span>
+        <span class="card-objects">Bat + Glove <span style='color:#888;font-weight:400;font-size:0.82rem;'>(controlled: Bat)</span></span>
+        <span class="card-scores">TC: <b style='color:#d97706'>0.68</b> &nbsp; Ours: <b style='color:#15803d'>0.72</b> &nbsp; Δ: +0.04</span>
+      </div>
+      <div class="card-col-headers">
+        <span>TempoControl</span>
+        <span class="ours-label">AttnSteer (ours)</span>
+      </div>
+      <video autoplay muted loop playsinline preload="metadata" src="static/videos/temporal_analysis/an_d_33.mp4"></video>
+      <div class="timeline-block">
+        <div class="timeline-rows-wrap">
+          <div class="timeline-cursor"><div class="cursor-line"></div></div>
+          <div class="timeline-row row-requested">
+            <span class="timeline-label">Requested</span>
+            <div class="timeline-track" data-frames="0,0,0,0,0,0,1,1,1,1,1,1,1"></div>
+          </div>
+          <div class="timeline-row row-tc">
+            <span class="timeline-label">TempoControl</span>
+            <div class="timeline-track" data-frames="0,0,1,1,1,1,1,1,1,1,1,0,0"></div>
+          </div>
+          <div class="timeline-row row-ours">
+            <span class="timeline-label ours-label">AttnSteer (ours)</span>
+            <div class="timeline-track" data-frames="1,1,1,1,1,1,1,1,1,1,1,1,1"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+  </section>
+  <script>
+// Initialize timeline cells
+document.querySelectorAll('.timeline-track[data-frames]').forEach(function(track) {
+  track.getAttribute('data-frames').split(',').forEach(function(v) {
+    var cell = document.createElement('div');
+    cell.className = 'timeline-cell' + (parseInt(v) ? ' present' : '');
+    track.appendChild(cell);
+  });
+});
+
+// Sync cursor to video playback
+document.querySelectorAll('.analysis-card').forEach(function(card) {
+  var vid    = card.querySelector('video');
+  var cursor = card.querySelector('.cursor-line');
+  if (!vid || !cursor) return;
+  function sync() {
+    if (vid.duration)
+      cursor.style.left = (vid.currentTime / vid.duration * 100).toFixed(2) + '%';
+  }
+  vid.addEventListener('timeupdate', sync);
+  vid.addEventListener('seeked', sync);
+});
+</script>
+</body>
+</html>

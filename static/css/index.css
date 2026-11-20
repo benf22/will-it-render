@@ -385,10 +385,11 @@ pre {
   font-size: 0.85rem;
   font-weight: 700;
   letter-spacing: .06em;
-  text-transform: uppercase;
   color: #6b7280;
   padding: 2px 0;
 }
+
+.tempo-ex-name .label-word { font-weight: 400; font-size: 0.82em; }
 
 .carousel-col-header.ours {
   color: var(--accent);
@@ -489,14 +490,30 @@ pre {
 
 /* ---- Temporal control timelines ---- */
 .tempo-example {
-  margin-bottom: 1.5rem;
+  min-width: 0;
 }
 
 .tempo-video-wrap {
   position: relative;
-  border-radius: 6px;
   overflow: hidden;
-  box-shadow: 0 4px 14px rgba(0,0,0,.12);
+}
+
+.tempo-video-wrap::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 1.5px;
+  background: rgba(255, 255, 255, 0.55);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.tempo-video-wrap video {
+  display: block;
+  width: 100%;
+  height: auto;
 }
 
 .tempo-video-wrap a {
@@ -510,52 +527,37 @@ pre {
   box-shadow: none;
 }
 
-/* Overlay sits on top of the original baked-in bar */
-.timeline-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  background: #fafcfa;
-  padding: 5px 10px 6px;
-}
-
 .timeline-rows-wrap {
   position: relative;
 }
 
-/* Cursor: sweeps only over the track area, not the labels */
+/* Cursor: spans only the track area, not the labels */
 .timeline-cursor {
   position: absolute;
   top: 0;
   bottom: 0;
-  left: calc(94px + 0.6rem);
+  left: calc(96px + 0.6rem);
   right: 0;
   pointer-events: none;
   overflow: hidden;
 }
 
-.timeline-cursor::after {
-  content: '';
+/* JS-driven cursor line — position updated via video timeupdate */
+.cursor-line {
   position: absolute;
   top: -2px;
   bottom: -2px;
   left: 0%;
   width: 2px;
-  background: rgba(10,10,10,0.5);
-  animation: timeline-sweep var(--gif-dur, 3.92s) linear infinite;
-}
-
-@keyframes timeline-sweep {
-  from { left: 0%; }
-  to   { left: 100%; }
+  background: rgba(55, 65, 81, 0.5);
+  pointer-events: none;
 }
 
 .timeline-row {
   display: flex;
   align-items: center;
   gap: 0.6rem;
-  margin-bottom: 4px;
+  margin-bottom: 1px;
 }
 
 .timeline-row:last-child {
@@ -563,17 +565,23 @@ pre {
 }
 
 .timeline-label {
-  font-size: 0.72rem;
+  font-size: 0.68rem;
   font-weight: 700;
-  width: 94px;
+  width: 96px;
   flex-shrink: 0;
   text-align: right;
-  color: #6b7280;
+  white-space: nowrap;
+  overflow: hidden;
+  color: #374151;
   letter-spacing: 0.03em;
 }
 
 .timeline-label.ours-label {
   color: var(--accent);
+}
+
+.timeline-row.row-tc .timeline-label {
+  color: #fb923c;
 }
 
 .timeline-track {
@@ -584,16 +592,91 @@ pre {
 
 .timeline-cell {
   flex: 1;
-  height: 11px;
+  height: 8px;
   border-radius: 2px;
-  background: #e5e7eb;
+  background: #dde4ee;
 }
 
 /* Per-row present-cell colors */
-.timeline-row.row-requested .timeline-cell.present { background: #334155; }
-.timeline-row.row-tc        .timeline-cell.present { background: #f97316; }
-.timeline-row.row-ours      .timeline-cell.present { background: var(--accent); }
+.timeline-row.row-requested .timeline-cell.present { background: #94a3b8; }
+.timeline-row.row-tc        .timeline-cell.present { background: #fb923c; }
+.timeline-row.row-ours      .timeline-cell.present { background: #60a5fa; }
 /* ---- end temporal timelines ---- */
+
+/* Temporal pill switcher */
+.tempo-pill-wrap {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+  margin-bottom: 1.25rem;
+}
+.tempo-pill {
+  padding: 5px 16px;
+  border-radius: 999px;
+  border: 1.5px solid #d1d5db;
+  background: #fff;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #6b7280;
+  cursor: pointer;
+  transition: border-color .15s, color .15s, background .15s;
+}
+.tempo-pill.active {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: #eff6ff;
+}
+
+/* Example list — 2-column grid */
+.tempo-examples-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2.5rem;
+}
+
+.tempo-mob-video   { display: none; }
+.tempo-mob-divider { display: none; }
+
+/* Per-example header */
+.tempo-ex-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 0.35rem;
+}
+.tempo-ex-name {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1f2937;
+}
+.tempo-ex-tags {
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+/* Media wrapper: video + timeline block as one unit */
+.tempo-media {
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 4px 14px rgba(0,0,0,.12);
+}
+
+/* Three-column variant for base model + TC + ours headers */
+.carousel-col-headers.three-cols {
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+/* v2 is the default; v3 visible only when body.tempo-v3 */
+.v3-headers { display: none; }
+body.tempo-v3 .v2-headers { display: none; }
+body.tempo-v3 .v3-headers { display: grid; }
+
+/* Timeline below video */
+.timeline-block {
+  background: #f1f5f9;
+  padding: 3px 10px 4px;
+}
 
 .footer {
   background: transparent;
@@ -760,6 +843,39 @@ pre {
   .results-table td {
     padding: 0.15rem 0.25rem !important;
   }
+
+  /* ── Temporal control: mobile carousel ── */
+  .tempo-examples-list {
+    display: flex !important;
+    flex-direction: row;
+    overflow-x: scroll;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    gap: 1rem;
+    padding-bottom: 0.5rem;
+  }
+  .tempo-example {
+    min-width: calc(100vw - 3rem);
+    flex-shrink: 0;
+    scroll-snap-align: start;
+  }
+  .tempo-desktop-video { display: none; }
+  .tempo-mob-video {
+    display: block;
+    width: 100%;
+  }
+  .tempo-mob-divider {
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: rgba(255,255,255,.45);
+    pointer-events: none;
+    z-index: 1;
+  }
+  .tempo-video-wrap::after { display: none; }
 
   /* ── Dataset layout: stack columns vertically ── */
   .dataset-layout {

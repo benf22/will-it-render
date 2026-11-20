@@ -422,44 +422,46 @@ detected, overall and by <em>k</em>, the number of requested objects. The gain g
         <thead>
           <tr>
             <th rowspan="2">Model</th>
-            <th rowspan="2" style="white-space:normal; min-width:3rem;">Det.&nbsp;ratio<br>(%&nbsp;↑)</th>
+            <th rowspan="2">Params</th>
+            <th rowspan="2">Det.&nbsp;ratio&nbsp;(%)&nbsp;↑</th>
             <th colspan="7">All-object accuracy&nbsp;(%)&nbsp;↑</th>
             <th colspan="2">Quality&nbsp;(%)&nbsp;↑</th>
-            <th colspan="3" style="text-align:center;">Inference cost</th>
+            <th colspan="3">Inference cost</th>
           </tr>
           <tr>
             <th>mean</th><th>k=2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th>
             <th>VBench</th><th>MUSIQ</th>
-            <th><strong>Upd.&nbsp;↓</strong></th><th><strong>Time(s)&nbsp;↓</strong></th><th><strong>&times;base&nbsp;↓</strong></th>
+            <th>Upd.&nbsp;↓</th><th>Time(s)&nbsp;↓</th><th>&times;base&nbsp;↓</th>
           </tr>
         </thead>
         <tbody>
           <!-- Reference models -->
-          <tr><td>Wan&nbsp;2.2</td><td>78.9</td><td>38.3</td><td>87.5</td><td>52.5</td><td>35.0</td><td>35.0</td><td>7.5</td><td>9.6</td><td>84.4</td><td>75.4</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
-          <tr><td>LTX-2.5</td><td>62.1</td><td>17.5</td><td>45.0</td><td>16.3</td><td>17.5</td><td>11.3</td><td>8.7</td><td>5.5</td><td><u>86.9</u></td><td>73.6</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
-          <tr><td>MiniMax-H3</td><td>84.6</td><td>49.7</td><td>90.0</td><td>55.0</td><td>33.8</td><td>48.7</td><td>36.2</td><td>32.9</td><td>81.5</td><td>64.8</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
+          <tr><td>Wan&nbsp;2.2</td><td>5&nbsp;B</td><td>78.9</td><td>38.3</td><td>87.5</td><td>52.5</td><td>35.0</td><td>35.0</td><td>7.5</td><td>9.6</td><td>84.4</td><td>75.4</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
+          <tr><td>LTX-2.5</td><td>22&nbsp;B</td><td>62.1</td><td>17.5</td><td>45.0</td><td>16.3</td><td>17.5</td><td>11.3</td><td>8.7</td><td>5.5</td><td><u>86.9</u></td><td>73.6</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
+          <tr><td>MiniMax-H3</td><td>33&nbsp;B</td><td>84.6</td><td>49.7</td><td>90.0</td><td>55.0</td><td>33.8</td><td>48.7</td><td>36.2</td><td>32.9</td><td>81.5</td><td>64.8</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
           <!-- Wan 2.1 block -->
-          <tr class="rule-row"><td colspan="14"></td></tr>
-          <tr><td>Wan&nbsp;2.1</td><td>73.4</td><td>27.1</td><td>80.6</td><td>31.5</td><td>24.3</td><td>22.7</td><td>1.6</td><td>2.1</td><td>79.9</td><td>75.5</td><td style="color:#9ca3af;">0</td><td style="color:#9ca3af;">26.2</td><td style="color:#9ca3af;">1.00&times;</td></tr>
-          <tr><td>&emsp;+ Best-of-N</td><td>81.7</td><td>40.4</td><td><b>93.6</b></td><td>59.5</td><td>35.9</td><td>28.2</td><td>11.8</td><td>13.2</td><td>80.1</td><td><b>75.5</b></td><td>0</td><td>78.5</td><td>3.00&times;</td></tr>
-          <tr><td>&emsp;+ A&amp;E</td><td>79.8</td><td>39.2</td><td>83.1</td><td>52.1</td><td>47.6</td><td>27.5</td><td>11.1</td><td>13.7</td><td>79.2</td><td>71.8</td><td>53</td><td><b>66.4</b></td><td><b>2.54&times;</b></td></tr>
-          <tr><td>&emsp;+ Ours</td><td><b>89.3</b></td><td><b>59.9</b></td><td>90.9</td><td><b>72.4</b></td><td><b>60.9</b></td><td><b>54.9</b></td><td><b>41.3</b></td><td><b>39.3</b></td><td><b>82.5</b></td><td>74.6</td><td><b>23</b></td><td>70.2</td><td>2.68&times;</td></tr>
+          <tr class="rule-row"><td colspan="15"></td></tr>
+          <tr><td>Wan&nbsp;2.1</td><td>1.3&nbsp;B</td><td>73.4</td><td>27.1</td><td>80.6</td><td>31.5</td><td>24.3</td><td>22.7</td><td>1.6</td><td>2.1</td><td>79.9</td><td>75.5</td><td>0</td><td>26.2</td><td>1.00&times;</td></tr>
+          <tr><td>&emsp;+ Best-of-N</td><td></td><td>81.7</td><td>40.4</td><td><b>93.6</b></td><td>59.5</td><td>35.9</td><td>28.2</td><td>11.8</td><td>13.2</td><td>80.1</td><td><b>75.5</b></td><td>0</td><td>78.5</td><td>3.00&times;</td></tr>
+          <tr><td>&emsp;+ A&amp;E</td><td></td><td>79.8</td><td>39.2</td><td>83.1</td><td>52.1</td><td>47.6</td><td>27.5</td><td>11.1</td><td>13.7</td><td>79.2</td><td>71.8</td><td>53</td><td>66.4</td><td>2.54&times;</td></tr>
+          <tr><td>&emsp;+ Ours</td><td></td><td><b>89.3</b></td><td><b>59.9</b></td><td>90.9</td><td><b>72.4</b></td><td><b>60.9</b></td><td><b>54.9</b></td><td><b>41.3</b></td><td><b>39.3</b></td><td><b>82.5</b></td><td>74.6</td><td>23</td><td>70.2</td><td>2.68&times;</td></tr>
           <!-- LTX-2 block -->
-          <tr class="rule-row"><td colspan="14"></td></tr>
-          <tr><td>LTX-2</td><td>78.9</td><td>38.3</td><td>75.6</td><td>60.3</td><td>35.5</td><td>26.3</td><td>20.0</td><td>12.1</td><td>83.7</td><td>70.6</td><td style="color:#9ca3af;">0</td><td style="color:#9ca3af;">59.8</td><td style="color:#9ca3af;">1.00&times;</td></tr>
-          <tr><td>&emsp;+ Best-of-N</td><td>85.9</td><td>51.1</td><td>88.6</td><td>67.5</td><td>49.4</td><td>45.6</td><td>30.4</td><td>25.0</td><td><b>84.3</b></td><td>70.7</td><td>0</td><td>179.4</td><td>3.00&times;</td></tr>
-          <tr><td>&emsp;+ A&amp;E</td><td>78.3</td><td>37.8</td><td>74.7</td><td>52.6</td><td>33.3</td><td>27.8</td><td>25.7</td><td>12.5</td><td>84.1</td><td>70.5</td><td>55</td><td>149.2</td><td>2.50&times;</td></tr>
-          <tr><td>&emsp;+ Ours</td><td><b><u>93.9</u></b></td><td><b><u>75.5</u></b></td><td><b><u>95.0</u></b></td><td><b><u>86.7</u></b></td><td><b><u>84.4</u></b></td><td><b><u>68.9</u></b></td><td><b><u>65.7</u></b></td><td><b><u>52.3</u></b></td><td>83.5</td><td><b>71.3</b></td><td><b>30</b></td><td><b>145.5</b></td><td><b>2.43&times;</b></td></tr>
+          <tr class="rule-row"><td colspan="15"></td></tr>
+          <tr><td>LTX-2</td><td>22&nbsp;B</td><td>78.9</td><td>38.3</td><td>75.6</td><td>60.3</td><td>35.5</td><td>26.3</td><td>20.0</td><td>12.1</td><td>83.7</td><td>70.6</td><td>0</td><td>59.8</td><td>1.00&times;</td></tr>
+          <tr><td>&emsp;+ Best-of-N</td><td></td><td>85.9</td><td>51.1</td><td>88.6</td><td>67.5</td><td>49.4</td><td>45.6</td><td>30.4</td><td>25.0</td><td><b>84.3</b></td><td>70.7</td><td>0</td><td>179.4</td><td>3.00&times;</td></tr>
+          <tr><td>&emsp;+ A&amp;E</td><td></td><td>78.3</td><td>37.8</td><td>74.7</td><td>52.6</td><td>33.3</td><td>27.8</td><td>25.7</td><td>12.5</td><td>84.1</td><td>70.5</td><td>55</td><td>149.2</td><td>2.50&times;</td></tr>
+          <tr><td>&emsp;+ Ours</td><td></td><td><b><u>93.9</u></b></td><td><b><u>75.5</u></b></td><td><b><u>95.0</u></b></td><td><b><u>86.7</u></b></td><td><b><u>84.4</u></b></td><td><b><u>68.9</u></b></td><td><b><u>65.7</u></b></td><td><b><u>52.3</u></b></td><td>83.5</td><td><b>71.3</b></td><td>30</td><td>145.5</td><td>2.43&times;</td></tr>
           <!-- CogVideoX-5B block -->
-          <tr class="rule-row"><td colspan="14"></td></tr>
-          <tr><td>CogVideoX-5B</td><td>73.1</td><td>30.5</td><td>80.0</td><td>54.1</td><td>20.3</td><td>13.4</td><td>8.6</td><td>6.5</td><td><b>79.5</b></td><td>66.6</td><td style="color:#9ca3af;">0</td><td style="color:#9ca3af;">135.0</td><td style="color:#9ca3af;">1.00&times;</td></tr>
-          <tr><td>&emsp;+ Best-of-N</td><td>82.2</td><td>43.9</td><td>92.4</td><td>73.4</td><td>40.5</td><td>27.0</td><td>21.1</td><td>8.8</td><td>79.3</td><td>67.4</td><td>0</td><td>404.9</td><td>3.00&times;</td></tr>
-          <tr><td>&emsp;+ A&amp;E</td><td>87.3</td><td>56.1</td><td>92.4</td><td>69.7</td><td>52.9</td><td>49.3</td><td>43.3</td><td>28.8</td><td>79.1</td><td>65.6</td><td>54</td><td>358.5</td><td>2.66&times;</td></tr>
-          <tr><td>&emsp;+ Ours</td><td><b>91.2</b></td><td><b>65.9</b></td><td><b>94.9</b></td><td><b>81.8</b></td><td><b>64.4</b></td><td><b>61.1</b></td><td><b>57.1</b></td><td><b>36.2</b></td><td>78.4</td><td><b>70.6</b></td><td><b>13</b></td><td><b>278.9</b></td><td><b>2.07&times;</b></td></tr>
+          <tr class="rule-row"><td colspan="15"></td></tr>
+          <tr><td>CogVideoX-5B</td><td>5&nbsp;B</td><td>73.1</td><td>30.5</td><td>80.0</td><td>54.1</td><td>20.3</td><td>13.4</td><td>8.6</td><td>6.5</td><td><b>79.5</b></td><td>66.6</td><td>0</td><td>135.0</td><td>1.00&times;</td></tr>
+          <tr><td>&emsp;+ Best-of-N</td><td></td><td>82.2</td><td>43.9</td><td>92.4</td><td>73.4</td><td>40.5</td><td>27.0</td><td>21.1</td><td>8.8</td><td>79.3</td><td>67.4</td><td>0</td><td>404.9</td><td>3.00&times;</td></tr>
+          <tr><td>&emsp;+ A&amp;E</td><td></td><td>87.3</td><td>56.1</td><td>92.4</td><td>69.7</td><td>52.9</td><td>49.3</td><td>43.3</td><td>28.8</td><td>79.1</td><td>65.6</td><td>54</td><td>358.5</td><td>2.66&times;</td></tr>
+          <tr><td>&emsp;+ Ours</td><td></td><td><b>91.2</b></td><td><b>65.9</b></td><td><b>94.9</b></td><td><b>81.8</b></td><td><b>64.4</b></td><td><b>61.1</b></td><td><b>57.1</b></td><td><b>36.2</b></td><td>78.4</td><td><b>70.6</b></td><td>13</td><td>278.9</td><td>2.07&times;</td></tr>
         </tbody>
       </table>
     </div>
-    <p class="content is-size-7" style="margin-top:0.5rem;"><strong>Bold</strong> = best within backbone block; in inference-time columns — best after excluding the unsteered. <u>Underline</u> = best overall.<br>Inference cost measured on a single H100 GPU; &times;base = multiple of un-steered generation time.</p>
+    <p class="content is-size-7" style="margin-top:0.5rem;"><strong>Bold</strong> = best within backbone block; <u>underline</u> = best overall.
+Inference cost measured on a single H100 GPU; &times;base = multiple of un-steered generation time.</p>
 
   </div>
 </section>
@@ -679,30 +681,255 @@ alignment (t-IoU) rises from 40.6% to 45.0%, and VBench quality is unchanged (74
 signal and the actual per-frame detections for each method.</p>
     </div>
 
-    <div class="video-grid">
-      <video class="result-video" autoplay muted loop playsinline style="grid-column: 1 / -1;" src="static/videos/temporal/temporal_paper_sandwich.mp4"></video>
-      <video class="result-video" autoplay muted loop playsinline src="static/videos/temporal/temporal_paper_car.mp4"></video>
-      <video class="result-video" autoplay muted loop playsinline src="static/videos/temporal/temporal_paper_giraffe.mp4"></video>
-      <video class="result-video" autoplay muted loop playsinline src="static/videos/temporal/temporal_paper_keyboard_phone.mp4"></video>
-      <video class="result-video" autoplay muted loop playsinline style="grid-column: 1 / -1;" src="static/videos/temporal/temporal_paper_teddy_bear.mp4"></video>
-    </div>
-    <p class="caption has-text-centered">The five examples from the main paper (LTX-2, and Wan&nbsp;2.1 for the teddy bear).</p>
+    <div class="tempo-examples-list">
 
-    <div class="content">
-      <p><b>More examples (supplementary, LTX-2), GIF downloads:</b></p>
-      <ul>
-        <li>Single object:
-          <a href="static/gifs/temporal_teddy_bear.gif" download>teddy bear</a> &middot;
-          <a href="static/gifs/temporal_giraffe.gif" download>giraffe</a> &middot;
-          <a href="static/gifs/temporal_remote.gif" download>remote</a> &middot;
-          <a href="static/gifs/temporal_person.gif" download>person</a> &middot;
-          <a href="static/gifs/temporal_fire_hydrant.gif" download>fire hydrant</a></li>
-        <li>Static + dynamic:
-          <a href="static/gifs/temporal_boat_airplane.gif" download>boat + airplane</a> &middot;
-          <a href="static/gifs/temporal_teddy_bear_frisbee.gif" download>teddy bear + frisbee</a> &middot;
-          <a href="static/gifs/temporal_bicycle_car.gif" download>bicycle + car</a></li>
-      </ul>
-    </div>
+      <!-- Car -->
+      <div class="tempo-example">
+        <div class="tempo-ex-head">
+          <span class="tempo-ex-name">Car</span>
+        </div>
+        <div class="tempo-media">
+          <div class="carousel-media-wrap">
+            <div class="carousel-col-headers v2-headers">
+              <div class="carousel-col-header">TempoControl</div>
+              <div class="carousel-col-header ours">AttnSteer (ours)</div>
+            </div>
+            <div class="tempo-video-wrap">
+              <video class="result-video tempo-desktop-video" autoplay muted loop playsinline
+                     data-src2="static/videos/temporal/temporal_web2_car.mp4"
+                     data-src3="static/videos/temporal/temporal_web3_car.mp4"
+                     src="static/videos/temporal/temporal_web2_car.mp4"></video>
+              <video class="result-video tempo-mob-video" autoplay muted loop playsinline
+                     src="static/videos/temporal/temporal_mob_car.mp4"></video>
+              <div class="tempo-mob-divider"></div>
+            </div>
+          </div>
+          <div class="timeline-block">
+            <div class="timeline-rows-wrap">
+              <div class="timeline-cursor"><div class="cursor-line"></div></div>
+              <div class="timeline-row row-requested">
+                <span class="timeline-label">Requested</span>
+                <div class="timeline-track" data-frames="0,0,0,1,1,1,1,1,1,1,1,1,1"></div>
+              </div>
+              <div class="timeline-row row-tc">
+                <span class="timeline-label">TempoControl</span>
+                <div class="timeline-track" data-frames="0,0,0,0,0,0,0,0,0,1,1,1,1"></div>
+              </div>
+              <div class="timeline-row row-ours">
+                <span class="timeline-label ours-label">AttnSteer (ours)</span>
+                <div class="timeline-track" data-frames="0,0,0,1,1,1,1,1,1,1,1,1,1"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Fire hydrant -->
+      <div class="tempo-example">
+        <div class="tempo-ex-head">
+          <span class="tempo-ex-name">Fire hydrant</span>
+        </div>
+        <div class="tempo-media">
+          <div class="carousel-media-wrap">
+            <div class="carousel-col-headers v2-headers">
+              <div class="carousel-col-header">TempoControl</div>
+              <div class="carousel-col-header ours">AttnSteer (ours)</div>
+            </div>
+            <div class="tempo-video-wrap">
+              <video class="result-video tempo-desktop-video" autoplay muted loop playsinline
+                     data-src2="static/videos/temporal/temporal_web2_fire_hydrant.mp4"
+                     data-src3="static/videos/temporal/temporal_web3_fire_hydrant.mp4"
+                     src="static/videos/temporal/temporal_web2_fire_hydrant.mp4"></video>
+              <video class="result-video tempo-mob-video" autoplay muted loop playsinline
+                     src="static/videos/temporal/temporal_mob_fire_hydrant.mp4"></video>
+              <div class="tempo-mob-divider"></div>
+            </div>
+          </div>
+          <div class="timeline-block">
+            <div class="timeline-rows-wrap">
+              <div class="timeline-cursor"><div class="cursor-line"></div></div>
+              <div class="timeline-row row-requested">
+                <span class="timeline-label">Requested</span>
+                <div class="timeline-track" data-frames="0,0,0,1,1,1,1,1,1,1,1,1,1"></div>
+              </div>
+              <div class="timeline-row row-tc">
+                <span class="timeline-label">TempoControl</span>
+                <div class="timeline-track" data-frames="0,0,0,0,0,1,1,1,1,1,1,1,1"></div>
+              </div>
+              <div class="timeline-row row-ours">
+                <span class="timeline-label ours-label">AttnSteer (ours)</span>
+                <div class="timeline-track" data-frames="0,0,0,1,1,1,1,1,1,1,1,1,1"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Boat + airplane -->
+      <div class="tempo-example">
+        <div class="tempo-ex-head">
+          <span class="tempo-ex-name"><span class="label-word">static </span>Boat<span class="label-word"> + controlled </span>Airplane</span>
+        </div>
+        <div class="tempo-media">
+          <div class="carousel-media-wrap">
+            <div class="carousel-col-headers v2-headers">
+              <div class="carousel-col-header">TempoControl</div>
+              <div class="carousel-col-header ours">AttnSteer (ours)</div>
+            </div>
+            <div class="tempo-video-wrap">
+              <video class="result-video tempo-desktop-video" autoplay muted loop playsinline
+                     data-src2="static/videos/temporal/temporal_web2_boat_airplane.mp4"
+                     data-src3="static/videos/temporal/temporal_web3_boat_airplane.mp4"
+                     src="static/videos/temporal/temporal_web2_boat_airplane.mp4"></video>
+              <video class="result-video tempo-mob-video" autoplay muted loop playsinline
+                     src="static/videos/temporal/temporal_mob_boat_airplane.mp4"></video>
+              <div class="tempo-mob-divider"></div>
+            </div>
+          </div>
+          <div class="timeline-block">
+            <div class="timeline-rows-wrap">
+              <div class="timeline-cursor"><div class="cursor-line"></div></div>
+              <div class="timeline-row row-requested">
+                <span class="timeline-label">Requested</span>
+                <div class="timeline-track" data-frames="0,0,0,0,0,0,1,1,1,1,1,1,1"></div>
+              </div>
+              <div class="timeline-row row-tc">
+                <span class="timeline-label">TempoControl</span>
+                <div class="timeline-track" data-frames="1,1,1,1,1,1,1,1,1,1,0,0,0"></div>
+              </div>
+              <div class="timeline-row row-ours">
+                <span class="timeline-label ours-label">AttnSteer (ours)</span>
+                <div class="timeline-track" data-frames="0,0,0,0,0,1,1,1,1,1,1,1,1"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Giraffe -->
+      <div class="tempo-example">
+        <div class="tempo-ex-head">
+          <span class="tempo-ex-name">Giraffe</span>
+        </div>
+        <div class="tempo-media">
+          <div class="carousel-media-wrap">
+            <div class="carousel-col-headers v2-headers">
+              <div class="carousel-col-header">TempoControl</div>
+              <div class="carousel-col-header ours">AttnSteer (ours)</div>
+            </div>
+            <div class="tempo-video-wrap">
+              <video class="result-video tempo-desktop-video" autoplay muted loop playsinline
+                     data-src2="static/videos/temporal/temporal_web2_giraffe.mp4"
+                     data-src3="static/videos/temporal/temporal_web3_giraffe.mp4"
+                     src="static/videos/temporal/temporal_web2_giraffe.mp4"></video>
+              <video class="result-video tempo-mob-video" autoplay muted loop playsinline
+                     src="static/videos/temporal/temporal_mob_giraffe.mp4"></video>
+              <div class="tempo-mob-divider"></div>
+            </div>
+          </div>
+          <div class="timeline-block">
+            <div class="timeline-rows-wrap">
+              <div class="timeline-cursor"><div class="cursor-line"></div></div>
+              <div class="timeline-row row-requested">
+                <span class="timeline-label">Requested</span>
+                <div class="timeline-track" data-frames="0,0,0,0,0,0,1,1,1,1,1,1,1"></div>
+              </div>
+              <div class="timeline-row row-tc">
+                <span class="timeline-label">TempoControl</span>
+                <div class="timeline-track" data-frames="1,1,1,1,1,1,1,1,1,1,1,1,1"></div>
+              </div>
+              <div class="timeline-row row-ours">
+                <span class="timeline-label ours-label">AttnSteer (ours)</span>
+                <div class="timeline-track" data-frames="0,0,0,0,0,0,1,1,1,1,1,1,1"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bicycle + car -->
+      <div class="tempo-example">
+        <div class="tempo-ex-head">
+          <span class="tempo-ex-name"><span class="label-word">static </span>Bicycle<span class="label-word"> + controlled </span>Car</span>
+        </div>
+        <div class="tempo-media">
+          <div class="carousel-media-wrap">
+            <div class="carousel-col-headers v2-headers">
+              <div class="carousel-col-header">TempoControl</div>
+              <div class="carousel-col-header ours">AttnSteer (ours)</div>
+            </div>
+            <div class="tempo-video-wrap">
+              <video class="result-video tempo-desktop-video" autoplay muted loop playsinline
+                     data-src2="static/videos/temporal/temporal_web2_bicycle_car.mp4"
+                     data-src3="static/videos/temporal/temporal_web3_bicycle_car.mp4"
+                     src="static/videos/temporal/temporal_web2_bicycle_car.mp4"></video>
+              <video class="result-video tempo-mob-video" autoplay muted loop playsinline
+                     src="static/videos/temporal/temporal_mob_bicycle_car.mp4"></video>
+              <div class="tempo-mob-divider"></div>
+            </div>
+          </div>
+          <div class="timeline-block">
+            <div class="timeline-rows-wrap">
+              <div class="timeline-cursor"><div class="cursor-line"></div></div>
+              <div class="timeline-row row-requested">
+                <span class="timeline-label">Requested</span>
+                <div class="timeline-track" data-frames="0,0,0,0,0,0,1,1,1,1,1,1,1"></div>
+              </div>
+              <div class="timeline-row row-tc">
+                <span class="timeline-label">TempoControl</span>
+                <div class="timeline-track" data-frames="0,0,0,0,0,0,0,0,0,0,0,0,0"></div>
+              </div>
+              <div class="timeline-row row-ours">
+                <span class="timeline-label ours-label">AttnSteer (ours)</span>
+                <div class="timeline-track" data-frames="0,0,0,1,1,1,1,1,1,1,1,1,1"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Teddy bear -->
+      <div class="tempo-example">
+        <div class="tempo-ex-head">
+          <span class="tempo-ex-name">Teddy bear</span>
+        </div>
+        <div class="tempo-media">
+          <div class="carousel-media-wrap">
+            <div class="carousel-col-headers v2-headers">
+              <div class="carousel-col-header">TempoControl</div>
+              <div class="carousel-col-header ours">AttnSteer (ours)</div>
+            </div>
+            <div class="tempo-video-wrap">
+              <video class="result-video tempo-desktop-video" autoplay muted loop playsinline
+                     data-src2="static/videos/temporal/temporal_web2_teddy_bear.mp4"
+                     data-src3="static/videos/temporal/temporal_web3_teddy_bear.mp4"
+                     src="static/videos/temporal/temporal_web2_teddy_bear.mp4"></video>
+              <video class="result-video tempo-mob-video" autoplay muted loop playsinline
+                     src="static/videos/temporal/temporal_mob_teddy_bear.mp4"></video>
+              <div class="tempo-mob-divider"></div>
+            </div>
+          </div>
+          <div class="timeline-block">
+            <div class="timeline-rows-wrap">
+              <div class="timeline-cursor"><div class="cursor-line"></div></div>
+              <div class="timeline-row row-requested">
+                <span class="timeline-label">Requested</span>
+                <div class="timeline-track" data-frames="0,0,0,0,0,0,0,0,0,0,1,1,1"></div>
+              </div>
+              <div class="timeline-row row-tc">
+                <span class="timeline-label">TempoControl</span>
+                <div class="timeline-track" data-frames="0,0,0,0,0,0,1,1,1,1,1,1,1"></div>
+              </div>
+              <div class="timeline-row row-ours">
+                <span class="timeline-label ours-label">AttnSteer (ours)</span>
+                <div class="timeline-track" data-frames="0,0,0,0,0,0,0,0,0,0,1,1,1"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- .tempo-examples-list -->
   </div>
 </section>
 
@@ -784,9 +1011,10 @@ signal and the actual per-frame detections for each method.</p>
       <h2 class="title is-3">BibTeX</h2>
       <button class="copy-bibtex-btn" type="button" id="copy-bibtex"><i class="fas fa-copy"></i><span class="copy-text">Copy</span></button>
     </div>
-    <pre><code id="bibtex-text">@inproceedings{fishman2027willitrender,
+    <!-- TODO: replace with the camera-ready citation -->
+    <pre><code id="bibtex-text">@inproceedings{anonymous2027willitrender,
   title     = {Will It Render? Learned Attention Steering for Object Presence in Text-to-Video},
-  author    = {Fishman, Ben and Samuel, Dvir and Chechik, Gal and Schwartz, Idan},
+  author    = {TODO},
   booktitle = {Proceedings of the IEEE/CVF Winter Conference on Applications of Computer Vision (WACV)},
   year      = {2027}
 }</code></pre>
@@ -796,7 +1024,9 @@ signal and the actual per-frame detections for each method.</p>
 <footer class="footer">
   <div class="container">
     <div class="content has-text-centered">
-      <p style="font-size:0.72rem; color:#9ca3af;">This page is a template-based project page. Content is licensed under a <a href="http://creativecommons.org/licenses/by-sa/4.0/" style="color:#9ca3af;">Creative Commons Attribution-ShareAlike 4.0 International License</a>. Template: <a href="https://github.com/eliahuhorwitz/Academic-project-page-template" style="color:#9ca3af;">Academic Project Page Template</a> by Eliahu Horwitz.</p>
+      <p>This page is a template-based project page. Content is licensed under a
+<a href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.</p>
+      <p>Template: <a href="https://github.com/eliahuhorwitz/Academic-project-page-template">Academic Project Page Template</a> by Eliahu Horwitz.</p>
     </div>
   </div>
 </footer>
@@ -811,6 +1041,44 @@ document.querySelectorAll('.timeline-track[data-frames]').forEach(function(track
     track.appendChild(cell);
   });
 });
+
+// Sync timeline cursor to video playback position
+document.querySelectorAll('.tempo-example').forEach(function(ex) {
+  var video = ex.querySelector('video');
+  var cursorLine = ex.querySelector('.cursor-line');
+  if (!video || !cursorLine) return;
+  function syncCursor() {
+    if (video.duration) {
+      cursorLine.style.left = (video.currentTime / video.duration * 100).toFixed(2) + '%';
+    }
+  }
+  video.addEventListener('timeupdate', syncCursor);
+  video.addEventListener('seeked', syncCursor);
+});
+</script>
+<script>
+// Temporal pill switcher (TempoControl vs Ours  /  + Base model)
+(function() {
+  document.body.classList.add('tempo-v2');
+  document.querySelectorAll('#tempo-vpills .tempo-pill').forEach(function(pill) {
+    pill.addEventListener('click', function() {
+      var v = pill.dataset.v;
+      document.querySelectorAll('#tempo-vpills .tempo-pill').forEach(function(p) {
+        p.classList.toggle('active', p.dataset.v === v);
+      });
+      document.body.classList.toggle('tempo-v2', v === '2');
+      document.body.classList.toggle('tempo-v3', v === '3');
+      document.querySelectorAll('.tempo-video-wrap video[data-src2]').forEach(function(vid) {
+        var src = v === '2' ? vid.dataset.src2 : (vid.dataset.src3 || null);
+        if (src && vid.getAttribute('src') !== src) {
+          vid.setAttribute('src', src);
+          vid.load();
+          vid.play().catch(function(){});
+        }
+      });
+    });
+  });
+})();
 </script>
 </body>
 </html>
