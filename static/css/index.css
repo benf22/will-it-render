@@ -753,25 +753,27 @@ body.tempo-v3 .v3-headers { display: grid; }
   .carousel-video-wrap {
     aspect-ratio: unset;
   }
-  /* Col headers: overlay each half of the stacked mobile video */
+  /* Col headers: overlay each half of the stacked mobile video — compact badge only */
   .carousel-col-headers {
     position: absolute;
     inset: 0;
     z-index: 2;
     pointer-events: none;
-    display: flex;
-    flex-direction: column;
   }
   .carousel-col-header {
-    flex: 1;
-    display: flex;
-    align-items: flex-start;
-    padding: 5px 8px;
+    position: absolute;
+    left: 8px;
+    padding: 2px 7px;
     color: rgba(255,255,255,0.95) !important;
-    text-shadow: 0 1px 4px rgba(0,0,0,0.75);
-    background: linear-gradient(to bottom, rgba(0,0,0,0.38) 0%, transparent 55%);
+    text-shadow: none;
+    background: rgba(0,0,0,0.52);
+    border-radius: 3px;
     font-size: 0.78rem;
+    line-height: 1.5;
   }
+  .carousel-col-header:nth-child(1) { top: 6px; }
+  .carousel-col-header:nth-child(2) { top: calc(50% + 6px); }
+  .carousel-col-header:nth-child(3) { top: calc(66.67% + 6px); }
   .carousel-main-video {
     height: auto !important;
     max-height: 80vh;
@@ -861,7 +863,7 @@ body.tempo-v3 .v3-headers { display: grid; }
     scroll-snap-align: start;
   }
   .tempo-mobile-nav { display: flex; margin-top: 0.75rem; }
-  .tempo-video-wrap video { max-height: 80vh; width: 100%; }
+  .tempo-video-wrap video { width: 100%; height: auto; }
   /* On mobile the video is stacked (TC top / Ours bottom) — show horizontal divider */
   .tempo-video-wrap::after {
     display: block;
