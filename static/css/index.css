@@ -858,11 +858,15 @@ body.tempo-v3 .v3-headers { display: grid; }
   }
   .tempo-examples-list::-webkit-scrollbar { display: none; }
   .tempo-example {
+    width: calc(100vw - 3rem);
     min-width: calc(100vw - 3rem);
+    max-width: calc(100vw - 3rem);
     flex-shrink: 0;
+    overflow: hidden;
     scroll-snap-align: start;
   }
   .tempo-mobile-nav { display: flex; margin-top: 0.75rem; }
+  .tempo-video-wrap { width: 100%; }
   .tempo-video-wrap video { width: 100%; height: auto; }
   /* On mobile the video is stacked (TC top / Ours bottom) — show horizontal divider */
   .tempo-video-wrap::after {
