@@ -851,9 +851,11 @@ body.tempo-v3 .v3-headers { display: grid; }
     overflow-x: scroll;
     scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
     gap: 1rem;
     padding-bottom: 0.5rem;
   }
+  .tempo-examples-list::-webkit-scrollbar { display: none; }
   .tempo-example {
     min-width: calc(100vw - 3rem);
     flex-shrink: 0;
