@@ -930,6 +930,14 @@ signal and the actual per-frame detections for each method.</p>
       </div>
 
     </div><!-- .tempo-examples-list -->
+
+    <!-- Mobile-only nav arrows + dots -->
+    <div class="carousel-nav tempo-mobile-nav" id="tempo-nav">
+      <button class="carousel-btn" id="tempo-prev" aria-label="Previous">&#8592;</button>
+      <div class="carousel-dots" id="tempo-dots"></div>
+      <button class="carousel-btn" id="tempo-next" aria-label="Next">&#8594;</button>
+    </div>
+
   </div>
 </section>
 
@@ -1076,6 +1084,50 @@ document.querySelectorAll('.tempo-example').forEach(function(ex) {
           vid.play().catch(function(){});
         }
       });
+    });
+  });
+})();
+</script>
+<script>
+// Mobile temporal carousel arrows + dots
+(function() {
+  var list   = document.querySelector('.tempo-examples-list');
+  var items  = Array.from(document.querySelectorAll('.tempo-example'));
+  var dotsEl = document.getElementById('tempo-dots');
+  var prevBtn = document.getElementById('tempo-prev');
+  var nextBtn = document.getElementById('tempo-next');
+  if (!list || !items.length || !prevBtn) return;
+  var idx = 0;
+
+  items.forEach(function(_, i) {
+    var d = document.createElement('button');
+    d.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+    d.setAttribute('aria-label', 'Example ' + (i + 1));
+    d.addEventListener('click', function() { goTo(i); });
+    dotsEl.appendChild(d);
+  });
+
+  function goTo(i) {
+    var n = items.length;
+    idx = (i + n) % n;
+    var gap = parseFloat(getComputedStyle(list).gap) || 0;
+    var itemW = items[0].offsetWidth + gap;
+    list.scrollTo({ left: idx * itemW, behavior: 'smooth' });
+    dotsEl.querySelectorAll('.carousel-dot').forEach(function(d, j) {
+      d.classList.toggle('active', j === idx);
+    });
+  }
+
+  prevBtn.addEventListener('click', function() { goTo(idx - 1); });
+  nextBtn.addEventListener('click', function() { goTo(idx + 1); });
+
+  // keep dots in sync with touch swipes
+  list.addEventListener('scrollend', function() {
+    var gap = parseFloat(getComputedStyle(list).gap) || 0;
+    var itemW = items[0].offsetWidth + gap;
+    idx = Math.round(list.scrollLeft / itemW);
+    dotsEl.querySelectorAll('.carousel-dot').forEach(function(d, j) {
+      d.classList.toggle('active', j === idx);
     });
   });
 })();

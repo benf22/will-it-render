@@ -636,6 +636,7 @@ pre {
 
 .tempo-mob-video   { display: none; }
 .tempo-mob-divider { display: none; }
+.tempo-mobile-nav  { display: none; }
 
 /* Per-example header */
 .tempo-ex-head {
@@ -861,6 +862,7 @@ body.tempo-v3 .v3-headers { display: grid; }
     flex-shrink: 0;
     scroll-snap-align: start;
   }
+  .tempo-mobile-nav { display: flex; margin-top: 0.75rem; }
   .tempo-desktop-video { display: none; }
   .tempo-mob-video {
     display: block;
