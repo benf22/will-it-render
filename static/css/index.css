@@ -634,8 +634,6 @@ pre {
   gap: 2.5rem;
 }
 
-.tempo-mob-video   { display: none; }
-.tempo-mob-divider { display: none; }
 .tempo-mobile-nav  { display: none; }
 
 /* Per-example header */
@@ -863,23 +861,13 @@ body.tempo-v3 .v3-headers { display: grid; }
     scroll-snap-align: start;
   }
   .tempo-mobile-nav { display: flex; margin-top: 0.75rem; }
-  .tempo-desktop-video { display: none; }
-  .tempo-mob-video {
+  .tempo-video-wrap video { max-height: 80vh; width: 100%; }
+  /* On mobile the video is stacked (TC top / Ours bottom) — show horizontal divider */
+  .tempo-video-wrap::after {
     display: block;
-    width: 100%;
+    top: 50%; left: 0; right: 0; bottom: auto;
+    width: 100%; height: 2px;
   }
-  .tempo-mob-divider {
-    display: block;
-    position: absolute;
-    top: 50%;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: rgba(255,255,255,.45);
-    pointer-events: none;
-    z-index: 1;
-  }
-  .tempo-video-wrap::after { display: none; }
 
   /* ── Dataset layout: stack columns vertically ── */
   .dataset-layout {

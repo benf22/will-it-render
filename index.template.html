@@ -656,13 +656,11 @@ function renderPrompt(c) {
               <div class="carousel-col-header ours">AttnSteer (ours)</div>
             </div>
             <div class="tempo-video-wrap">
-              <video class="result-video tempo-desktop-video" autoplay muted loop playsinline
+              <video class="result-video tempo-video" autoplay muted loop playsinline
                      data-src2="static/videos/temporal/temporal_web2_car.mp4"
                      data-src3="static/videos/temporal/temporal_web3_car.mp4"
+                     data-mob-src="static/videos/temporal/temporal_mob_car.mp4"
                      src="static/videos/temporal/temporal_web2_car.mp4"></video>
-              <video class="result-video tempo-mob-video" autoplay muted loop playsinline
-                     src="static/videos/temporal/temporal_mob_car.mp4"></video>
-              <div class="tempo-mob-divider"></div>
             </div>
           </div>
           <div class="timeline-block">
@@ -697,13 +695,11 @@ function renderPrompt(c) {
               <div class="carousel-col-header ours">AttnSteer (ours)</div>
             </div>
             <div class="tempo-video-wrap">
-              <video class="result-video tempo-desktop-video" autoplay muted loop playsinline
+              <video class="result-video tempo-video" autoplay muted loop playsinline
                      data-src2="static/videos/temporal/temporal_web2_fire_hydrant.mp4"
                      data-src3="static/videos/temporal/temporal_web3_fire_hydrant.mp4"
+                     data-mob-src="static/videos/temporal/temporal_mob_fire_hydrant.mp4"
                      src="static/videos/temporal/temporal_web2_fire_hydrant.mp4"></video>
-              <video class="result-video tempo-mob-video" autoplay muted loop playsinline
-                     src="static/videos/temporal/temporal_mob_fire_hydrant.mp4"></video>
-              <div class="tempo-mob-divider"></div>
             </div>
           </div>
           <div class="timeline-block">
@@ -738,13 +734,11 @@ function renderPrompt(c) {
               <div class="carousel-col-header ours">AttnSteer (ours)</div>
             </div>
             <div class="tempo-video-wrap">
-              <video class="result-video tempo-desktop-video" autoplay muted loop playsinline
+              <video class="result-video tempo-video" autoplay muted loop playsinline
                      data-src2="static/videos/temporal/temporal_web2_boat_airplane.mp4"
                      data-src3="static/videos/temporal/temporal_web3_boat_airplane.mp4"
+                     data-mob-src="static/videos/temporal/temporal_mob_boat_airplane.mp4"
                      src="static/videos/temporal/temporal_web2_boat_airplane.mp4"></video>
-              <video class="result-video tempo-mob-video" autoplay muted loop playsinline
-                     src="static/videos/temporal/temporal_mob_boat_airplane.mp4"></video>
-              <div class="tempo-mob-divider"></div>
             </div>
           </div>
           <div class="timeline-block">
@@ -779,13 +773,11 @@ function renderPrompt(c) {
               <div class="carousel-col-header ours">AttnSteer (ours)</div>
             </div>
             <div class="tempo-video-wrap">
-              <video class="result-video tempo-desktop-video" autoplay muted loop playsinline
+              <video class="result-video tempo-video" autoplay muted loop playsinline
                      data-src2="static/videos/temporal/temporal_web2_giraffe.mp4"
                      data-src3="static/videos/temporal/temporal_web3_giraffe.mp4"
+                     data-mob-src="static/videos/temporal/temporal_mob_giraffe.mp4"
                      src="static/videos/temporal/temporal_web2_giraffe.mp4"></video>
-              <video class="result-video tempo-mob-video" autoplay muted loop playsinline
-                     src="static/videos/temporal/temporal_mob_giraffe.mp4"></video>
-              <div class="tempo-mob-divider"></div>
             </div>
           </div>
           <div class="timeline-block">
@@ -820,13 +812,11 @@ function renderPrompt(c) {
               <div class="carousel-col-header ours">AttnSteer (ours)</div>
             </div>
             <div class="tempo-video-wrap">
-              <video class="result-video tempo-desktop-video" autoplay muted loop playsinline
+              <video class="result-video tempo-video" autoplay muted loop playsinline
                      data-src2="static/videos/temporal/temporal_web2_bicycle_car.mp4"
                      data-src3="static/videos/temporal/temporal_web3_bicycle_car.mp4"
+                     data-mob-src="static/videos/temporal/temporal_mob_bicycle_car.mp4"
                      src="static/videos/temporal/temporal_web2_bicycle_car.mp4"></video>
-              <video class="result-video tempo-mob-video" autoplay muted loop playsinline
-                     src="static/videos/temporal/temporal_mob_bicycle_car.mp4"></video>
-              <div class="tempo-mob-divider"></div>
             </div>
           </div>
           <div class="timeline-block">
@@ -861,13 +851,11 @@ function renderPrompt(c) {
               <div class="carousel-col-header ours">AttnSteer (ours)</div>
             </div>
             <div class="tempo-video-wrap">
-              <video class="result-video tempo-desktop-video" autoplay muted loop playsinline
+              <video class="result-video tempo-video" autoplay muted loop playsinline
                      data-src2="static/videos/temporal/temporal_web2_teddy_bear.mp4"
                      data-src3="static/videos/temporal/temporal_web3_teddy_bear.mp4"
+                     data-mob-src="static/videos/temporal/temporal_mob_teddy_bear.mp4"
                      src="static/videos/temporal/temporal_web2_teddy_bear.mp4"></video>
-              <video class="result-video tempo-mob-video" autoplay muted loop playsinline
-                     src="static/videos/temporal/temporal_mob_teddy_bear.mp4"></video>
-              <div class="tempo-mob-divider"></div>
             </div>
           </div>
           <div class="timeline-block">
@@ -1027,6 +1015,7 @@ document.querySelectorAll('.tempo-example').forEach(function(ex) {
 <script>
 // Temporal pill switcher (TempoControl vs Ours  /  + Base model)
 (function() {
+  var mq = window.matchMedia('(max-width: 768px)');
   document.body.classList.add('tempo-v2');
   document.querySelectorAll('#tempo-vpills .tempo-pill').forEach(function(pill) {
     pill.addEventListener('click', function() {
@@ -1036,6 +1025,7 @@ document.querySelectorAll('.tempo-example').forEach(function(ex) {
       });
       document.body.classList.toggle('tempo-v2', v === '2');
       document.body.classList.toggle('tempo-v3', v === '3');
+      if (mq.matches) return; // mobile: always use mob-src
       document.querySelectorAll('.tempo-video-wrap video[data-src2]').forEach(function(vid) {
         var src = v === '2' ? vid.dataset.src2 : (vid.dataset.src3 || null);
         if (src && vid.getAttribute('src') !== src) {
@@ -1046,6 +1036,22 @@ document.querySelectorAll('.tempo-example').forEach(function(ex) {
       });
     });
   });
+})();
+// Swap temporal video sources on mobile (stacked) vs desktop (side-by-side)
+(function() {
+  var mq = window.matchMedia('(max-width: 768px)');
+  function updateTempoSources() {
+    document.querySelectorAll('.tempo-video-wrap video.tempo-video').forEach(function(vid) {
+      var src = mq.matches ? (vid.dataset.mobSrc || vid.dataset.src2) : vid.dataset.src2;
+      if (src && vid.getAttribute('src') !== src) {
+        vid.setAttribute('src', src);
+        vid.load();
+        vid.play().catch(function(){});
+      }
+    });
+  }
+  mq.addEventListener('change', updateTempoSources);
+  updateTempoSources();
 })();
 </script>
 <script>
