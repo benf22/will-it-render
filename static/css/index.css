@@ -5,7 +5,7 @@
 }
 
 html {
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 body {
@@ -13,7 +13,7 @@ body {
   color: #4b5563;
   line-height: 1.65;
   background: #f0f6ff;
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 .publication-title {
