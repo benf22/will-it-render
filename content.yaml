@@ -26,8 +26,9 @@ abstract_p2: |
   We propose **AttnSteer**, a learned attention-steering model that predicts object rendering directly from
   intermediate cross-attention. AttnSteer is trained entirely on the generator's own trajectories using
   automatically obtained detector labels and contains only 37k parameters. At inference time, its predictions
-  define differentiable objectives for steering object presence; the same framework also extends to
-  frame-level temporal control. AttnSteer improves all-objects accuracy over the strongest baseline at comparable video quality.
+  define differentiable objectives for steering object presence; We also extend the current Vbench multi-object
+  benchmark from 2 to 7 objects, and show that AttnSteer improves all-objects accuracy over the strongest 
+  baseline at comparable video quality. The same framework also extends to frame-level temporal control and improve curent baseline.
 
 method_inference_text: |
   At inference time, AttnSteer's predictions define differentiable objectives for steering object presence.
@@ -37,9 +38,9 @@ method_inference_text: |
   while suppress locally opposing contributions.
 
 method_inference_caption: |
-  **Inference-time steering.** At selected denoising steps (yellow), we run a few optimization steps (purple).
-  In optimization steps we extract object's cross-attention maps and pass them throuh frozen AttnSteer 
-  predictor (blue). Then we backpropagate the gradient, together with filtering, normalization and aggragation
+  **Inference-time steering.** Top row - at selected denoising steps (yellow), we run a few optimization steps (purple).
+  Bottom - in each optimization step we extract object's cross-attention maps and pass them throuh frozen AttnSteer 
+  predictor (blue). Then we calculate the loss and backpropagate the gradient, together with filtering, normalization and aggragation
   logic (red pass) to update the latent.
 
 method_training_text: |
