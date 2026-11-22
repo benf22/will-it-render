@@ -346,6 +346,7 @@ pre {
   color: #1f2937;
   margin: 0;
   line-height: 1.3;
+  min-height: calc(1.1rem * 1.3 * 2);
 }
 
 .noun-blue    { color: #3b82f6; font-weight: 700; }
