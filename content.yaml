@@ -52,6 +52,16 @@ method_training_caption: |
   **Training with self-generated supervision.** Cross-attention features from the frozen generator
   are paired with detector labels from its final video.
 
+steering_process_text: |
+  Each row shows the predicted clean video (x̂₀) at successive denoising steps for the prompt
+  *"a truck and a bird and a cow"* steered toward *"a bird"*.
+  The highlighted cell (step 7) is expanded below: the four optimization iterations within that
+  single denoising step show the probe score jumping from 0.61 → 0.99 within two iterations.
+
+steering_process_caption: |
+  **Top:** x̂₀ previews at selected denoising steps (step 7 highlighted in orange).
+  **Bottom:** x̂₀ at every other optimization iteration inside step 7.
+
 results_section_intro: |
   We evaluate over our own benchmark: extended 473 prompts of VBench multiple-objects dimension.
 

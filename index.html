@@ -327,18 +327,16 @@ are paired with detector labels from its final video.</figcaption>
     <h2 class="title is-3 has-text-centered">Steering Process Visualization</h2>
     <div class="content has-text-justified">
       <p>Each row shows the predicted clean video (x̂₀) at successive denoising steps for the prompt
-      <em>"a truck and a bird and a cow"</em> steered toward <em>"a bird"</em>.
-      The highlighted cell (step 7) is expanded below: the four optimization iterations within that
-      single denoising step show the probe score jumping from 0.61 → 0.99 within two iterations.</p>
+<em>"a truck and a bird and a cow"</em> steered toward <em>"a bird"</em>.
+The highlighted cell (step 7) is expanded below: the four optimization iterations within that
+single denoising step show the probe score jumping from 0.61 → 0.99 within two iterations.</p>
     </div>
     <div style="max-width:904px; margin:0 auto;">
       <video autoplay muted loop playsinline preload="auto" style="width:100%; border-radius:6px; display:block;">
         <source src="static/videos/grid_video.mp4" type="video/mp4">
       </video>
-      <p class="content has-text-centered" style="margin-top:0.5rem;">
-        <strong>Top:</strong> x̂₀ previews at selected denoising steps (step 7 highlighted in orange).
-        <strong>Bottom:</strong> x̂₀ at every other optimization iteration inside step 7.
-      </p>
+      <p class="content has-text-centered" style="margin-top:0.5rem;"><strong>Top:</strong> x̂₀ previews at selected denoising steps (step 7 highlighted in orange).
+<strong>Bottom:</strong> x̂₀ at every other optimization iteration inside step 7.</p>
     </div>
   </div>
 </section>
