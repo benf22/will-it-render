@@ -810,7 +810,7 @@ body.tempo-v3 .v3-headers { display: grid; }
     font-size: 0.68rem !important;
     padding-right: 0.3rem !important;
   }
-  /* un-steered numbers */
+  /* base model numbers */
   .key-results-grid > div:nth-child(6),
   .key-results-grid > div:nth-child(7),
   .key-results-grid > div:nth-child(8) {

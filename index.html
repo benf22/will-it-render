@@ -64,7 +64,7 @@ no model retraining, no hand-crafted objectives needed.
       <div class="carousel-pills" id="car-pills"></div>
       <div class="carousel-media-wrap">
         <div class="carousel-col-headers">
-          <div class="carousel-col-header">Un-steered</div>
+          <div class="carousel-col-header">Base model</div>
           <div class="carousel-col-header ours">AttnSteer (Ours)</div>
         </div>
         <div class="carousel-video-wrap">
@@ -83,7 +83,7 @@ no model retraining, no hand-crafted objectives needed.
         <button class="carousel-btn" id="car-next" aria-label="Next">&#8594;</button>
       </div>
       <p class="carousel-counter" id="car-counter"></p>
-      <p class="carousel-caption">Each clip shows the <strong>un-steered backbone</strong> (left) alongside <strong>AttnSteer</strong> (right),
+      <p class="carousel-caption">Each clip shows the <strong>base model</strong> (left) alongside <strong>AttnSteer</strong> (right),
 generated from the same prompt and seed.<br><span class="noun-blue">blue</span> = appears in both &nbsp;·&nbsp; <span class="noun-red">red</span> = appears only in ours &nbsp;·&nbsp; <span class="noun-yellow">yellow</span> = appears in neither</p>
     </div>
   </div>
@@ -247,8 +247,8 @@ frame-level temporal control. AttnSteer improves all-objects accuracy over the s
       <div style="text-align:center; font-weight:700; font-size:0.95rem; color:#555; padding-bottom:0.4rem;">Wan&nbsp;2.1</div>
       <div style="text-align:center; font-weight:700; font-size:0.95rem; color:#555; padding-bottom:0.4rem;">CogVideoX</div>
 
-      <!-- un-steered -->
-      <div style="text-align:right; font-size:0.8rem; color:#bbb; white-space:nowrap; padding-right:0.6rem;">Un-steered</div>
+      <!-- base model -->
+      <div style="text-align:right; font-size:0.8rem; color:#bbb; white-space:nowrap; padding-right:0.6rem;">Base model</div>
       <div style="text-align:center; font-size:1.2rem; font-weight:600; color:#ccc;">38.3%</div>
       <div style="text-align:center; font-size:1.2rem; font-weight:600; color:#ccc;">27.1%</div>
       <div style="text-align:center; font-size:1.2rem; font-weight:600; color:#ccc;">30.5%</div>
@@ -374,7 +374,7 @@ are paired with detector labels from its final video.</figcaption>
     <!-- shared legend -->
     <div style="display:flex; justify-content:center; gap:1.6rem; flex-wrap:wrap; margin:0.6rem 0 0.4rem;">
       <span style="display:inline-flex; align-items:center; gap:0.45rem; font-size:0.82rem; color:#374151;">
-        <svg width="28" height="10" style="flex-shrink:0;"><line x1="0" y1="5" x2="28" y2="5" stroke="#9467bd" stroke-width="2"/><circle cx="14" cy="5" r="3.5" fill="#9467bd"/></svg>Un-steered
+        <svg width="28" height="10" style="flex-shrink:0;"><line x1="0" y1="5" x2="28" y2="5" stroke="#9467bd" stroke-width="2"/><circle cx="14" cy="5" r="3.5" fill="#9467bd"/></svg>Base model
       </span>
       <span style="display:inline-flex; align-items:center; gap:0.45rem; font-size:0.82rem; color:#374151;">
         <svg width="28" height="10" style="flex-shrink:0;"><line x1="0" y1="5" x2="28" y2="5" stroke="#ff7f0e" stroke-width="2"/><circle cx="14" cy="5" r="3.5" fill="#ff7f0e"/></svg>Attend-and-Excite
@@ -411,7 +411,7 @@ Each bar shows the per-dimension score for one backbone.</p>
       </div>
     </div>
     <div style="display:flex; justify-content:center; gap:1.6rem; flex-wrap:wrap; margin:0.6rem 0 0.4rem;">
-      <span style="display:inline-flex; align-items:center; gap:0.45rem; font-size:0.82rem; color:#374151;"><svg width="20" height="12" style="flex-shrink:0;"><rect x="0" y="1" width="20" height="10" rx="2" fill="#9467bd"/></svg>Un-steered</span>
+      <span style="display:inline-flex; align-items:center; gap:0.45rem; font-size:0.82rem; color:#374151;"><svg width="20" height="12" style="flex-shrink:0;"><rect x="0" y="1" width="20" height="10" rx="2" fill="#9467bd"/></svg>Base model</span>
       <span style="display:inline-flex; align-items:center; gap:0.45rem; font-size:0.82rem; color:#374151;"><svg width="20" height="12" style="flex-shrink:0;"><rect x="0" y="1" width="20" height="10" rx="2" fill="#ff7f0e"/></svg>Attend-and-Excite</span>
       <span style="display:inline-flex; align-items:center; gap:0.45rem; font-size:0.82rem; color:#374151;"><svg width="20" height="12" style="flex-shrink:0;"><rect x="0" y="1" width="20" height="10" rx="2" fill="#1f77b4"/></svg>Best-of-N</span>
       <span style="display:inline-flex; align-items:center; gap:0.45rem; font-size:0.82rem; color:#374151; font-weight:700;"><svg width="20" height="12" style="flex-shrink:0;"><rect x="0" y="1" width="20" height="10" rx="2" fill="#2ca02c"/></svg>Ours</span>
@@ -466,7 +466,7 @@ detected, overall and by <em>k</em>, the number of requested objects. The gain g
       </table>
     </div>
     <p class="content is-size-7" style="margin-top:0.5rem;"><strong>Bold</strong> = best within backbone block; <u>underline</u> = best overall.
-Inference cost measured on a single H100 GPU; &times;base = multiple of un-steered generation time.</p>
+Inference cost measured on a single H100 GPU; &times;base = multiple of base-model generation time.</p>
 
   </div>
 </section>
@@ -562,7 +562,7 @@ LTX-2 under both detectors, while leaving VBench quality unchanged.</p>
     <div class="carousel-wrap" style="margin-top:1.25rem;">
       <div class="carousel-media-wrap">
         <div class="carousel-col-headers">
-          <div class="carousel-col-header">Un-steered</div>
+          <div class="carousel-col-header">Base model</div>
           <div class="carousel-col-header ours">AttnSteer (Ours)</div>
         </div>
         <div class="carousel-video-wrap">
@@ -581,7 +581,7 @@ LTX-2 under both detectors, while leaving VBench quality unchanged.</p>
         <button class="carousel-btn" id="car2-next" aria-label="Next">&#8594;</button>
       </div>
       <p class="carousel-counter" id="car2-counter"></p>
-      <p class="carousel-caption">Each clip shows the <strong>un-steered backbone</strong> (left) alongside <strong>AttnSteer</strong> (right),
+      <p class="carousel-caption">Each clip shows the <strong>base model</strong> (left) alongside <strong>AttnSteer</strong> (right),
 generated from the same prompt and seed.</p>
     </div>
   </div>

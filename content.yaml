@@ -11,7 +11,7 @@ tldr: |
   no model retraining, no hand-crafted objectives needed.
   
 carousel_caption: |
-  Each clip shows the **un-steered backbone** (left) alongside **AttnSteer** (right),
+  Each clip shows the **base model** (left) alongside **AttnSteer** (right),
   generated from the same prompt and seed.
 
 abstract_p1: |
@@ -68,7 +68,7 @@ vbench_caption: "Per-dimension VBench scores. Higher is better for all dimension
 
 results_table_note: |
   **Bold** = best within backbone block; <u>underline</u> = best overall.
-  Inference cost measured on a single H100 GPU; &times;base = multiple of un-steered generation time.
+  Inference cost measured on a single H100 GPU; &times;base = multiple of base-model generation time.
 
 userstudy_text: |
   To confirm the improvement is visible to people, we ran a paired human-preference study on LTX-2
@@ -89,7 +89,7 @@ single_object_text: |
 single_object_table_note: "**Bold** = best within backbone. <u>Underline</u> = best across all backbones."
 
 carousel_caption_2: |
-  Each clip shows the **un-steered backbone** (left) alongside **AttnSteer** (right),
+  Each clip shows the **base model** (left) alongside **AttnSteer** (right),
   generated from the same prompt and seed.
 
 temporal_text: |
@@ -114,7 +114,7 @@ dataset_p1: |
   from exploiting familiar scene statistics.
 
 dataset_p2: |
-  All three backbones (LTX-2, Wan&nbsp;2.1, CogVideoX-5B) and all arms (un-steered, Best-of-N,
+  All three backbones (LTX-2, Wan&nbsp;2.1, CogVideoX-5B) and all arms (base model, Best-of-N,
   A&amp;E, Ours) are evaluated on the same 473 prompts, each with a fixed random seed shared
   across arms.
 
