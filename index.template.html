@@ -183,6 +183,11 @@ function renderPrompt(c) {
     counter.textContent = (idx + 1) + ' / ' + clips.length;
     clearInterval(timer);
     timer = setInterval(() => goTo(idx + 1), 6000);
+    video.addEventListener('loadedmetadata', function() {
+      clearInterval(timer);
+      const ms = Math.max(video.duration * 1000 + 1500, 3500);
+      timer = setInterval(() => goTo(idx + 1), ms);
+    }, { once: true });
   }
 
   prevBtn.addEventListener('click', () => goTo(idx - 1));
@@ -595,6 +600,11 @@ function renderPrompt(c) {
   function resetTimer2() {
     clearInterval(timer2);
     timer2 = setInterval(() => goTo2(idx2 + 1), 6000);
+    video2.addEventListener('loadedmetadata', function() {
+      clearInterval(timer2);
+      const ms = Math.max(video2.duration * 1000 + 1500, 3500);
+      timer2 = setInterval(() => goTo2(idx2 + 1), ms);
+    }, { once: true });
   }
 
   prevBtn2.addEventListener('click', () => goTo2(idx2 - 1));
