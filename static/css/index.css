@@ -748,10 +748,6 @@ body.tempo-v3 .v3-headers { display: grid; }
   .carousel-wrap {
     max-width: 100%;
   }
-  /* Remove the forced widescreen ratio; let the mobile video determine its own height */
-  .carousel-video-wrap {
-    aspect-ratio: unset;
-  }
   /* Col headers: overlay each half of the stacked mobile video — compact badge only */
   .carousel-col-headers {
     position: absolute;
