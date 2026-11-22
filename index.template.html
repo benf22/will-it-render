@@ -185,7 +185,7 @@ function renderPrompt(c) {
     timer = setInterval(() => goTo(idx + 1), 6000);
     video.addEventListener('loadedmetadata', function() {
       clearInterval(timer);
-      const ms = Math.max(video.duration * 1000 + 1500, 3500);
+      const ms = Math.ceil(12 / video.duration) * video.duration * 1000;
       timer = setInterval(() => goTo(idx + 1), ms);
     }, { once: true });
   }
@@ -602,7 +602,7 @@ function renderPrompt(c) {
     timer2 = setInterval(() => goTo2(idx2 + 1), 6000);
     video2.addEventListener('loadedmetadata', function() {
       clearInterval(timer2);
-      const ms = Math.max(video2.duration * 1000 + 1500, 3500);
+      const ms = Math.ceil(12 / video2.duration) * video2.duration * 1000;
       timer2 = setInterval(() => goTo2(idx2 + 1), ms);
     }, { once: true });
   }
