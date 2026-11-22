@@ -63,7 +63,7 @@ steering_process_caption: |
   **Bottom:** x̂₀ at every other optimization iteration inside step 7.
 
 results_section_intro: |
-  We evaluate over our own benchmark: extended 473 prompts of VBench multiple-objects dimension.
+  We evaluate over our own [benchmark](#dataset): extended 473 prompts of VBench multiple-objects dimension.
 
 results_intro: |
   The table reports the detection ratio and the fraction of clips where *all* requested objects are
