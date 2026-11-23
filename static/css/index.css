@@ -814,7 +814,7 @@ body.tempo-v3 .v3-headers { display: grid; }
   .key-results-grid > div:nth-child(6),
   .key-results-grid > div:nth-child(7),
   .key-results-grid > div:nth-child(8) {
-    font-size: 0.9rem !important;
+    font-size: 1.1rem !important;
     line-height: 1.1 !important;
   }
   /* A&E numbers */
