@@ -1,6 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-87Q67B3BYE"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-87Q67B3BYE');
+  </script>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Will It Render? Learned Attention Steering for Object Presence in Text-to-Video</title>
@@ -326,10 +334,10 @@ are paired with detector labels from its final video.</figcaption>
   <div class="container is-max-desktop">
     <h2 class="title is-3 has-text-centered">Steering Process Visualization</h2>
     <div class="content has-text-justified">
-      <p>Each row shows the predicted clean video (x̂₀) at successive denoising steps for the prompt
+      <p>Each row shows the predicted clean video (x̂₀) at selected denoising steps for the prompt
 <em>"a truck and a bird and a cow"</em> steered toward <em>"a bird"</em>.
-The highlighted cell (step 7) is expanded below: the four optimization iterations within that
-single denoising step show the probe score jumping from 0.61 → 0.99 within two iterations.</p>
+The highlighted cell (step 7) is expanded below: four optimization iterations within that
+single denoising step show the probe score jumping from 0.61 → 0.99 which lead the bird to appear.</p>
     </div>
     <div style="max-width:904px; margin:0 auto;">
       <video autoplay muted loop playsinline preload="auto" style="width:100%; border-radius:6px; display:block;">
@@ -349,7 +357,7 @@ single denoising step show the probe score jumping from 0.61 → 0.99 within two
 
     <h2 class="title is-3 has-text-centered">Quantitative Results</h2>
     <div class="content has-text-justified">
-      <p>We evaluate over our own <a href="#dataset">benchmark</a>: extended 473 prompts of VBench multiple-objects dimension.</p>
+      <p>We evaluate over our own benchmark: extended 473 prompts of VBench multiple-objects dimension.</p>
     </div>
 
     <h3 class="title is-4 has-text-centered" style="margin-top:1.5rem;">All Objects Accuracy</h3>
@@ -385,11 +393,12 @@ single denoising step show the probe score jumping from 0.61 → 0.99 within two
         <svg width="28" height="10" style="flex-shrink:0;"><line x1="0" y1="5" x2="28" y2="5" stroke="#2ca02c" stroke-width="2"/><circle cx="14" cy="5" r="3.5" fill="#2ca02c"/></svg>Ours
       </span>
     </div>
-    <p class="content has-text-centered" style="font-size:0.82rem; color:var(--muted); margin-bottom:1.5rem;">All-object accuracy vs. prompt complexity (<em>k</em> objects). Bands show &plusmn;1 SE.</p>
+    <p class="content has-text-centered" style="font-size:0.82rem; color:var(--muted); margin-bottom:1.5rem;">All-object detected vs. prompt complexity (<em>k</em> objects). Bands show &plusmn;1 SE.</p>
 
     <h3 class="title is-4 has-text-centered" style="margin-top:1.5rem;">VBench Quality Dimensions</h3>
     <div class="content has-text-justified">
-      <p>AttnSteer preserves or improves video quality across all VBench dimensions.
+      <p>AttnSteer preserves video quality across 6 out of 7 VBench dimensions. 
+The dynamic-degree dimention is slightly hurt but user study will show that it is not noticble to the user.
 Each bar shows the per-dimension score for one backbone.</p>
     </div>
     <div class="columns is-centered" style="margin-top:1.25rem; margin-bottom:0.25rem;">
@@ -415,12 +424,12 @@ Each bar shows the per-dimension score for one backbone.</p>
       <span style="display:inline-flex; align-items:center; gap:0.45rem; font-size:0.82rem; color:#374151;"><svg width="20" height="12" style="flex-shrink:0;"><rect x="0" y="1" width="20" height="10" rx="2" fill="#1f77b4"/></svg>Best-of-N</span>
       <span style="display:inline-flex; align-items:center; gap:0.45rem; font-size:0.82rem; color:#374151; font-weight:700;"><svg width="20" height="12" style="flex-shrink:0;"><rect x="0" y="1" width="20" height="10" rx="2" fill="#2ca02c"/></svg>Ours</span>
     </div>
-    <p class="content has-text-centered" style="font-size:0.82rem; color:var(--muted); margin-bottom:1.5rem;">Per-dimension VBench scores. Higher is better for all dimensions.</p>
+    <p class="content has-text-centered" style="font-size:0.82rem; color:var(--muted); margin-bottom:1.5rem;">Per-dimension VBench scores with error bars. Higher is better for all dimensions.</p>
 
     <h3 class="title is-4 has-text-centered" style="margin-top:1.5rem;">Full Results Table</h3>
     <div class="content has-text-justified">
       <p>The table reports the detection ratio and the fraction of clips where <em>all</em> requested objects are
-detected, overall and by <em>k</em>, the number of requested objects. The gain grows with <em>k</em>.</p>
+detected, overall and by <em>k</em>, the number of requested objects. It also shows averaged vbench quality and inference cost.</p>
     </div>
     <div class="table-container">
       <table class="table is-fullwidth is-narrow is-size-7 results-table">
@@ -465,7 +474,7 @@ detected, overall and by <em>k</em>, the number of requested objects. The gain g
       </table>
     </div>
     <p class="content is-size-7" style="margin-top:0.5rem;"><strong>Bold</strong> = best within backbone block; <u>underline</u> = best overall.
-Inference cost measured on a single H100 GPU; &times;base = multiple of base-model generation time.</p>
+Inference cost measured on a single H100 GPU and its <strong>bold</strong> exclude the base model values; &times;base = multiple of base-model generation time.</p>
 
   </div>
 </section>
@@ -478,7 +487,7 @@ Inference cost measured on a single H100 GPU; &times;base = multiple of base-mod
     <h2 class="title is-3 has-text-centered">User Study</h2>
     <div class="content has-text-justified">
       <p>To confirm the improvement is visible to people, we ran a paired human-preference study on LTX-2
-and Wan&nbsp;2.1, comparing AttnSteer against Attend-and-Excite on object presence, photorealism,
+and Wan&nbsp;2.1, comparing AttnSteer against Attend-and-Excite baseline on object presence, photorealism,
 and motion smoothness. 37 volunteer annotators completed 622 clip judgements. AttnSteer is preferred
 on every question and both backbones. The largest margin is object presence on Wan&nbsp;2.1
 (73.9% of decisive votes); photorealism and motion smoothness — included as quality guardrails —
@@ -514,8 +523,8 @@ also come out in our favor (58–67%).</p>
     <div class="content has-text-justified">
       <p>We evaluate on 79 VBench <code>object_class</code> single-object prompts as a guardrail:
 with only one requested object, backbones already succeed on most clips, and the goal is to verify
-that steering does not harm this easy regime. AttnSteer in fact improves single-object presence on
-LTX-2 under both detectors, while leaving VBench quality unchanged.</p>
+that steering does not harm this regime. AttnSteer is either improves or on par with the base model 
+using the formal GRiT detector, while leaving VBench quality on par.</p>
     </div>
 
     <div class="table-container">
