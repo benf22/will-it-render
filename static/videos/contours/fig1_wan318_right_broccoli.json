@@ -1,0 +1,38 @@
+{
+  "video": "static/videos/carousel/fig1_wan318.mp4",
+  "noun": "broccoli",
+  "half": "right",
+  "fps": 16.0,
+  "frame_size": [
+    480,
+    276
+  ],
+  "n_frames": 21,
+  "box_thr": 0.25,
+  "text_thr": 0.2,
+  "tracking": true,
+  "smooth_sigma": 2.5,
+  "source": [
+    "gdino",
+    "gdino",
+    "gdino",
+    "gdino",
+    "gdino",
+    "gdino",
+    "gdino",
+    "gdino",
+    "gdino",
+    "gdino",
+    "gdino",
+    "gdino",
+    "gdino",
+    "gdino",
+    "gdino",
+    "gdino",
+    "gdino",
+    "gdino",
+    "gdino",
+    "gdino",
+    "gdino"
+  ]
+}

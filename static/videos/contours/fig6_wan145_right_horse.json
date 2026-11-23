@@ -1,0 +1,38 @@
+{
+  "video": "static/videos/carousel/fig6_wan145.mp4",
+  "noun": "horse",
+  "half": "right",
+  "fps": 16.0,
+  "frame_size": [
+    480,
+    276
+  ],
+  "n_frames": 21,
+  "box_thr": 0.25,
+  "text_thr": 0.2,
+  "tracking": true,
+  "smooth_sigma": 2.5,
+  "source": [
+    "gdino",
+    "gdino",
+    "gdino",
+    "gdino",
+    "gdino",
+    "gdino",
+    "gdino",
+    "gdino",
+    "gdino",
+    "gdino",
+    "gdino",
+    "gdino",
+    "gdino",
+    "gdino",
+    "gdino",
+    "gdino",
+    "gdino",
+    "gdino",
+    "gdino",
+    "gdino",
+    "gdino"
+  ]
+}

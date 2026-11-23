@@ -53,37 +53,38 @@ method_training_caption: |
   are paired with detector labels from its final video.
 
 steering_process_text: |
-  Each row shows the predicted clean video (x̂₀) at successive denoising steps for the prompt
+  Each row shows the predicted clean video (x̂₀) at selected denoising steps for the prompt
   *"a truck and a bird and a cow"* steered toward *"a bird"*.
-  The highlighted cell (step 7) is expanded below: the four optimization iterations within that
-  single denoising step show the probe score jumping from 0.61 → 0.99 within two iterations.
+  The highlighted cell (step 7) is expanded below: four optimization iterations within that
+  single denoising step show the probe score jumping from 0.61 → 0.99 which lead the bird to appear.
 
 steering_process_caption: |
   **Top:** x̂₀ previews at selected denoising steps (step 7 highlighted in orange).
   **Bottom:** x̂₀ at every other optimization iteration inside step 7.
 
 results_section_intro: |
-  We evaluate over our own [benchmark](#dataset): extended 473 prompts of VBench multiple-objects dimension.
+  We evaluate over our own benchmark: extended 473 prompts of VBench multiple-objects dimension.
 
 results_intro: |
   The table reports the detection ratio and the fraction of clips where *all* requested objects are
-  detected, overall and by *k*, the number of requested objects. The gain grows with *k*.
+  detected, overall and by *k*, the number of requested objects. It also shows averaged vbench quality and inference cost.
 
-results_all_objects_caption: "All-object accuracy vs. prompt complexity (*k* objects). Bands show &plusmn;1 SE."
+results_all_objects_caption: "All-object detected vs. prompt complexity (*k* objects). Bands show &plusmn;1 SE."
 
 vbench_intro: |
-  AttnSteer preserves or improves video quality across all VBench dimensions.
+  AttnSteer preserves video quality across 6 out of 7 VBench dimensions. 
+  The dynamic-degree dimention is slightly hurt but user study will show that it is not noticble to the user.
   Each bar shows the per-dimension score for one backbone.
 
-vbench_caption: "Per-dimension VBench scores. Higher is better for all dimensions."
+vbench_caption: "Per-dimension VBench scores with error bars. Higher is better for all dimensions."
 
 results_table_note: |
   **Bold** = best within backbone block; <u>underline</u> = best overall.
-  Inference cost measured on a single H100 GPU; &times;base = multiple of base-model generation time.
+  Inference cost measured on a single H100 GPU and its **bold** exclude the base model values; &times;base = multiple of base-model generation time.
 
 userstudy_text: |
   To confirm the improvement is visible to people, we ran a paired human-preference study on LTX-2
-  and Wan&nbsp;2.1, comparing AttnSteer against Attend-and-Excite on object presence, photorealism,
+  and Wan&nbsp;2.1, comparing AttnSteer against Attend-and-Excite baseline on object presence, photorealism,
   and motion smoothness. 37 volunteer annotators completed 622 clip judgements. AttnSteer is preferred
   on every question and both backbones. The largest margin is object presence on Wan&nbsp;2.1
   (73.9% of decisive votes); photorealism and motion smoothness — included as quality guardrails —
@@ -94,8 +95,8 @@ userstudy_caption: "Bars show share of all votes; percentage at right = decisive
 single_object_text: |
   We evaluate on 79 VBench `object_class` single-object prompts as a guardrail:
   with only one requested object, backbones already succeed on most clips, and the goal is to verify
-  that steering does not harm this easy regime. AttnSteer in fact improves single-object presence on
-  LTX-2 under both detectors, while leaving VBench quality unchanged.
+  that steering does not harm this regime. AttnSteer is either improves or on par with the base model 
+  using the formal GRiT detector, while leaving VBench quality on par.
 
 single_object_table_note: "**Bold** = best within backbone. <u>Underline</u> = best across all backbones."
 
