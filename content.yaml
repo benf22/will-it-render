@@ -105,7 +105,10 @@ carousel_caption_2: |
   generated from the same prompt and seed.
 
 temporal_text: |
-  The same learned objective applies frame by frame, so it can control *when* an object appears. On
+  The same AttnSteer model can be applied frame by frame, so it can control *when* an object appears.
+  We succesfully change the trade off while raising specificity and precision and reducing recall, 
+  which says that AttnSteer is able to suppress the object when it is not requested, and raise the
+  probability of the object when it is requested. For example, on
   single-object prompts, where an object must enter at a prescribed time, AttnSteer raises specificity
   from 31.2% to 52.6%, meaning fewer frames before the requested onset are wrongly filled. Temporal
   alignment (t-IoU) rises from 40.6% to 45.0%, and VBench quality is unchanged (74.7 vs. 75.1).
