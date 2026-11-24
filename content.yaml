@@ -106,13 +106,13 @@ carousel_caption_2: |
 
 temporal_text: |
   The same AttnSteer model can be applied frame by frame, so it can control *when* an object appears.
-  We succesfully change the trade off while raising specificity and precision and reducing recall, 
-  which says that AttnSteer is able to suppress the object when it is not requested, and raise the
-  probability of the object when it is requested. For example, on
-  single-object prompts, where an object must enter at a prescribed time, AttnSteer raises specificity
-  from 31.2% to 52.6%, meaning fewer frames before the requested onset are wrongly filled. Temporal
-  alignment (t-IoU) rises from 40.6% to 45.0%, and VBench quality is unchanged (74.7 vs. 75.1).
-
+  We use AttnSteer's per-frame output and compare it to the requested control signal. We calculate
+  the loss per frame and then aggregate across the clip as an average with equal weight for frames
+  that request the object's presence or absence.
+  We evaluate on the Temporal Control benchmark, which contains 80 prompts with a single requested object
+  and 82 prompts with multiple requested objects. AttnSteer outperforms the TempoControl baseline on
+  most metrics while keeping video quality on par.
+  
 temporal_examples_text: |
   TempoControl (left) vs. AttnSteer (right), played in sync. The timeline shows the requested control
   signal and the actual per-frame detections for each method.
