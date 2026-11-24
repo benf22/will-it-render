@@ -816,7 +816,7 @@ function renderPrompt(c) {
       </div>
 
       <!-- Bicycle + car -->
-      <div class="tempo-example">
+      <div class="tempo-example" style="grid-column: 1 / -1; justify-self: center; width: calc(50% - 1.25rem);">
         <div class="tempo-ex-head">
           <span class="tempo-ex-name"><span class="label-word">static </span>Bicycle<span class="label-word"> + controlled </span>Car</span>
         </div>
@@ -848,45 +848,6 @@ function renderPrompt(c) {
               <div class="timeline-row row-ours">
                 <span class="timeline-label ours-label">AttnSteer (ours)</span>
                 <div class="timeline-track" data-frames="0,0,0,1,1,1,1,1,1,1,1,1,1"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Teddy bear -->
-      <div class="tempo-example">
-        <div class="tempo-ex-head">
-          <span class="tempo-ex-name">Teddy bear</span>
-        </div>
-        <div class="tempo-media">
-          <div class="carousel-media-wrap">
-            <div class="carousel-col-headers v2-headers">
-              <div class="carousel-col-header">TempoControl</div>
-              <div class="carousel-col-header ours">AttnSteer (ours)</div>
-            </div>
-            <div class="tempo-video-wrap">
-              <video class="result-video tempo-video" autoplay muted loop playsinline
-                     data-src2="static/videos/temporal/temporal_web2_teddy_bear.mp4"
-                     data-src3="static/videos/temporal/temporal_web3_teddy_bear.mp4"
-                     data-mob-src="static/videos/temporal/temporal_mob_teddy_bear.mp4"
-                     src="static/videos/temporal/temporal_web2_teddy_bear.mp4"></video>
-            </div>
-          </div>
-          <div class="timeline-block">
-            <div class="timeline-rows-wrap">
-              <div class="timeline-cursor"><div class="cursor-line"></div></div>
-              <div class="timeline-row row-requested">
-                <span class="timeline-label">Requested</span>
-                <div class="timeline-track" data-frames="0,0,0,0,0,0,0,0,0,0,1,1,1"></div>
-              </div>
-              <div class="timeline-row row-tc">
-                <span class="timeline-label">TempoControl</span>
-                <div class="timeline-track" data-frames="0,0,0,0,0,0,1,1,1,1,1,1,1"></div>
-              </div>
-              <div class="timeline-row row-ours">
-                <span class="timeline-label ours-label">AttnSteer (ours)</span>
-                <div class="timeline-track" data-frames="0,0,0,0,0,0,0,0,0,0,1,1,1"></div>
               </div>
             </div>
           </div>
